@@ -13,7 +13,6 @@
     "react-addons-pure-render-mixin": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-icons": "^2.2.1",
-    "react-mounter": "^1.2.0",
-    "react-tap-event-plugin": "^1.0.0"
+    "react-mounter": "^1.2.0"
   }
 }

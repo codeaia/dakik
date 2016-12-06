@@ -1,1 +1,60 @@
-/* CSS declarations go here */
+body {
+  background: #ffffff;
+}
+
+.primaryColor {
+  background: #009688;
+}
+
+.accentColor {
+  background: #FFEB3B;
+}
+
+#primaryColor {
+  background: #009688;
+}
+
+#accentColor {
+  background: #FFEB3B;
+}
+
+.transparentColor {
+  background-color: transparent;
+}
+
+#errNumber{
+  font-family:Roboto, sans-serif;
+  font-size: 25em;
+  color: #80DEEA;
+  margin-top:0em;
+  margin-bottom:0em;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+#errText{
+  font-family:Roboto, sans-serif;
+  font-size: 10em;
+  color: #4DD0E1;
+  margin-top:-.9em;
+  margin-bottom:0em;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
+.appBar {
+  position:fixed;
+  width:100%;
+  z-index:1111;
+  margin-bottom:10px;
+}
+.appBarComp {
+  margin-top:-.5em;
+  margin-left:-.5em;
+}
+
+.content{
+  padding-top:5em;
+}
