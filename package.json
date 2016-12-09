@@ -5,10 +5,11 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "babel-runtime": "^6.18.0",
     "bcrypt": "^1.0.0",
-    "material-ui": "^0.16.0",
     "flexbox-react": "^4.0.2",
+    "material-ui": "^0.16.0",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.4.1",
     "react-addons-pure-render-mixin": "^15.3.2",

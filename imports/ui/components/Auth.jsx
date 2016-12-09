@@ -135,7 +135,7 @@ export default class Auth extends Component {
                           name="signinEmail"
                           type="text"
                           onChange = {this.updateSigninEmail}
-                          floatingLabelText = "E-mail"
+                          floatingLabelText = "Username"
                           />
 
                         <TextField

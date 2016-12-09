@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-export default class TagListButton extends Component {
+export default class AccountSettings extends Component {
 
   constructor(props) {
     super(props);
-    console.log('TagListButton Loaded..');
+    console.log('AccountSettings Loaded..');
 
   }
 
