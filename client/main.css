@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:100,200,400');
 
+* {
+  margin:0;
+  padding:0;
+}
+
 body {
   background: #fff;
 }
@@ -77,6 +82,7 @@ body {
 
 .navIcons *{
   margin-top: 10%;
+  margin-bottom: 10%;
   width: 100%;
   padding-top: 2.5%;
 }
@@ -84,6 +90,9 @@ body {
 .drawer *{
   
 }
+
+
+
 
 .navIcons *:hover{
 }
@@ -106,6 +115,7 @@ body {
   /*background-color: rgba(255, 255, 255,.3);*/
 }
 
+/*----------------------   Home Page  -----------------------*/
 .homeTitle{
   display: flex;
   flex-direction: row;
@@ -198,7 +208,7 @@ body {
 }
 
 
-.tagFrame .totalPomos{
+.totalPomos{
   font-family: 'Raleway', sans-serif;
   font-size: 1.5em;
   color: white;
@@ -278,8 +288,31 @@ body {
   align-items: flex-end;
 }
 
+/* ---------------------   Tasks Page   -----------------------*/
+.taskList{
+  flex-direction: column;
+  justify-content:space-around;
+  width: 80%;
+  align-items: center;
+  padding-bottom: 5%;
+}
 
-.taskFrame *{
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------------    Animations  --------------------------*/
+
+.taskFrame *, .taskList *{
   animation: animateTasks ease-in-out .5s;
   animation-iteration-count: 1;
   transform-origin: 50% 50%;
