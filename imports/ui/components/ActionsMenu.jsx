@@ -24,8 +24,22 @@ export default class ActionsMenu extends Component {
   render() {
     return (
       <Flexbox className="homeTitle">
-        <Flexbox className="tIconCont curr">
-          <FaTag className="tIcon" id="TagMenuIcon"></FaTag>
+        <Flexbox className="tIconCont">
+          <MuiThemeProvider>
+            <IconMenu
+              className="tIcon"
+              iconButtonElement={<FaTag className="tIcon" id="TagMenuIcon"></FaTag>}
+              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+              >
+              <MenuItem primaryText="#event" />
+              <MenuItem primaryText="#study" />
+              <MenuItem primaryText="#read" />
+              <MenuItem primaryText="#deleted" />
+            </IconMenu>
+          </MuiThemeProvider>
+
+          
         </Flexbox>
         <Flexbox className="tIconCont">
           <p className="title">POMO</p>
@@ -34,7 +48,7 @@ export default class ActionsMenu extends Component {
           <MuiThemeProvider>
             <IconMenu
               className="tIcon"
-              iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+              iconButtonElement={<MdMoreVert className="tIcon"/>}
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >

@@ -14,12 +14,25 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     console.log('Home Page Loaded..');
+    this.props = {
+      tagName: "",
+      color: "",
+      totalPomos: ""
+    };
   }
+
+defaultProps(props) {
+    return {
+      tagName: 'event',
+      color: '#1478aa',
+      totalPomos: '78'
+  };
+}
 
   render() {
     return (
-      <div>
-        <ActionsMenu />
+      <div className="app">
+        <ActionsMenu className="appHeader" />
         <Counter />
         <Flexbox className="tagFrame" style={{backgroundColor: this.props.color}}>
           <Flexbox className = "tagFrameHeader">

@@ -165,36 +165,43 @@ export default class Nav extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Flexbox className="navIcons">
-          <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
-            <MdHome
-              className="nIcon"
-              onClick={this.routeHome}></MdHome>
-          </Flexbox>
-          <Flexbox className={this.state.tasks?("nIconCont curr"):("nIconCont")}>
-            <MdPlaylistAddCheck className="nIcon" onClick={this.routeTasks}></MdPlaylistAddCheck>
-          </Flexbox>
-          <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
-            <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
-          </Flexbox>
-          <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
-            <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
-          </Flexbox>
-          <Drawer
+    <MuiThemeProvider>
+        <Flexbox className="Nav">
+            <Flexbox className="navIcons">
+                <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
+                    <MdHome
+                      className="nIcon"
+                      onClick={this.routeHome}></MdHome>
+                </Flexbox>
+
+                <Flexbox className={this.state.tasks?("nIconCont curr"):("nIconCont")}>
+                    <MdPlaylistAddCheck className="nIcon" onClick={this.routeTasks}></MdPlaylistAddCheck>
+                </Flexbox>
+                <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
+                    <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
+                </Flexbox>
+                
+                <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
+                    <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
+                </Flexbox>
+            </Flexbox>
+
+
+            <Drawer
             docked={false}
             width={300}
             open={this.state.open}
             onRequestChange={(open) => this.setState({open})}
+            className = "drawer"
             >
-            <MenuItem onTouchTap={this.routeProfile}>Profile</MenuItem>
-            <MenuItem onTouchTap={this.routeAccountSettings}>Account Settings</MenuItem>
-            <MenuItem onTouchTap={this.routeApplicationSettings}>Application Settings</MenuItem>
-            <MenuItem onTouchTap={this.handleLogout}>Logout</MenuItem>
+            <MenuItem className = "drawer" onTouchTap={this.routeProfile}>Profile</MenuItem>
+            <MenuItem className = "drawer" onTouchTap={this.routeAccountSettings}>Account Settings</MenuItem>
+            <MenuItem className = "drawer" onTouchTap={this.routeApplicationSettings}>Application Settings</MenuItem>
+            <MenuItem className = "drawer" onTouchTap={this.handleLogout}>Logout</MenuItem>
           </Drawer>
         </Flexbox>
-      </MuiThemeProvider>
-    );
+    </MuiThemeProvider>
+   );
   }
 
 }

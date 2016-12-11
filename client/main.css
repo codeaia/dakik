@@ -62,6 +62,11 @@ body {
   width: 100%;
 }
 
+.Nav{
+   width: 100%;
+    align-items: center; 
+    flex-direction:column; 
+}
 .navIcons{
   font-size: 5em;
   color: var(--main-light);
@@ -74,6 +79,10 @@ body {
   margin-top: 10%;
   width: 100%;
   padding-top: 2.5%;
+}
+
+.drawer *{
+  
 }
 
 .navIcons *:hover{
@@ -112,7 +121,7 @@ body {
 
 .tIcon{
   color:var(--main-dark);
-  font-size: 5em;
+  font-size: 2.5em;
 }
 
 .title{
@@ -127,7 +136,8 @@ body {
 }
 
 
-
+#TagMenuIcon{
+}
 
 
 
@@ -140,9 +150,7 @@ body {
   align-items: center;
 }
 
-#TagMenuIcon{
 
-}
 
 .tagFrame{
   flex-direction: column;
