@@ -3,7 +3,7 @@ import Flexbox from 'flexbox-react';
 
 export const mainLayout = ({nav, content}) => (
   <div>
-    <main>
+    <body>
       <Flexbox flexDirection="row" alignItems="center">
         <Flexbox>
         </Flexbox>
@@ -16,6 +16,6 @@ export const mainLayout = ({nav, content}) => (
         <Flexbox>
         </Flexbox>
       </Flexbox>
-    </main>
+    </body>
   </div>
 )

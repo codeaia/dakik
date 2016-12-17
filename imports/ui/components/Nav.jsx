@@ -21,12 +21,16 @@ export default class Nav extends Component {
     console.log('Navigation Loaded..');
 
     this.state = {
-      home: true,
+      home: false,
       tasks: false,
       stats: false,
       settings: false,
       open: false
     }
+
+    this.props = {
+      color: "",
+    };
 
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -166,7 +170,7 @@ export default class Nav extends Component {
   render() {
     return (
     <MuiThemeProvider>
-        <Flexbox className="Nav">
+        <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
             <Flexbox className="navIcons">
                 <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
                     <MdHome

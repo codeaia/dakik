@@ -18,8 +18,14 @@ export default class ActionsMenu extends Component {
   constructor(props) {
     super(props);
     console.log('Actions Menu Loaded..');
+    this.routeViewTag = this.routeViewTag.bind(this);
 
   }
+routeViewTag(name){
+    
+    FlowRouter.go('/tag',{ tagName: this.name });
+  }
+
 
   render() {
     return (
@@ -32,10 +38,10 @@ export default class ActionsMenu extends Component {
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
-              <MenuItem primaryText="#event" />
-              <MenuItem primaryText="#study" />
-              <MenuItem primaryText="#read" />
-              <MenuItem primaryText="#deleted" />
+              <MenuItem primaryText="#event" onClick={this.routeViewTag} />
+              <MenuItem primaryText="#study" onClick={this.routeViewTag} />
+              <MenuItem primaryText="#read" onClick={this.routeViewTag} />
+              <MenuItem primaryText="#deleted" onClick={this.routeViewTag}  />
             </IconMenu>
           </MuiThemeProvider>
 
