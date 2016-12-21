@@ -22,7 +22,7 @@ export default class ActionsMenu extends Component {
 
   }
 routeViewTag(name){
-    
+
     FlowRouter.go('/tag',{ tagName: this.name });
   }
 
@@ -45,10 +45,10 @@ routeViewTag(name){
             </IconMenu>
           </MuiThemeProvider>
 
-          
+
         </Flexbox>
         <Flexbox className="tIconCont">
-          <p className="title">POMO</p>
+          <p className="title">KARPUZ</p>
         </Flexbox>
         <Flexbox className="tIconCont">
           <MuiThemeProvider>

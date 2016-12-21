@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import '../imports/api/tasks.js';
 
 Meteor.publish("currentUser", function () {
-    return Meteor.users.find({
-      _id: this.userId
-    });
+  return Meteor.users.find({
+    _id: this.userId
+  });
 });
 
 Meteor.publish("users", function () {

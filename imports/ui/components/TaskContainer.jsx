@@ -1,4 +1,6 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
+import { Meteor } from 'meteor/meteor';
+import classnames from 'classnames';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
@@ -8,22 +10,15 @@ import { Tasks } from '../../api/tasks.js';
 import ActionsMenu from './ActionsMenu.jsx';
 import Counter from './Counter.jsx';
 import TaskFrame from './TaskFrame.jsx';
-
 import { MdHome, MdPlaylistAddCheck, MdInsertChart ,MdAddBox} from 'react-icons/lib/md';
 
-class Home extends Component {
+class TaskContainer extends Component {
 
   constructor(props) {
     super(props);
-    console.log('Home Page Loaded..');
-
     this.renderTasks = this.renderTasks.bind(this);
 
-    props = {
-      tagName: "",
-      color: "",
-      totalPomos: ""
-    };
+    console.log('Task Container Loaded..');
   }
 
   renderTasks() {
@@ -34,25 +29,17 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="app">
-        <ActionsMenu className="appHeader" />
-        <Counter />
-        <Flexbox className="tagFrame" style={{backgroundColor: this.props.color}}>
-          <Flexbox className = "tagFrameHeader">
-            <p className = "tagName">#Placeholder{this.props.tagName}</p>
-            <MdAddBox className = "addButton"></MdAddBox>
-            <p className = "totalPomos">5{this.props.totalPomos}</p>
-          </Flexbox>
-          <Flexbox className="tagFrameBody">
-            {this.renderTasks()}
-          </Flexbox>
+      <Flexbox className="app" flexDirection="column">
+        <ActionsMenu className="app appHeader" />
+        <Flexbox className="taskList">
+          {this.renderTasks()}
         </Flexbox>
-      </div>
+      </Flexbox>
     );
   }
 }
 
-Home.propTypes = {
+TaskContainer.propTypes = {
   tasks: PropTypes.array.isRequired,
 };
 
@@ -60,4 +47,4 @@ export default createContainer(() => {
   return {
     tasks: Tasks.find({}).fetch(),
   };
-}, Home);
+}, TaskContainer);

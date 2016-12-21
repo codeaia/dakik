@@ -28,7 +28,7 @@ export default class Nav extends Component {
       open: false
     }
 
-    this.props = {
+    props = {
       color: "",
     };
 
@@ -184,7 +184,7 @@ export default class Nav extends Component {
                 <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
                     <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
                 </Flexbox>
-                
+
                 <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
                     <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
                 </Flexbox>

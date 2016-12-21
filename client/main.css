@@ -68,9 +68,9 @@ body {
 }
 
 .Nav{
-   width: 100%;
-    align-items: center; 
-    flex-direction:column; 
+  width: 100%;
+  align-items: center;
+  flex-direction:column;
 }
 .navIcons{
   font-size: 5em;
@@ -88,7 +88,7 @@ body {
 }
 
 .drawer *{
-  
+
 }
 
 
@@ -166,6 +166,7 @@ body {
   flex-direction: column;
   justify-content:space-around;
   width: 80%;
+  background-color: rgb(4, 157, 97);
   align-items: center;
   padding-bottom: 5%;
 }
