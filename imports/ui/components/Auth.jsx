@@ -1,8 +1,8 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
 
+import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
@@ -119,74 +119,61 @@ export default class Auth extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Flexbox className="app" flexDirection="column">
-          <Flexbox className="content" flexDirection="row" justifyContent="center">
-
-            <Flexbox className="col1">
-            </Flexbox>
-
-            <Flexbox className="col2">
-              <Tabs>
-                <Tab label="Sign In">
-                  <Card>
-                    <CardText>
-                      <Flexbox className="textfields" flexDirection="column">
-                        <TextField
-                          name="signinEmail"
-                          type="text"
-                          onChange = {this.updateSigninEmail}
-                          floatingLabelText = "Username"
-                          />
-
-                        <TextField
-                          name="signinPassword"
-                          type="password"
-                          onChange = {this.updateSigninPassword}
-                          floatingLabelText = "Password"
-                          className = "textfield" />
-                      </Flexbox>
-                    </CardText>
-                    <CardActions>
-                      <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
-                    </CardActions>
-                  </Card>
-                </Tab>
-                <Tab label="Sign Up" >
-                  <Card>
-                    <CardText>
-                      <Flexbox className="textfields" flexDirection="column">
-                        <TextField
-                          name="signupUsername"
-                          type="text"
-                          onChange = {this.updateSignupUsername}
-                          floatingLabelText = "Username"
-                          className = "textfield" />
-                        <TextField
-                          name="signupEmail"
-                          type="text"
-                          onChange = {this.updateSignupEmail}
-                          floatingLabelText = "E-mail"
-                          className = "textfield" />
-                        <TextField
-                          name="signupPassword"
-                          type="password"
-                          onChange = {this.updateSignupPassword}
-                          floatingLabelText = "Password"
-                          className = "textfield" />
-                      </Flexbox>
-                    </CardText>
-                    <CardActions>
-                      <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
-                    </CardActions>
-                  </Card>
-                </Tab>
-              </Tabs>
-            </Flexbox>
-
-            <Flexbox className="col3">
-            </Flexbox>
-
-          </Flexbox>
+        <Flexbox className="auth">
+          <Tabs>
+            <Tab label="Sign In">
+              <Card>
+                <CardText>
+                  <Flexbox className="textfields" flexDirection="column">
+                    <TextField
+                      name="signinEmail"
+                      type="text"
+                      onChange = {this.updateSigninEmail}
+                      floatingLabelText = "Username"
+                      />
+                    <TextField
+                      name="signinPassword"
+                      type="password"
+                      onChange = {this.updateSigninPassword}
+                      floatingLabelText = "Password"
+                      className = "textfield" />
+                  </Flexbox>
+                </CardText>
+                <CardActions>
+                  <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
+                </CardActions>
+              </Card>
+            </Tab>
+            <Tab label="Sign Up" >
+              <Card>
+                <CardText>
+                  <Flexbox className="textfields" flexDirection="column">
+                    <TextField
+                      name="signupUsername"
+                      type="text"
+                      onChange = {this.updateSignupUsername}
+                      floatingLabelText = "Username"
+                      className = "textfield" />
+                    <TextField
+                      name="signupEmail"
+                      type="text"
+                      onChange = {this.updateSignupEmail}
+                      floatingLabelText = "E-mail"
+                      className = "textfield" />
+                    <TextField
+                      name="signupPassword"
+                      type="password"
+                      onChange = {this.updateSignupPassword}
+                      floatingLabelText = "Password"
+                      className = "textfield" />
+                  </Flexbox>
+                </CardText>
+                <CardActions>
+                  <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
+                </CardActions>
+              </Card>
+            </Tab>
+          </Tabs>
         </Flexbox>
       </MuiThemeProvider>
     );

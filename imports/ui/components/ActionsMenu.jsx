@@ -48,7 +48,7 @@ routeViewTag(name){
 
         </Flexbox>
         <Flexbox className="tIconCont">
-          <p className="title">KARPUZ</p>
+          <p className="title">PLACEHOLDER</p>
         </Flexbox>
         <Flexbox className="tIconCont">
           <MuiThemeProvider>

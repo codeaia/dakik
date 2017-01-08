@@ -1,19 +1,19 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
 
+import Flexbox from 'flexbox-react';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import IconButton from 'material-ui/IconButton';
-
+import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
 import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings } from 'react-icons/lib/md';
-
-
 
 export default class Nav extends Component {
   constructor(props) {
@@ -25,7 +25,8 @@ export default class Nav extends Component {
       tasks: false,
       stats: false,
       settings: false,
-      open: false
+      open: false,
+      openLogout: false
     }
 
     props = {
@@ -36,6 +37,9 @@ export default class Nav extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
 
+    this.handleCloseLogout = this.handleCloseLogout.bind(this);
+    this.handleOpenLogout = this.handleOpenLogout.bind(this);
+
     this.routeProfile = this.routeProfile.bind(this);
     this.routeApplicationSettings = this.routeApplicationSettings.bind(this);
     this.routeAccountSettings = this.routeAccountSettings.bind(this);
@@ -45,6 +49,14 @@ export default class Nav extends Component {
     this.routeSettings = this.routeSettings.bind(this);
 
   }
+
+  handleOpenLogout(){
+    this.setState({openLogout: true});
+  };
+
+  handleCloseLogout(){
+    this.setState({openLogout: false});
+  };
 
   routeProfile(event){
     event.preventDefault();
@@ -168,44 +180,72 @@ export default class Nav extends Component {
   }
 
   render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleCloseLogout}
+      />,
+      <FlatButton
+        label="Yeah, get me out"
+        primary={true}
+        onTouchTap={this.handleLogout}
+      />,
+    ];
+
     return (
-    <MuiThemeProvider>
+      <MuiThemeProvider>
         <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
-            <Flexbox className="navIcons">
-                <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
-                    <MdHome
-                      className="nIcon"
-                      onClick={this.routeHome}></MdHome>
-                </Flexbox>
+          <Flexbox className="navIcons">
+            <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
+              <MdHome
+                className="nIcon"
+                onClick={this.routeHome}></MdHome>
+              </Flexbox>
 
-                <Flexbox className={this.state.tasks?("nIconCont curr"):("nIconCont")}>
-                    <MdPlaylistAddCheck className="nIcon" onClick={this.routeTasks}></MdPlaylistAddCheck>
-                </Flexbox>
-                <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
-                    <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
-                </Flexbox>
+              <Flexbox className={this.state.tasks?("nIconCont curr"):("nIconCont")}>
+                <MdPlaylistAddCheck className="nIcon" onClick={this.routeTasks}></MdPlaylistAddCheck>
+              </Flexbox>
+              <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
+                <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
+              </Flexbox>
 
-                <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
-                    <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
-                </Flexbox>
+              <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
+                <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
+              </Flexbox>
             </Flexbox>
+            <Dialog
+              actions={actions}
+              modal={false}
+              open={this.state.openLogout}
+              onRequestClose={this.handleCloseLogout}
+              >
+                Log out ?
+              </Dialog>
+              <Drawer
+                docked={false}
+                width={300}
+                open={this.state.open}
+                onRequestChange={(open) => this.setState({open})}
+                className = "drawer"
+                >
+                  <Card>
+                    <CardHeader
+                      title="Placeholder"
+                      subtitle="Subtitle"
+                      avatar="assets/jsa-128.jpg"
+                      onTouchTap={this.routeProfile}
+                      className="drawerAnim1"
+                    />
+                    <CardActions>
+                      <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
+                      <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
+                    </CardActions>
+                  </Card>
+                </Drawer>
+              </Flexbox>
+            </MuiThemeProvider>
+          );
+        }
 
-
-            <Drawer
-            docked={false}
-            width={300}
-            open={this.state.open}
-            onRequestChange={(open) => this.setState({open})}
-            className = "drawer"
-            >
-            <MenuItem className = "drawer" onTouchTap={this.routeProfile}>Profile</MenuItem>
-            <MenuItem className = "drawer" onTouchTap={this.routeAccountSettings}>Account Settings</MenuItem>
-            <MenuItem className = "drawer" onTouchTap={this.routeApplicationSettings}>Application Settings</MenuItem>
-            <MenuItem className = "drawer" onTouchTap={this.handleLogout}>Logout</MenuItem>
-          </Drawer>
-        </Flexbox>
-    </MuiThemeProvider>
-   );
-  }
-
-}
+      }

@@ -13,9 +13,9 @@ export default class Counter extends Component {
 
   render() {
     return (
-          <Flexbox className="timerCont">
-            <ReactCountdownClock seconds={25*60} color="#000" alpha={0.5} size={350} font="freeSans" onComplete={function(){console.log("bitti");}} />
-          </Flexbox>
+      <Flexbox className="timerCont">
+        <ReactCountdownClock seconds={25*60} color="#000" alpha={0.5} size={350} font="freeSans" onComplete={function(){console.log("bitti");}} />
+      </Flexbox>
     );
   }
 
