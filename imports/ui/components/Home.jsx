@@ -5,7 +5,6 @@ import Flexbox from 'flexbox-react';
 
 import { Tasks } from '../../api/tasks.js';
 
-import ActionsMenu from './ActionsMenu.jsx';
 import Counter from './Counter.jsx';
 import TaskFrame from './TaskFrame.jsx';
 
@@ -40,7 +39,6 @@ class Home extends Component {
   render() {
     return (
       <div className="app">
-        <ActionsMenu className="appHeader" />
         <Counter />
         <Flexbox className="tagFrame" style={{backgroundColor: this.props.color}}>
           <Flexbox className = "tagFrameHeader">

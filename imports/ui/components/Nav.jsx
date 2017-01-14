@@ -12,8 +12,9 @@ import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import FontIcon from 'material-ui/FontIcon';
 
-import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings } from 'react-icons/lib/md';
+import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu } from 'react-icons/lib/md';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -33,7 +34,6 @@ export default class Nav extends Component {
       color: "",
     };
 
-    this.handleToggle = this.handleToggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
 
@@ -48,6 +48,18 @@ export default class Nav extends Component {
     this.routeStats = this.routeStats.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
 
+  }
+
+  handleToggle(){
+    this.setState({
+      open: !this.state.open
+    });
+  }
+
+  handleClose(){
+    this.setState({
+      open: false
+    });
   }
 
   handleOpenLogout(){
@@ -123,18 +135,6 @@ export default class Nav extends Component {
     });
   }
 
-  handleToggle(){
-    this.setState({
-      open: !this.state.open
-    });
-  }
-
-  handleClose(){
-    this.setState({
-      open: false
-    });
-  }
-
   routeHome(event){
     event.preventDefault();
     this.setState({
@@ -185,67 +185,55 @@ export default class Nav extends Component {
         label="Cancel"
         primary={true}
         onTouchTap={this.handleCloseLogout}
-      />,
+        />,
       <FlatButton
         label="Yeah, get me out"
         primary={true}
         onTouchTap={this.handleLogout}
-      />,
+        />,
     ];
 
     return (
       <MuiThemeProvider>
         <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
-          <Flexbox className="navIcons">
-            <Flexbox className={this.state.home?("nIconCont curr"):("nIconCont")}>
-              <MdHome
-                className="nIcon"
-                onClick={this.routeHome}></MdHome>
-              </Flexbox>
+          <Flexbox>
+            <MdMenu onClick={this.handleToggle}/>
+          </Flexbox>
+          <Dialog
+            actions={actions}
+            modal={false}
+            open={this.state.openLogout}
+            onRequestClose={this.handleCloseLogout}
+            >
+            Log out ?
+          </Dialog>
+          <Drawer
+            docked={false}
+            width={300}
+            open={this.state.open}
+            onRequestChange={(open) => this.setState({open})}
+            className = "drawer"
+            >
+            <Card>
+              <CardHeader
+                title="Placeholder"
+                subtitle="Subtitle"
+                avatar="assets/jsa-128.jpg"
+                onTouchTap={this.routeProfile}
+                className="drawerAnim1"
+                />
+              <CardActions>
+                <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
+                <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
+              </CardActions>
+            </Card>
+            <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Homes</MenuItem>
+            <MenuItem leftIcon={<MdPlaylistAddCheck />} onClick={this.routeTasks}>Tasks</MenuItem>
+            <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStats}>Statistics</MenuItem>
+          </Drawer>
+        </Flexbox>
+      </MuiThemeProvider>
+    );
+  }
 
-              <Flexbox className={this.state.tasks?("nIconCont curr"):("nIconCont")}>
-                <MdPlaylistAddCheck className="nIcon" onClick={this.routeTasks}></MdPlaylistAddCheck>
-              </Flexbox>
-              <Flexbox className={this.state.stats?("nIconCont curr"):("nIconCont")}>
-                <MdInsertChart className="nIcon" onClick={this.routeStats}></MdInsertChart>
-              </Flexbox>
-
-              <Flexbox className={this.state.settings?("nIconCont curr"):("nIconCont")}>
-                <MdSettings className="nIcon" onTouchTap={this.handleToggle}></MdSettings>
-              </Flexbox>
-            </Flexbox>
-            <Dialog
-              actions={actions}
-              modal={false}
-              open={this.state.openLogout}
-              onRequestClose={this.handleCloseLogout}
-              >
-                Log out ?
-              </Dialog>
-              <Drawer
-                docked={false}
-                width={300}
-                open={this.state.open}
-                onRequestChange={(open) => this.setState({open})}
-                className = "drawer"
-                >
-                  <Card>
-                    <CardHeader
-                      title="Placeholder"
-                      subtitle="Subtitle"
-                      avatar="assets/jsa-128.jpg"
-                      onTouchTap={this.routeProfile}
-                      className="drawerAnim1"
-                    />
-                    <CardActions>
-                      <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
-                      <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
-                    </CardActions>
-                  </Card>
-                </Drawer>
-              </Flexbox>
-            </MuiThemeProvider>
-          );
-        }
-
-      }
+}
