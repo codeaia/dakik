@@ -16,7 +16,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu } from 'react-icons/lib/md';
 
-export default class Nav extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
     console.log('Navigation Loaded..');
@@ -34,7 +34,9 @@ export default class Nav extends Component {
       color: "",
     };
 
-    this.handleClose = this.handleClose.bind(this);
+    this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
+    this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
+
     this.handleLogout = this.handleLogout.bind(this);
 
     this.handleCloseLogout = this.handleCloseLogout.bind(this);
@@ -50,25 +52,21 @@ export default class Nav extends Component {
 
   }
 
-  handleToggle(){
-    this.setState({
-      open: !this.state.open
-    });
+  handleOpenDrawer(){
+    this.setState({open: true});
   }
 
-  handleClose(){
-    this.setState({
-      open: false
-    });
+  handleCloseDrawer(){
+    this.setState({open: false});
   }
 
   handleOpenLogout(){
     this.setState({openLogout: true});
-  };
+  }
 
   handleCloseLogout(){
     this.setState({openLogout: false});
-  };
+  }
 
   routeProfile(event){
     event.preventDefault();
@@ -80,7 +78,7 @@ export default class Nav extends Component {
       settings: true
     });
 
-    this.handleClose();
+    this.handleCloseDrawer();
     FlowRouter.go('/profile');
   }
 
@@ -94,7 +92,7 @@ export default class Nav extends Component {
       settings: true
     });
 
-    this.handleClose();
+    this.handleCloseDrawer();
     FlowRouter.go('/appSettings');
   }
 
@@ -108,7 +106,7 @@ export default class Nav extends Component {
       settings: true
     });
 
-    this.handleClose();
+    this.handleCloseDrawer();
     FlowRouter.go('/accSettings');
   }
 
@@ -143,6 +141,7 @@ export default class Nav extends Component {
       stats: false,
       settings: false
     });
+    this.handleCloseDrawer();
     FlowRouter.go('/');
   }
 
@@ -154,6 +153,7 @@ export default class Nav extends Component {
       stats: false,
       settings: false
     });
+    this.handleCloseDrawer();
     FlowRouter.go('/tasks');
   }
 
@@ -165,6 +165,7 @@ export default class Nav extends Component {
       stats: true,
       settings: false
     });
+    this.handleCloseDrawer();
     FlowRouter.go('/stats');
   }
 
@@ -196,8 +197,8 @@ export default class Nav extends Component {
     return (
       <MuiThemeProvider>
         <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
-          <Flexbox>
-            <MdMenu onClick={this.handleToggle}/>
+          <Flexbox className="drawerButton">
+            <MdMenu onTouchTap={this.handleOpenDrawer}/>
           </Flexbox>
           <Dialog
             actions={actions}
@@ -216,8 +217,8 @@ export default class Nav extends Component {
             >
             <Card>
               <CardHeader
-                title="Placeholder"
-                subtitle="Subtitle"
+                title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
+                subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
                 avatar="assets/jsa-128.jpg"
                 onTouchTap={this.routeProfile}
                 className="drawerAnim1"
@@ -227,7 +228,7 @@ export default class Nav extends Component {
                 <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
               </CardActions>
             </Card>
-            <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Homes</MenuItem>
+            <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Home</MenuItem>
             <MenuItem leftIcon={<MdPlaylistAddCheck />} onClick={this.routeTasks}>Tasks</MenuItem>
             <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStats}>Statistics</MenuItem>
           </Drawer>
@@ -235,5 +236,14 @@ export default class Nav extends Component {
       </MuiThemeProvider>
     );
   }
-
 }
+
+Nav.propTypes = {
+  currentUser: PropTypes.object,
+};
+
+export default createContainer(() => {
+  return {
+    currentUser: Meteor.user(),
+  };
+}, Nav);

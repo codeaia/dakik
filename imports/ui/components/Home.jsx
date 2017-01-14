@@ -17,7 +17,7 @@ class Home extends Component {
     console.log('Home Page Loaded..');
 
     this.renderTasks = this.renderTasks.bind(this);
-    this.newTask = this.newTask.bind(this);
+    this.routeNewTask = this.routeNewTask.bind(this);
 
     props = {
       tagName: "",
@@ -26,8 +26,8 @@ class Home extends Component {
     };
   }
 
-  newTask(){
-    FlowRouter.go('/');
+  routeNewTask(){
+    FlowRouter.go('/taskNew');
   }
 
   renderTasks() {
@@ -39,11 +39,16 @@ class Home extends Component {
   render() {
     return (
       <div className="app">
-        <Counter />
+        <Flexbox className="timerCont" >
+          <Counter className="timer"/>
+        </Flexbox>
         <Flexbox className="tagFrame" style={{backgroundColor: this.props.color}}>
           <Flexbox className = "tagFrameHeader">
-            <p className = "tagName">#Placeholder{this.props.tagName}</p>
-            <MdAddBox className = "addButton" onClick={this.newTask}></MdAddBox>
+            <p className="tagName">
+              #Placeholder{this.props.tagName}
+              <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
+            </p>
+
             <p className = "totalPomos">5{this.props.totalPomos}</p>
           </Flexbox>
           <Flexbox className="tagFrameBody">

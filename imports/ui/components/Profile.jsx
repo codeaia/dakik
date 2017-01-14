@@ -6,19 +6,21 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     console.log('Profile Loaded..');
   }
+
+
 
   render() {
     return (
       <MuiThemeProvider>
         <Card>
           <CardHeader
-            title="Ahmet Kaşif"
-            subtitle="Developer"
+            title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
+            subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
             avatar="assets/jsa-128.jpg"
             />
           <CardTitle title="İstatistiklerin"/>
@@ -26,5 +28,14 @@ export default class Profile extends Component {
       </MuiThemeProvider>
     );
   }
-
 }
+
+Profile.propTypes = {
+  currentUser: PropTypes.object,
+};
+
+export default createContainer(() => {
+  return {
+    currentUser: Meteor.user(),
+  };
+}, Profile);

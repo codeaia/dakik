@@ -91,6 +91,12 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+.drawerButton {
+  align-self: flex-start;
+  font-size: 3em;
+  color: var(--main-dark);
+}
+
 .navIcons *:hover{
 }
 
@@ -127,7 +133,7 @@ body {
 }
 
 .tIcon{
-  color:var(--main-dark);
+  color: var(--main-dark);
   font-size: 2.5em;
 }
 
@@ -140,6 +146,9 @@ body {
 
 .timerCont{
   margin-bottom: 5%;
+}
+.timer{
+  width: 80%;
 }
 
 #TagMenuIcon{
@@ -179,7 +188,7 @@ body {
 
 .tagName{
   font-family: 'Raleway', sans-serif;
-  font-size: 8em;
+  font-size: 2em;
   color: white;
   font-weight: 400;
   align-self: flex-start;
@@ -189,7 +198,9 @@ body {
 
 .tagFrame .addButton{
   font-family: 'Raleway', sans-serif;
-  font-size: 6em;
+  align-self: flex-start;
+  color: var(--main-light);
+  font-size: 1em;
   opacity: .8;
 }
 
@@ -462,16 +473,6 @@ body {
   align-self: flex-start;
   margin-top: 0px;
   margin-bottom: 0px
-}
-
-.tagFrame .addButton{
-  font-family: 'Raleway', sans-serif;
-  font-size: 6em;
-  opacity: .8;
-}
-
-.tagFrame .addButton:hover{
-  opacity: 1;
 }
 
 .tagView .totalPomos{

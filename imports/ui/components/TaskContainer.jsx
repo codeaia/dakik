@@ -30,7 +30,6 @@ class TaskContainer extends Component {
   render() {
     return (
       <Flexbox className="app" flexDirection="column">
-        <ActionsMenu className="app appHeader" />
         <Flexbox className="taskList">
           {this.renderTasks()}
         </Flexbox>

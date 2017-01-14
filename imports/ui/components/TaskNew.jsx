@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-export default class Err extends Component {
+export default class TaskNew extends Component {
 
   constructor(props) {
     super(props);
-    console.log('Error Page Loaded..');
+    console.log('TaskNew Loaded..');
 
   }
 
   render() {
     return (
-      <h1>ERROR PAGE</h1>
+      <h1>TaskNew</h1>
 
     );
   }
