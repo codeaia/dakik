@@ -5,8 +5,9 @@
   padding:0;
 }
 
-body {
-  background: #fff;
+html, body {
+  background-color: rgb(167, 255, 237);;
+  height: 100%;
 }
 
 #contentLayoutPullD{
@@ -328,7 +329,6 @@ body {
     justify-content: space-between;
     margin: .5em;
     margin-top: 1.5em;
-
 }
 
 .prefName{
@@ -393,7 +393,6 @@ body {
     margin-top: 1em;
 }
 
-
 .ownTags{
     flex-direction: row;
     width: 80%;
@@ -408,7 +407,6 @@ body {
   margin-bottom: 1em;
   padding: .3em;
   border: none;
-
 }
 
 .bottomNav{
@@ -488,10 +486,20 @@ body {
   margin-bottom: 0px;
 }
 
+#react-root{
+  height: 100%;
+}
+
+.fullHeight{
+  height: 100%;
+}
+
 .auth{
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 
