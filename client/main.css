@@ -6,7 +6,7 @@
 }
 
 html, body {
-  background-color: rgb(167, 255, 237);;
+  background-color: rgb(9, 190, 157);
   height: 100%;
 }
 
@@ -197,15 +197,15 @@ html, body {
   margin-bottom: 0px
 }
 
-.tagFrame .addButton{
+.addButton{
   font-family: 'Raleway', sans-serif;
   align-self: flex-start;
   color: var(--main-light);
-  font-size: 1em;
+  font-size: 2em;
   opacity: .8;
 }
 
-.tagFrame .addButton:hover{
+.addButton:hover{
   opacity: 1;
 }
 
@@ -280,123 +280,122 @@ html, body {
 }
 
 /* ---------------------   Tasks Page   -----------------------*/
+
 .taskList{
   flex-direction: column;
-  justify-content:space-around;
-  width: 80%;
+  width: 100%;
   align-items: center;
-  padding-bottom: 5%;
+}
+
+.taskListCard{
+  width: 80%;
 }
 
 /* ---------------------   Edit New task   -----------------------*/
 .taskEdit{
-    flex-direction: column;
-    background-color:var(--main-dark);
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
+  flex-direction: column;
+  background-color:var(--main-dark);
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
-
 
 .taskNameCont{
-    flex-direction: row;
-    align-content:center;
-    margin-top: 5em;
-    margin-bottom: 2em;
-    width: 50%;
-
+  flex-direction: row;
+  align-content:center;
+  margin-top: 5em;
+  margin-bottom: 2em;
+  width: 50%;
 }
 
-
-
-
 .priority{
-    width: 80%;
-    margin-top: 4em;
+  width: 80%;
+  margin-top: 4em;
 }
 
 .taskPrefs{
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    font-size: 3em;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  font-size: 3em;
 }
 
 .taskPrefEach{
-    flex-direction: column;
-    justify-content: space-between;
-    margin: .5em;
-    margin-top: 1.5em;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: .5em;
+  margin-top: 1.5em;
+
 }
 
 .prefName{
-    font-family: 'Raleway', sans-serif;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: white;
-    text-align:center;
-    border: none;
-    align-self: flex-end;
+  font-family: 'Raleway', sans-serif;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  text-align:center;
+  border: none;
+  align-self: flex-end;
 }
 
 .resetButton{
-    background-color: rgba(0, 0, 0,0);
-    font-family: 'Raleway', sans-serif;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: white;
-    text-align:center;
-    border: none;
-    font-size: 1em;
+  background-color: rgba(0, 0, 0,0);
+  font-family: 'Raleway', sans-serif;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  adding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  text-align:center;
+  border: none;
+  font-size: 1em;
 }
 
 .prefValue{
-    background-color: rgba(0, 0, 0,.5);
-    font-family: 'Raleway', sans-serif;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: white;
-    text-align:center;
-    border: none;
-    align-self: flex-start;
+  background-color: rgba(0, 0, 0,.5);
+  font-family: 'Raleway', sans-serif;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  text-align:center;
+  border: none;
+  align-self: flex-start;
 }
 
 .totalPomosPref{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
-
 .sTagsButtonCont{
-    margin: 2em;
-    width: 80%;
-    justify-content: center;
-    margin-bottom: 6em;
+  margin: 2em;
+  width: 80%;
+  justify-content: center;
+  margin-bottom: 6em;
 }
 
 .sTagsButton{
-    background-color: rgba(0, 0, 0,.5);
-    font-family: 'Raleway', sans-serif;
-    padding: 10px;
-    color: white;
-    text-align:center;
-    border: none;
-    font-size: 4em;
-    margin-top: 1em;
+  background-color: rgba(0, 0, 0,.5);
+  font-family: 'Raleway', sans-serif;
+  padding: 10px;
+  color: white;
+  text-align:center;
+  border: none;
+  font-size: 4em;
+  margin-top: 1em;
 }
 
+
 .ownTags{
-    flex-direction: row;
-    width: 80%;
-    justify-content: center;
+  flex-direction: row;
+  width: 80%;
+  justify-content: center;
 }
 
 .ownTags .tagName{
@@ -410,33 +409,29 @@ html, body {
 }
 
 .bottomNav{
-    flex-direction: row;
-    width: 100%;
+  flex-direction: row;
+  width: 100%;
 }
 
 .bottomNav button{
-    border: none;
-    width: 100%;
-    font-family: 'Raleway', sans-serif;
-    padding: 3%;
-    color: white;
-    text-align:center;
-    border: none;
-    font-size: 4em;
-    margin-top: 10%;
-
+  border: none;
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+  padding: 3%;
+  color: white;
+  text-align:center;
+  border: none;
+  font-size: 4em;
+  margin-top: 10%;
 }
 
 .cancel{
-    background-color: rgba(0, 0, 0,.5);
-
+  background-color: rgba(0, 0, 0,.5);
 }
+
 .ok{
-    background-color: green;
-
+  background-color: green;
 }
-
-
 
 /*-----------------------  Tag View -----------------------------*/
 .tagView{
@@ -501,8 +496,6 @@ html, body {
   justify-content: center;
   height: 100%;
 }
-
-
 
 .drawerAnim1 *{
 }

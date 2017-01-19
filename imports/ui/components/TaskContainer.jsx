@@ -7,43 +7,61 @@ import Flexbox from 'flexbox-react';
 
 import { Tasks } from '../../api/tasks.js';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Subheader from 'material-ui/Subheader';
 import ActionsMenu from './ActionsMenu.jsx';
 import Counter from './Counter.jsx';
+import {Card, CardText} from 'material-ui/Card';
+import {List, ListItem} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
-import { MdHome, MdPlaylistAddCheck, MdInsertChart ,MdAddBox} from 'react-icons/lib/md';
+import {MdAddBox} from 'react-icons/lib/md';
 
 class TaskContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.renderTasks = this.renderTasks.bind(this);
 
-    console.log('Task Container Loaded..');
+    this.routeNewTask = this.routeNewTask.bind(this);
+    this.renderTasks = this.renderTasks.bind(this);
+  }
+
+  routeNewTask(){
+    FlowRouter.go('/taskNew');
   }
 
   renderTasks() {
     return this.props.tasks.map((task) => (
-      <TaskFrame key={task._id} task={task} taskName={task.taskName} totalPomos={task.totalPomos}/>
+      <TaskFrame taskId={task._id} task={task} taskName={task.taskName} totalPomos={task.totalPomos}/>
     ));
   }
 
   render() {
     return (
-      <Flexbox className="app" flexDirection="column">
-        <Flexbox className="taskList">
-          {this.renderTasks()}
-        </Flexbox>
-      </Flexbox>
+      <MuiThemeProvider>
+        <Card className="taskListCard">
+          <CardText>
+            <Subheader>
+              #TagNameHere
+              <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
+            </Subheader>
+            <List>
+              {this.renderTasks()}
+            </List>
+          </CardText>
+        </Card>
+      </MuiThemeProvider>
     );
   }
 }
 
 TaskContainer.propTypes = {
+  currentUser: PropTypes.object,
   tasks: PropTypes.array.isRequired,
 };
 
 export default createContainer(() => {
   return {
+    currentUser: Meteor.user(),
     tasks: Tasks.find({}).fetch(),
   };
 }, TaskContainer);

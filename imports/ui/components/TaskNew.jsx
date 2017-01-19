@@ -47,12 +47,14 @@ class TaskNew extends Component {
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
     const ownerId = this.props.currentUser._id;
+    const checked = false;
     const totalPomos = 0;
 
     Tasks.insert({
       taskName,
       taskPriority,
       ownerId,
+      checked,
       totalPomos,
       createdAt: new Date(), // current time
     });
@@ -63,7 +65,7 @@ class TaskNew extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Flexbox>
+        <Flexbox className="auth">
           <Card>
             <CardText>
               <Flexbox flexDirection="column">
@@ -88,7 +90,7 @@ class TaskNew extends Component {
               </Flexbox>
             </CardText>
             <CardActions>
-              <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
+              <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
             </CardActions>
           </Card>
         </Flexbox>

@@ -3,40 +3,76 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Checkbox from 'material-ui/Checkbox';
+import {List, ListItem} from 'material-ui/List';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+
+import { Tasks } from '../../api/tasks.js';
 
 export default class TaskFrame extends Component {
 
   constructor(props) {
     super(props);
-    console.log('TaskFrame Loaded..');
 
-    props = {
-      tagName: '',
-      color: '',
-      totalPomos: '',
-      selected: ''
-    };
+    this.toggleChecked = this.toggleChecked.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.routeEdit = this.routeEdit.bind(this);
+    this.handleShare = this.handleShare.bind(this);
+  }
+
+  toggleChecked() {
+    // Set the checked property to the opposite of its current value
+    Tasks.update(this.props.taskId, {
+      $set: { checked: !this.props.task.checked },
+    });
+  }
+
+  handleDelete() {
+    Tasks.remove(this.props.taskId);
+  }
+
+  routeEdit(){
+
+  }
+
+  handleShare(){
+
   }
 
   render() {
+    const iconButtonElement = (
+      <IconButton
+        touch={true}
+        tooltip="Options.."
+        tooltipPosition="bottom-left"
+      >
+        <MoreVertIcon color={grey400} />
+      </IconButton>
+    );
+
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem>Share</MenuItem>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </IconMenu>
+    );
+
     return (
-      <Flexbox className="taskFrame">
-        <Flexbox className="taskFrameTop">
-          <Flexbox>
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <Checkbox className = "taskName" label={this.props.taskName}/>
-            </MuiThemeProvider>
-          </Flexbox>
-          <p className = "totalPomos">{this.props.totalPomos}</p>
-        </Flexbox>
-        <Flexbox className="taskFrameBottom">
-        </Flexbox>
-      </Flexbox>
+      <MuiThemeProvider>
+        <ListItem
+          leftCheckbox={<Checkbox />}
+          primaryText={this.props.taskName}
+          secondaryText="More information"
+          rightIconButton={rightIconMenu}
+        />
+      </MuiThemeProvider>
     );
   }
-
 }

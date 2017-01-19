@@ -140,7 +140,7 @@ export default class Auth extends Component {
                     </Flexbox>
                   </CardText>
                   <CardActions>
-                    <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
+                    <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
                   </CardActions>
                 </Card>
               </Tab>
@@ -169,7 +169,7 @@ export default class Auth extends Component {
                     </Flexbox>
                   </CardText>
                   <CardActions>
-                    <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#FFEB3B" labelColor="#424242" fullWidth={true}/>
+                    <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
                   </CardActions>
                 </Card>
               </Tab>
