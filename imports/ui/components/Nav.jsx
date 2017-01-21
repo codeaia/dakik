@@ -22,17 +22,9 @@ class Nav extends Component {
     console.log('Navigation Loaded..');
 
     this.state = {
-      home: false,
-      tasks: false,
-      stats: false,
-      settings: false,
       open: false,
       openLogout: false
     }
-
-    props = {
-      color: "",
-    };
 
     this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
     this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
@@ -71,13 +63,6 @@ class Nav extends Component {
   routeProfile(event){
     event.preventDefault();
 
-    this.setState({
-      home: false,
-      tasks: false,
-      stats: false,
-      settings: true
-    });
-
     this.handleCloseDrawer();
     FlowRouter.go('/profile');
   }
@@ -85,26 +70,12 @@ class Nav extends Component {
   routeApplicationSettings(event){
     event.preventDefault();
 
-    this.setState({
-      home: false,
-      tasks: false,
-      stats: false,
-      settings: true
-    });
-
     this.handleCloseDrawer();
     FlowRouter.go('/appSettings');
   }
 
   routeAccountSettings(event){
     event.preventDefault();
-
-    this.setState({
-      home: false,
-      tasks: false,
-      stats: false,
-      settings: true
-    });
 
     this.handleCloseDrawer();
     FlowRouter.go('/accSettings');
@@ -135,48 +106,28 @@ class Nav extends Component {
 
   routeHome(event){
     event.preventDefault();
-    this.setState({
-      home: true,
-      tasks: false,
-      stats: false,
-      settings: false
-    });
+
     this.handleCloseDrawer();
     FlowRouter.go('/');
   }
 
   routeTasks(event){
     event.preventDefault();
-    this.setState({
-      home: false,
-      tasks: true,
-      stats: false,
-      settings: false
-    });
+
     this.handleCloseDrawer();
     FlowRouter.go('/tasks');
   }
 
   routeStats(event){
     event.preventDefault();
-    this.setState({
-      home: false,
-      tasks: false,
-      stats: true,
-      settings: false
-    });
+
     this.handleCloseDrawer();
     FlowRouter.go('/stats');
   }
 
   routeSettings(event){
     event.preventDefault();
-    this.setState({
-      home: false,
-      tasks: false,
-      stats: false,
-      settings: true
-    });
+
     FlowRouter.go('/settings');
   }
 
@@ -219,7 +170,6 @@ class Nav extends Component {
               <CardHeader
                 title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
                 subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
-                avatar="assets/jsa-128.jpg"
                 onTouchTap={this.routeProfile}
                 className="drawerAnim1"
                 />

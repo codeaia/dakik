@@ -9,10 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    console.log('Profile Loaded..');
   }
-
-
 
   render() {
     return (

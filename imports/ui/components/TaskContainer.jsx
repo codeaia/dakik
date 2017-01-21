@@ -26,12 +26,12 @@ class TaskContainer extends Component {
   }
 
   routeNewTask(){
-    FlowRouter.go('/taskNew');
+    FlowRouter.go('/taskNew/');
   }
 
   renderTasks() {
     return this.props.tasks.map((task) => (
-      <TaskFrame taskId={task._id} task={task} taskName={task.taskName} totalPomos={task.totalPomos}/>
+      <TaskFrame task={task}/>
     ));
   }
 
@@ -62,6 +62,6 @@ TaskContainer.propTypes = {
 export default createContainer(() => {
   return {
     currentUser: Meteor.user(),
-    tasks: Tasks.find({}).fetch(),
+    tasks: Tasks.find({ownerId: Meteor.user()._id}).fetch(),
   };
 }, TaskContainer);

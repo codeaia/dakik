@@ -2,6 +2,11 @@ import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+import {mount} from 'react-mounter';
+
+import Nav from './Nav.jsx';
+import TaskEdit from './TaskEdit.jsx';
+import {mainLayout} from '../layouts/mainLayout.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
@@ -28,21 +33,24 @@ export default class TaskFrame extends Component {
 
   toggleChecked() {
     // Set the checked property to the opposite of its current value
-    Tasks.update(this.props.taskId, {
+    Tasks.update(this.props.task._id, {
       $set: { checked: !this.props.task.checked },
     });
   }
 
   handleDelete() {
-    Tasks.remove(this.props.taskId);
+    Tasks.remove(this.props.task._id);
   }
 
   routeEdit(){
-
+    const route1 = "/taskEdit/";
+    const route2 = this.props.task._id;
+    const route = route1.concat(route2);
+    FlowRouter.go(route);
   }
 
   handleShare(){
-
+    console.log('Not yet implemented!');
   }
 
   render() {
@@ -58,9 +66,9 @@ export default class TaskFrame extends Component {
 
     const rightIconMenu = (
       <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Share</MenuItem>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem onTouchTap={this.handleShare}>Share</MenuItem>
+        <MenuItem onTouchTap={this.routeEdit}>Edit</MenuItem>
+        <MenuItem onTouchTap={this.handleDelete}>Delete</MenuItem>
       </IconMenu>
     );
 
@@ -68,8 +76,8 @@ export default class TaskFrame extends Component {
       <MuiThemeProvider>
         <ListItem
           leftCheckbox={<Checkbox />}
-          primaryText={this.props.taskName}
-          secondaryText="More information"
+          primaryText={this.props.task.taskName}
+          secondaryText="More Information"
           rightIconButton={rightIconMenu}
         />
       </MuiThemeProvider>

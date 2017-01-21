@@ -2,6 +2,7 @@ import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
@@ -13,11 +14,11 @@ import { Tasks } from '../../api/tasks.js';
 class TaskNew extends Component {
   constructor(props) {
     super(props);
-    console.log('TaskNew Loaded..');
 
     this.state = {
       taskName: '',
       taskPriority: 0,
+      checked: false,
     };
 
     this.updateTaskName = this.updateTaskName.bind(this);
@@ -30,14 +31,12 @@ class TaskNew extends Component {
     this.setState({
       taskName: e.target.value
     });
-    console.log(this.state.taskName);
   }
 
   updatePriority(event, index, value){
     this.setState({
       taskPriority: value
     });
-    console.log(this.state.taskPriority);
   }
 
   addNewTask(event){
