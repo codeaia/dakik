@@ -23,8 +23,14 @@ class Nav extends Component {
 
     this.state = {
       open: false,
-      openLogout: false
+      openLogout: false,
+      disabled: false,
+      disabled2: false
     }
+
+    Trello.authorize({
+      interactive:false,
+    });
 
     this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
     this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
@@ -42,6 +48,29 @@ class Nav extends Component {
     this.routeStats = this.routeStats.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
 
+    this.connectToTrello = this.connectToTrello.bind(this);
+    this.onAuthorize = this.onAuthorize.bind(this);
+    this.exitFromTrello = this.exitFromTrello.bind(this);
+    this.updateLogin = this.updateLogin.bind(this);
+    this.handleDisabled = this.handleDisabled.bind(this);
+    this.handleDisabled2 = this.handleDisabled2.bind(this);
+
+    var isLoggedIn = Trello.authorized();
+    if(isLoggedIn) {
+      this.state = {
+        open: false,
+        openLogout: false,
+        disabled: true,
+        disabled2: false
+      }
+    } else {
+      this.state = {
+        open: false,
+        openLogout: false,
+        disabled: false,
+        disabled2: true
+      }
+    }
   }
 
   handleOpenDrawer(){
@@ -54,6 +83,40 @@ class Nav extends Component {
 
   handleOpenLogout(){
     this.setState({openLogout: true});
+  }
+
+  connectToTrello(){
+    Trello.authorize({
+      name: "PROJECT",
+      type: "popup",
+      persist: false,
+      success: this.onAuthorize
+    })
+  }
+
+  handleDisabled() {
+    this.setState({disabled: !this.state.disabled});
+  }
+  handleDisabled2() {
+    this.setState({disabled2: !this.state.disabled2});
+  }
+
+  updateLogin() {
+    var isLoggedIn = Trello.authorized();
+    $(".exit").toggle(isLoggedIn);
+    $(".connect").toggle(!isLoggedIn);
+  }
+
+  exitFromTrello() {
+    Trello.deauthorize();
+    this.handleDisabled2();
+    this.handleDisabled();
+  }
+
+  onAuthorize() {
+    this.handleDisabled();
+    this.handleDisabled2();
+    console.log('OK');
   }
 
   handleCloseLogout(){
@@ -176,6 +239,8 @@ class Nav extends Component {
               <CardActions>
                 <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
                 <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
+                <FlatButton disabled={this.state.disabled} className="connect" label="Trello" onTouchTap={this.connectToTrello}/>
+                <FlatButton disabled={this.state.disabled2} className="exit" label="Exit" onTouchTap={this.exitFromTrello}/>
               </CardActions>
             </Card>
             <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Home</MenuItem>
