@@ -8,13 +8,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 
-import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu } from 'react-icons/lib/md';
+import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu, MdInfo } from 'react-icons/lib/md';
 
 class Nav extends Component {
   constructor(props) {
@@ -23,20 +22,12 @@ class Nav extends Component {
 
     this.state = {
       open: false,
-      openLogout: false,
-      disabled: false,
-      disabled2: false
+      openLogout: false
     }
-
-    Trello.authorize({
-      interactive:false,
-    });
 
     this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
     this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
-
     this.handleLogout = this.handleLogout.bind(this);
-
     this.handleCloseLogout = this.handleCloseLogout.bind(this);
     this.handleOpenLogout = this.handleOpenLogout.bind(this);
 
@@ -47,30 +38,7 @@ class Nav extends Component {
     this.routeTasks = this.routeTasks.bind(this);
     this.routeStats = this.routeStats.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
-
-    this.connectToTrello = this.connectToTrello.bind(this);
-    this.onAuthorize = this.onAuthorize.bind(this);
-    this.exitFromTrello = this.exitFromTrello.bind(this);
-    this.updateLogin = this.updateLogin.bind(this);
-    this.handleDisabled = this.handleDisabled.bind(this);
-    this.handleDisabled2 = this.handleDisabled2.bind(this);
-
-    var isLoggedIn = Trello.authorized();
-    if(isLoggedIn) {
-      this.state = {
-        open: false,
-        openLogout: false,
-        disabled: true,
-        disabled2: false
-      }
-    } else {
-      this.state = {
-        open: false,
-        openLogout: false,
-        disabled: false,
-        disabled2: true
-      }
-    }
+    this.routeAbout = this.routeAbout.bind(this);
   }
 
   handleOpenDrawer(){
@@ -85,42 +53,13 @@ class Nav extends Component {
     this.setState({openLogout: true});
   }
 
-  connectToTrello(){
-    Trello.authorize({
-      name: "PROJECT",
-      type: "popup",
-      persist: false,
-      success: this.onAuthorize
-    })
-  }
-
-  handleDisabled() {
-    this.setState({disabled: !this.state.disabled});
-  }
-  handleDisabled2() {
-    this.setState({disabled2: !this.state.disabled2});
-  }
-
-  updateLogin() {
-    var isLoggedIn = Trello.authorized();
-    $(".exit").toggle(isLoggedIn);
-    $(".connect").toggle(!isLoggedIn);
-  }
-
-  exitFromTrello() {
-    Trello.deauthorize();
-    this.handleDisabled2();
-    this.handleDisabled();
-  }
-
-  onAuthorize() {
-    this.handleDisabled();
-    this.handleDisabled2();
-    console.log('OK');
-  }
-
   handleCloseLogout(){
     this.setState({openLogout: false});
+  }
+
+  routeAbout(event){
+    this.handleCloseDrawer();
+    FlowRouter.go('/about');
   }
 
   routeProfile(event){
@@ -239,13 +178,12 @@ class Nav extends Component {
               <CardActions>
                 <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
                 <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
-                <FlatButton disabled={this.state.disabled} className="connect" label="Trello" onTouchTap={this.connectToTrello}/>
-                <FlatButton disabled={this.state.disabled2} className="exit" label="Exit" onTouchTap={this.exitFromTrello}/>
               </CardActions>
             </Card>
             <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Home</MenuItem>
             <MenuItem leftIcon={<MdPlaylistAddCheck />} onClick={this.routeTasks}>Tasks</MenuItem>
             <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStats}>Statistics</MenuItem>
+            <MenuItem leftIcon={<MdInfo />} onClick={this.routeAbout}>About</MenuItem>
           </Drawer>
         </Flexbox>
       </MuiThemeProvider>

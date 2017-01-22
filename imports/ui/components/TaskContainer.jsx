@@ -15,6 +15,7 @@ import {Card, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
 import {MdAddBox} from 'react-icons/lib/md';
+import IconButton from 'material-ui/IconButton';
 
 class TaskContainer extends Component {
 

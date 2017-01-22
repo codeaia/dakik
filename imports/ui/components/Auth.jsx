@@ -81,7 +81,7 @@ export default class Auth extends Component {
         Bert.alert({
           type: 'info',
           style: 'growl-top-right',
-          message: 'You have successfully signed in!',
+          message: 'Signed In!',
           icon: 'fa-sign-in'
         });
 		    FlowRouter.go('/');
@@ -108,7 +108,7 @@ export default class Auth extends Component {
         Bert.alert({
           type: 'info',
           style: 'growl-top-right',
-          message: 'You have successfully signed up, and automatically logged in!',
+          message: 'Signed up and logged in!',
           icon: 'fa-sign-in'
         });
 		    FlowRouter.redirect('/');
