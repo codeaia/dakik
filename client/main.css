@@ -10,6 +10,15 @@ html, body {
   height: 100%;
 }
 
+.card {
+    display: block;
+    padding: 2px;
+}
+
+.output {
+    padding: 4px;
+}
+
 #contentLayoutPullD{
   margin-top: 0em;
 }
