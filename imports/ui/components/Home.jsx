@@ -5,7 +5,7 @@ import Flexbox from 'flexbox-react';
 
 import { Tasks } from '../../api/tasks.js';
 import Counter from './Counter.jsx';
-import TaskContainer from './TaskContainer.jsx';
+import TaskViewContainer from './TaskViewContainer.jsx';
 
 export default class Home extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class Home extends Component {
           <Counter className="timer"/>
         </Flexbox>
         <Flexbox className="taskList">
-          <TaskContainer/>
+          <TaskViewContainer/>
         </Flexbox>
       </Flexbox>
     );

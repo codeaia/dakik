@@ -11,6 +11,7 @@ import Slider from 'material-ui/Slider';
 import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 
 export default class Auth extends Component {
 
@@ -18,12 +19,19 @@ export default class Auth extends Component {
     super(props);
 
     this.state = {
+      snackbar: false,
+      message: 'error',
       signinEmail: '',
       signinPassword: '',
       signupUsername: '',
       signupEmail: '',
       signupPassword: ''
     };
+
+    this.openSnackbar = this.openSnackbar.bind(this);
+    this.closeSnackbar = this.closeSnackbar.bind(this);
+
+    this.updateSnackbarText = this.updateSnackbarText.bind(this);
 
     this.updateSigninEmail = this.updateSigninEmail.bind(this);
     this.updateSigninPassword = this.updateSigninPassword.bind(this);
@@ -34,6 +42,24 @@ export default class Auth extends Component {
 
     this.handleSignin = this.handleSignin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
+  }
+
+  updateSnackbarText(value){
+    this.setState({
+      message: value
+    });
+  }
+
+  openSnackbar(){
+    this.setState({
+      snackbar: true,
+    });
+  }
+
+  closeSnackbar(){
+    this.setState({
+      snackbar: false,
+    });
   }
 
   updateSigninEmail(e){
@@ -71,19 +97,9 @@ export default class Auth extends Component {
 
     Meteor.loginWithPassword(this.state.signinEmail, this.state.signinPassword, (error, data) => {
       if(error) {
-        Bert.alert({
-          type: 'danger',
-          style: 'growl-top-right',
-          message: 'Sign In Failed!',
-          icon: 'fa-sign-in'
-        });
+        this.updateSnackbarText('Sign In Failed!');
+        this.openSnackbar();
       } else {
-        Bert.alert({
-          type: 'info',
-          style: 'growl-top-right',
-          message: 'Signed In!',
-          icon: 'fa-sign-in'
-        });
 		    FlowRouter.go('/');
       }
     });
@@ -97,20 +113,9 @@ export default class Auth extends Component {
       password: this.state.signupPassword
     }, (error, data) => {
       if(error) {
-        Bert.alert({
-          type: 'danger',
-          style: 'growl-top-right',
-          message: 'Sign Up Failed!',
-          icon: 'fa-sign-in'
-        });
-        console.log(error);
+        this.updateSnackbarText('Sign Up Failed!');
+        this.openSnackbar();
       } else {
-        Bert.alert({
-          type: 'info',
-          style: 'growl-top-right',
-          message: 'Signed up and logged in!',
-          icon: 'fa-sign-in'
-        });
 		    FlowRouter.redirect('/');
       }
     });
@@ -174,6 +179,12 @@ export default class Auth extends Component {
                 </Card>
               </Tab>
             </Tabs>
+            <Snackbar
+              open={this.state.snackbar}
+              message={this.state.message}
+              autoHideDuration={4000}
+              onRequestClose={this.closeSnackbar}
+            />
           </div>
       </MuiThemeProvider>
     );

@@ -172,6 +172,7 @@ class Nav extends Component {
               <CardHeader
                 title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
                 subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
+                avatar="assets/jsa-128.jpg"
                 onTouchTap={this.routeProfile}
                 className="drawerAnim1"
                 />

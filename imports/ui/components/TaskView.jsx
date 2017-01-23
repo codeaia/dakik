@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-import { Tasks } from '../../api/tasks.js';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Subheader from 'material-ui/Subheader';
 import ActionsMenu from './ActionsMenu.jsx';
@@ -17,7 +15,7 @@ import TaskFrame from './TaskFrame.jsx';
 import {MdAddBox} from 'react-icons/lib/md';
 import IconButton from 'material-ui/IconButton';
 
-class TaskContainer extends Component {
+export default class TaskView extends Component {
 
   constructor(props) {
     super(props);
@@ -32,7 +30,7 @@ class TaskContainer extends Component {
 
   renderTasks() {
     return this.props.tasks.map((task) => (
-      <TaskFrame task={task}/>
+      <TaskFrame key={task._id} task={task}/>
     ));
   }
 
@@ -54,15 +52,3 @@ class TaskContainer extends Component {
     );
   }
 }
-
-TaskContainer.propTypes = {
-  currentUser: PropTypes.object,
-  tasks: PropTypes.array.isRequired,
-};
-
-export default createContainer(() => {
-  return {
-    currentUser: Meteor.user(),
-    tasks: Tasks.find({ownerId: Meteor.user()._id}).fetch(),
-  };
-}, TaskContainer);
