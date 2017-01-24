@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import ChatContainer from './ChatContainer.jsx';
 
 export default class About extends Component {
   constructor(props) {
@@ -40,18 +41,7 @@ export default class About extends Component {
               Coming soon..
             </CardText>
           </Card>
-
-          <Card>
-            <CardHeader
-              title = "Credits"
-            />
-            <CardText>
-              Abdullah Öğük<br/>
-              Ahmet Kaşif<br/>
-              Hilmi Araz<br/>
-              Uğur Kafalı<br/>
-            </CardText>
-          </Card>
+          <ChatContainer/>
         </Flexbox>
       </MuiThemeProvider>
     );

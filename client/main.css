@@ -76,6 +76,13 @@ html, body {
   width: 100%;
 }
 
+.chatBox{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;;
+  height: 100%;
+}
+
 .Nav{
   width: 100%;
   align-items: center;
@@ -97,8 +104,8 @@ html, body {
   padding-top: 2.5%;
 }
 
-.drawer *{
-  background-color: rgba(0, 0, 0, 0);
+.drawer{
+  height: 100%;
 }
 
 .drawerButton {

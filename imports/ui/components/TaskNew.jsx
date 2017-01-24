@@ -40,9 +40,6 @@ class TaskNew extends Component {
   }
 
   addNewTask(event){
-    // TODO: tasks is not defined
-    event.preventDefault();
-
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
     const ownerId = this.props.currentUser._id;
