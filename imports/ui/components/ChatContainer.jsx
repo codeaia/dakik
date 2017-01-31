@@ -6,6 +6,7 @@ import Chat from './Chat.jsx';
 import { Chats } from '../../api/chats.js';
 
 export default ChatContainer = createContainer(() => {
+  Meteor.subscribe('chats');
   const userId = Meteor.userId();
   const username = Meteor.users.find({_id: Meteor.userId()}).username;
   const chats = Chats.find({}).fetch();

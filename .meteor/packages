@@ -21,5 +21,4 @@ react-meteor-data
 accounts-password
 kadira:flow-router
 gwendall:accounts-helpers
-autopublish
-insecure
+session

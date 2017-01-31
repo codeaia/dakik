@@ -68,6 +68,8 @@ export default class TaskFrame extends Component {
   }
 
   handleDelete() {
+    this.updateSnackbarText('Task deleted');
+    this.openSnackbar();
     Tasks.remove(this.props.task._id);
   }
 
@@ -117,7 +119,7 @@ export default class TaskFrame extends Component {
             autoHideDuration={4000}
             onRequestClose={this.closeSnackbar}
           />
-        </div>        
+        </div>
       </MuiThemeProvider>
     );
   }

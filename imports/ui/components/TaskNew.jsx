@@ -2,6 +2,7 @@ import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+import { Session } from 'meteor/session'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
@@ -45,6 +46,16 @@ class TaskNew extends Component {
     const ownerId = this.props.currentUser._id;
     const checked = false;
     const totalPomos = 0;
+
+    Session.set({
+      "snackbarMessage": "Task added",
+      "snackbar": true
+    });
+    Meteor.setTimeout(function(){
+      Session.set({
+        "snackbar": false
+      });
+    },4000);
 
     Tasks.insert({
       taskName,

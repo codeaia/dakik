@@ -39,7 +39,6 @@ class TaskEdit extends Component {
   }
 
   editNewTask(event){
-
     const taskId = this.props.task._id;
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
@@ -47,14 +46,28 @@ class TaskEdit extends Component {
     const checked = false;
     const totalPomos = 0;
 
-    Tasks.update({_id: taskId}, {
-      taskName,
-      taskPriority,
-      ownerId,
-      checked,
-      totalPomos,
+    Tasks.update(
+      {_id: taskId},
+      {$set: {
+        taskName,
+        taskPriority,
+        ownerId,
+        checked,
+        totalPomos,
+        }
+      }
+    );
+
+    Session.set({
+      "snackbarMessage": "Task updated",
+      "snackbar": true
     });
-    
+    Meteor.setTimeout(function(){
+      Session.set({
+        "snackbar": false
+      });
+    },4000);
+
     FlowRouter.go('/');
   }
 
@@ -102,6 +115,8 @@ TaskEdit.propTypes = {
 };
 
 export default createContainer(() => {
+  Meteor.subscribe('tasks');
+
   const taskId = FlowRouter.getParam("_id");
   return {
     currentUser: Meteor.user(),

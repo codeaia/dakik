@@ -12,6 +12,7 @@ import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
+import Snackbar from 'material-ui/Snackbar';
 
 import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu, MdInfo } from 'react-icons/lib/md';
 
@@ -21,9 +22,16 @@ class Nav extends Component {
     console.log('Navigation Loaded..');
 
     this.state = {
+      snackbar: Session.get("snackbar"),
+      message: Session.get("snackbarMessage"),
       open: false,
       openLogout: false
     }
+
+    this.openSnackbar = this.openSnackbar.bind(this);
+    this.closeSnackbar = this.closeSnackbar.bind(this);
+
+    this.updateSnackbarText = this.updateSnackbarText.bind(this);
 
     this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
     this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
@@ -39,6 +47,24 @@ class Nav extends Component {
     this.routeStats = this.routeStats.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
     this.routeAbout = this.routeAbout.bind(this);
+  }
+
+  updateSnackbarText(value){
+    this.setState({
+      message: value
+    });
+  }
+
+  openSnackbar(){
+    this.setState({
+      snackbar: true,
+    });
+  }
+
+  closeSnackbar(){
+    this.setState({
+      snackbar: false,
+    });
   }
 
   handleOpenDrawer(){
@@ -88,19 +114,9 @@ class Nav extends Component {
 
     Meteor.logout(function(err){
       if(err) {
-        Bert.alert({
-          type: 'danger',
-          style: 'growl-top-right',
-          message: 'Logout Failed!',
-          icon: 'fa-sign-in'
-        });
+        this.updateSnackbarText('Logout Failed!');
+        this.openSnackbar();
       } else {
-        Bert.alert({
-          type: 'info',
-          style: 'growl-top-right',
-          message: 'You have successfully logged out!',
-          icon: 'fa-sign-in'
-        });
         FlowRouter.go('/auth');
       }
     });
@@ -172,7 +188,7 @@ class Nav extends Component {
               <CardHeader
                 title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
                 subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
-                avatar="assets/jsa-128.jpg"
+                avatar="/jsa-128.jpg"
                 onTouchTap={this.routeProfile}
                 className="drawerAnim1"
                 />
@@ -186,6 +202,12 @@ class Nav extends Component {
             <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStats}>Statistics</MenuItem>
             <MenuItem leftIcon={<MdInfo />} onClick={this.routeAbout}>About</MenuItem>
           </Drawer>
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.message}
+            autoHideDuration={4000}
+            onRequestClose={this.closeSnackbar}
+          />
         </Flexbox>
       </MuiThemeProvider>
     );

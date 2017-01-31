@@ -140,7 +140,7 @@ export default class Profile extends Component {
           <CardHeader
             title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
             subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
-            avatar="assets/jsa-128.jpg"
+            avatar="/jsa-128.jpg"
             />
           <CardTitle title="İstatistiklerin"/>
           <CardText>

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session'
 
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -19,8 +20,8 @@ export default class Auth extends Component {
     super(props);
 
     this.state = {
-      snackbar: false,
-      message: 'error',
+      snackbar: Session.get("snackbar"),
+      message: Session.get("snackbarMessage"),
       signinEmail: '',
       signinPassword: '',
       signupUsername: '',

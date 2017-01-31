@@ -5,10 +5,12 @@ import TaskView from './TaskView.jsx';
 
 import { Tasks } from '../../api/tasks.js';
 
-export default ListPageContainer = createContainer(() => {
+export default TaskViewContainer = createContainer(() => {
   const currentUser = Meteor.user();
-  const tasks = Tasks.find({ownerId: Meteor.userId()}).fetch();
-  
+  Meteor.subscribe('tasks');
+
+  const tasks = Tasks.find().fetch();
+
   return {
     currentUser,
     tasks,
