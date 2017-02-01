@@ -11,6 +11,10 @@ Meteor.startup(() => {
     "snackbar": false
   });
 
+  Session.set({
+    "timerProgress": 0
+  });
+
   Accounts.onLogin(function() {
     Session.set({
       "snackbarMessage": "Logged In",

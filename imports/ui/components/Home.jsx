@@ -15,8 +15,8 @@ export default class Home extends Component {
   render() {
     return (
       <Flexbox className="app">
-        <Flexbox className="timerCont" >
-          <Counter className="timer"/>
+        <Flexbox className="timerContainers" >
+          <Counter/>
         </Flexbox>
         <Flexbox className="taskList">
           <TaskViewContainer/>

@@ -161,11 +161,25 @@ html, body {
   font-weight: 100;
 }
 
-.timerCont{
-  margin-bottom: 5%;
+.clock {
+  font-size: 5em;
+  font-weight: 300;
+  font-family: 'Lato';
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  position: relative;
 }
-.timer{
-  width: 80%;
+
+.clockText{
+  padding-top: 175px;
+  margin-bottom: -215px;
+}
+
+.circular {
+  left: 0;
+  width: 100%;
+  text-align: center;
 }
 
 #TagMenuIcon{

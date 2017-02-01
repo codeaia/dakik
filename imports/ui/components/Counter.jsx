@@ -1,21 +1,55 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
-import ReactCountdownClock from "react-countdown-clock";
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import CircularProgress from 'material-ui/CircularProgress';
 
 export default class Counter extends Component {
-
   constructor(props) {
     super(props);
-    console.log('Counter Loaded..');
+
+    this.state = {
+      completed: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.timer = setTimeout(() => this.progress(Session.get("timerProgress")), 500);
+  }
+
+  progress(completed) {
+    if (completed > 100) {
+      this.setState({completed: 100});
+      Session.set({
+        "timerProgress": 0
+      })
+    } else {
+      Session.set({
+        "timerProgress": completed
+      })
+      this.setState({completed});
+      this.timer = setTimeout(() => this.progress(completed + 1), 500);
+    }
   }
 
   render() {
     return (
-      <Flexbox className="timerCont">
-        <ReactCountdownClock seconds={25*60} color="#000" alpha={0.5} size={350} font="freeSans" onComplete={function(){console.log("bitti");}} />
-      </Flexbox>
+      <MuiThemeProvider>
+        <div className="clock">
+          <div className="clockText">
+            {Session.get("timerProgress")}
+          </div>
+          <div className="circular">
+            <CircularProgress
+              color="white"
+              mode="determinate"
+              value={this.state.completed}
+              size={350}
+              thickness={7}
+            />
+          </div>
+        </div>
+      </MuiThemeProvider>
     );
   }
 

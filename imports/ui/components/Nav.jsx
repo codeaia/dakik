@@ -19,7 +19,6 @@ import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu, MdInfo }
 class Nav extends Component {
   constructor(props) {
     super(props);
-    console.log('Navigation Loaded..');
 
     this.state = {
       snackbar: Session.get("snackbar"),
