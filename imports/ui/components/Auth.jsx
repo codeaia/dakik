@@ -63,38 +63,37 @@ export default class Auth extends Component {
     });
   }
 
-  updateSigninEmail(e){
+  updateSigninEmail(event, value){
     this.setState({
-      signinEmail: e.target.value
+      signinEmail: value
     });
   }
 
-  updateSigninPassword(e){
+  updateSigninPassword(event, value){
     this.setState({
-      signinPassword: e.target.value
+      signinPassword: value
     });
   }
 
-  updateSignupUsername(e){
+  updateSignupUsername(event, value){
     this.setState({
-      signupUsername: e.target.value
+      signupUsername: value
     });
   }
 
-  updateSignupEmail(e){
+  updateSignupEmail(event, value){
     this.setState({
-      signupEmail: e.target.value
+      signupEmail: value
     });
   }
 
-  updateSignupPassword(e){
+  updateSignupPassword(event, value){
     this.setState({
-      signupPassword: e.target.value
+      signupPassword: value
     });
   }
 
-  handleSignin(event){
-    event.preventDefault();
+  handleSignin(){
 
     Meteor.loginWithPassword(this.state.signinEmail, this.state.signinPassword, (error, data) => {
       if(error) {
@@ -106,12 +105,16 @@ export default class Auth extends Component {
     });
   }
 
-  handleSignup(event){
-    event.preventDefault();
+  handleSignup(){
     Accounts.createUser({
       username: this.state.signupUsername,
       email: this.state.signupEmail,
-      password: this.state.signupPassword
+      password: this.state.signupPassword,
+      profile: {
+        playing: false,
+        elapsedTime: 0,
+        updateTime: 0
+      }
     }, (error, data) => {
       if(error) {
         this.updateSnackbarText('Sign Up Failed!');

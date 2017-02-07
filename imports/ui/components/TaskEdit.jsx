@@ -1,5 +1,4 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
@@ -21,6 +20,7 @@ class TaskEdit extends Component {
       checked: false,
     };
 
+    this.cancelEdit = this.cancelEdit.bind(this);
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.editNewTask = this.editNewTask.bind(this);
@@ -38,7 +38,11 @@ class TaskEdit extends Component {
     });
   }
 
-  editNewTask(event){
+  cancelEdit(){
+    FlowRouter.go('/');
+  }
+
+  editNewTask(){
     const taskId = this.props.task._id;
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
@@ -100,7 +104,8 @@ class TaskEdit extends Component {
               </Flexbox>
             </CardText>
             <CardActions>
-              <RaisedButton label="Edit Task" onClick={this.editNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
+              <RaisedButton label="Cancel" onClick={this.cancelEdit} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+              <RaisedButton label="Edit Task" onClick={this.editNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
             </CardActions>
           </Card>
         </Flexbox>
@@ -114,7 +119,7 @@ TaskEdit.propTypes = {
   task: PropTypes.object,
 };
 
-export default createContainer(() => {
+export default TaskEditContainer = createContainer(() => {
   Meteor.subscribe('tasks');
 
   const taskId = FlowRouter.getParam("_id");

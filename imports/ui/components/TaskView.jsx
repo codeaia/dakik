@@ -1,19 +1,13 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Subheader from 'material-ui/Subheader';
-import ActionsMenu from './ActionsMenu.jsx';
-import Counter from './Counter.jsx';
 import {Card, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
 import {MdAddBox} from 'react-icons/lib/md';
-import IconButton from 'material-ui/IconButton';
 
 export default class TaskView extends Component {
 
@@ -29,9 +23,14 @@ export default class TaskView extends Component {
   }
 
   renderTasks() {
-    return this.props.tasks.map((task) => (
-      <TaskFrame key={task._id} task={task}/>
-    ));
+    if (this.props.tasks) {
+      return this.props.tasks.map((task) => (
+        <TaskFrame key={task._id} task={task}/>
+      ));
+    } else {
+      <div>loading tasks</div>
+      // TODO : change with loading component
+    }
   }
 
   render() {

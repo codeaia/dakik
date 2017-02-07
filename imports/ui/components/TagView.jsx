@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-
 import ActionsMenu from './ActionsMenu.jsx';
-import Counter from './Counter.jsx';
 import TaskFrame from './TaskFrame.jsx';
 import Nav from './Nav.jsx';
 

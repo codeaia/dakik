@@ -5,7 +5,7 @@ import Flexbox from 'flexbox-react';
 import {mount} from 'react-mounter';
 
 import Nav from './Nav.jsx';
-import TaskEdit from './TaskEdit.jsx';
+import TaskEditContainer from './TaskEdit.jsx';
 import {mainLayout} from '../layouts/mainLayout.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

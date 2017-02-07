@@ -22,6 +22,7 @@ class TaskNew extends Component {
       checked: false,
     };
 
+    this.cancelAdding = this.cancelAdding.bind(this);
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
@@ -38,6 +39,10 @@ class TaskNew extends Component {
     this.setState({
       taskPriority: value
     });
+  }
+
+  cancelAdding(){
+    FlowRouter.go('/');
   }
 
   addNewTask(event){
@@ -97,7 +102,8 @@ class TaskNew extends Component {
               </Flexbox>
             </CardText>
             <CardActions>
-              <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
+              <RaisedButton label="Cancel" onClick={this.cancelAdding} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+              <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
             </CardActions>
           </Card>
         </Flexbox>
