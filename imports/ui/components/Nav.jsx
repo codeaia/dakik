@@ -39,11 +39,9 @@ class Nav extends Component {
     this.handleOpenLogout = this.handleOpenLogout.bind(this);
 
     this.routeProfile = this.routeProfile.bind(this);
-    this.routeApplicationSettings = this.routeApplicationSettings.bind(this);
-    this.routeAccountSettings = this.routeAccountSettings.bind(this);
     this.routeHome = this.routeHome.bind(this);
     this.routeTasks = this.routeTasks.bind(this);
-    this.routeStats = this.routeStats.bind(this);
+    this.routeStatistics = this.routeStatistics.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
     this.routeAbout = this.routeAbout.bind(this);
   }
@@ -94,18 +92,11 @@ class Nav extends Component {
     FlowRouter.go('/profile');
   }
 
-  routeApplicationSettings(event){
+  routeSettings(event){
     event.preventDefault();
 
     this.handleCloseDrawer();
-    FlowRouter.go('/appSettings');
-  }
-
-  routeAccountSettings(event){
-    event.preventDefault();
-
-    this.handleCloseDrawer();
-    FlowRouter.go('/accSettings');
+    FlowRouter.go('/settings');
   }
 
   handleLogout(event){
@@ -135,17 +126,11 @@ class Nav extends Component {
     FlowRouter.go('/tasks');
   }
 
-  routeStats(event){
+  routeStatistics(event){
     event.preventDefault();
 
     this.handleCloseDrawer();
-    FlowRouter.go('/stats');
-  }
-
-  routeSettings(event){
-    event.preventDefault();
-
-    FlowRouter.go('/settings');
+    FlowRouter.go('/statistics');
   }
 
   render() {
@@ -192,13 +177,13 @@ class Nav extends Component {
                 className="drawerAnim1"
                 />
               <CardActions>
-                <FlatButton label="Settings" onTouchTap={this.routeAccountSettings}/>
+                <FlatButton label="Settings" onTouchTap={this.routeSettings}/>
                 <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
               </CardActions>
             </Card>
             <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Home</MenuItem>
             <MenuItem leftIcon={<MdPlaylistAddCheck />} onClick={this.routeTasks}>Tasks</MenuItem>
-            <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStats}>Statistics</MenuItem>
+            <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStatistics}>Statistics</MenuItem>
             <MenuItem leftIcon={<MdInfo />} onClick={this.routeAbout}>About</MenuItem>
           </Drawer>
           <Snackbar
