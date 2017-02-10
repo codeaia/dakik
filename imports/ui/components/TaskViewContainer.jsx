@@ -6,12 +6,12 @@ import TaskView from './TaskView.jsx';
 import { Tasks } from '../../api/tasks.js';
 
 export default TaskViewContainer = createContainer(() => {
-  Meteor.subscribe('tasks');
-  const currentUser = Meteor.user();
-  const tasks = Tasks.find().fetch();
+  const tasksHandle = Meteor.subscribe('tasks');
+  const loading = !tasksHandle.ready();
+  const tasks = Tasks.find();
 
   return {
-    currentUser,
-    tasks,
+    loading,
+    tasks: !loading ? tasks.fetch() : [],
   };
 }, TaskView);

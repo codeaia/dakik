@@ -2,28 +2,48 @@ import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+import Loading from './Loading.jsx';
 
 import { Tasks } from '../../api/tasks.js';
-import TimerContainer from './TimerContainer.jsx';
+import Timer from './Timer.jsx';
 import TaskViewContainer from './TaskViewContainer.jsx';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    return (
-      <Flexbox className="app">
-        <Flexbox className="timerContainers" >
-          <TimerContainer/>
+    if (this.props.currentUser !== undefined) {
+      return (
+        <Flexbox className="app">
+          <Flexbox className="timerContainers" >
+            <Timer currentUser={this.props.currentUser}/>
+          </Flexbox>
+          <TaskViewContainer currentUser={this.props.currentUser}/>
         </Flexbox>
-        <Flexbox className="taskList">
-          <TaskViewContainer/>
+      );
+    } else {
+      return (
+        <Flexbox className="app">
+          <Loading/>
         </Flexbox>
-      </Flexbox>
-    );
+      );
+    }
   }
 }
+
+Home.propTypes = {
+  currentUser: React.PropTypes.object,
+  loading: React.PropTypes.bool,
+  tasks: React.PropTypes.array,
+};
+
+export default HomeContainer = createContainer(() => {
+  const currentUser = Meteor.user();
+  return {
+    currentUser,
+  };
+}, Home);

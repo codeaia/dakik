@@ -112,7 +112,7 @@ export default class Auth extends Component {
       password: this.state.signupPassword,
       profile: {
         playing: false,
-        elapsedTime: 0,
+        elapsedTime: 1,
         updateTime: 0
       }
     }, (error, data) => {

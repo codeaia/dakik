@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 
-export default class Stats extends Component {
+export default class Statistics extends Component {
 
   constructor(props) {
     super(props);

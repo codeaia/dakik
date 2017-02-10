@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 Meteor.startup(() => {
@@ -8,7 +7,7 @@ Meteor.startup(() => {
 
   Session.set({
     "snackbarMessage": "error",
-    "snackbar": false
+    "snackbar": false,
   });
 
   Accounts.onLogin(function() {

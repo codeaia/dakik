@@ -12,13 +12,24 @@ export default class Clock extends Component {
   }
 
   getMinutes(){
-    var temp = parseInt(this.props.elapsedTime, 10);
-    return 25 - Math.floor(temp / 60);
+    var temp = 25 - Math.floor(parseInt(this.props.elapsedTime, 10) / 60);
+    if (temp < 10) {
+      return '0' + temp.toString();
+    } else {
+      return temp;
+    }
   }
 
   getSeconds(){
+    var minute = 25 - Math.floor(parseInt(this.props.elapsedTime, 10) / 60);
     var temp = parseInt(this.props.elapsedTime, 10);
-    return 60 - (temp - (25 - this.getMinutes()) * 60);
+    var seconds = 60 - (temp - (25 - minute) * 60);
+
+    if (seconds < 10) {
+      return '0' + seconds.toString();
+    } else {
+      return seconds;
+    }
   }
 
   render() {

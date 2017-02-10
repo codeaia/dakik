@@ -1,6 +1,9 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom';
+import Flexbox from 'flexbox-react';
+
+import Loading from './Loading.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Subheader from 'material-ui/Subheader';
@@ -23,31 +26,38 @@ export default class TaskView extends Component {
   }
 
   renderTasks() {
-    if (this.props.tasks) {
+    if (!this.props.loading) {
       return this.props.tasks.map((task) => (
         <TaskFrame key={task._id} task={task}/>
       ));
     } else {
-      <div>loading tasks</div>
-      // TODO : change with loading component
+      <Loading/>
     }
   }
 
   render() {
     return (
       <MuiThemeProvider>
-        <Card className="taskListCard">
-          <CardText>
-            <Subheader>
-              #TagNameHere
-              <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
-            </Subheader>
-            <List>
-              {this.renderTasks()}
-            </List>
-          </CardText>
-        </Card>
+        <Flexbox className="taskList">
+          <Card className="taskListCard">
+            <CardText>
+              <Subheader>
+                #TagNameHere
+                <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
+              </Subheader>
+              <List>
+                {this.renderTasks()}
+              </List>
+            </CardText>
+          </Card>
+        </Flexbox>
       </MuiThemeProvider>
     );
   }
 }
+
+TaskView.propTypes = {
+  currentUser: React.PropTypes.object,
+  loading: React.PropTypes.bool,
+  tasks: React.PropTypes.array,
+};

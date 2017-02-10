@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
+import Loading from './Loading.jsx';
 import Clock from './Clock.jsx';
 
 export default class Timer extends Component {
@@ -14,7 +15,7 @@ export default class Timer extends Component {
     this.state = {
       playing: true,
       currentUser: null,
-      elapsedTime: 0,
+      elapsedTime: 1,
       elapsedAngle: 0,
     }
 
@@ -24,7 +25,13 @@ export default class Timer extends Component {
 
   componentDidMount(){
     var date = new Date();
-    var timeDiff = (date.valueOf() - this.props.currentUser.profile.updateTime) / 1000;
+
+    if (this.props.currentUser.profile.playing) {
+      var timeDiff = (date.valueOf() - this.props.currentUser.profile.updateTime) / 1000;
+    }else{
+      var timeDiff = 0;
+    }
+
     if ((timeDiff + this.props.currentUser.profile.elapsedTime) < 1500) {
       this.setState({
         playing: this.props.currentUser.profile.playing,
@@ -41,24 +48,25 @@ export default class Timer extends Component {
     });
 
     if (this.state.playing) {
-      console.log('playing');
       this.timer = setTimeout(() => this.progress(), 1000);
-    }else {
-      console.log('not playing');
     }
   }
 
   componentWillUnmount(){
-    this.state.playing = false;
+    if (Meteor.user()) {
+      var date = new Date();
+      const newProfile = this.state.currentUser.profile;
 
-    var date = new Date();
-    const newProfile = this.state.currentUser.profile;
+      newProfile.playing = this.state.playing;
+      newProfile.elapsedTime = this.state.elapsedTime;
+      newProfile.updateTime = date.valueOf();
 
-    newProfile.playing = true;
-    newProfile.elapsedTime = this.state.elapsedTime;
-    newProfile.updateTime = date.valueOf();
+      Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+    }
 
-    Meteor.users.update(this.state.currentUser._id, {$set: {profile: newProfile}});
+    if (this.state.playing) {
+      this.state.playing = false;
+    }
   }
 
   progress() {
@@ -84,10 +92,33 @@ export default class Timer extends Component {
       this.setState({
         playing: false,
       });
+
+      if (Meteor.user()) {
+        var date = new Date();
+        const newProfile = this.state.currentUser.profile;
+
+        newProfile.playing = false;
+        newProfile.elapsedTime = this.state.elapsedTime;
+        newProfile.updateTime = date.valueOf();
+
+        Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+      }
     }else {
       this.setState({
         playing: true,
       });
+
+      if (Meteor.user()) {
+        var date = new Date();
+        const newProfile = this.state.currentUser.profile;
+
+        newProfile.playing = true;
+        newProfile.elapsedTime = this.state.elapsedTime;
+        newProfile.updateTime = date.valueOf();
+
+        Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+      }
+
       this.timer = setTimeout(() => this.progress(), 1000);
     }
   }
@@ -114,7 +145,7 @@ export default class Timer extends Component {
       );
     } else {
       return (
-        <div>loading</div>
+        <Loading/>
       );
     }
   }
