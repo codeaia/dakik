@@ -18,12 +18,7 @@ class Home extends Component {
   render() {
     if (this.props.currentUser !== undefined) {
       return (
-        <Flexbox className="app">
-          <Flexbox className="timerContainers" >
-            <Timer currentUser={this.props.currentUser}/>
-          </Flexbox>
-          <TaskViewContainer currentUser={this.props.currentUser}/>
-        </Flexbox>
+        <Timer currentUser={this.props.currentUser}/>
       );
     } else {
       return (

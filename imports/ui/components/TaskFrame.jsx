@@ -22,24 +22,28 @@ import Snackbar from 'material-ui/Snackbar';
 import { Tasks } from '../../api/tasks.js';
 
 export default class TaskFrame extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       snackbar: false,
-      message: 'error'
+      message: 'error',
+      checked: false,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
-
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
-
     this.toggleChecked = this.toggleChecked.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.routeEdit = this.routeEdit.bind(this);
     this.handleShare = this.handleShare.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({
+      checked: this.props.task.checked,
+    });
   }
 
   updateSnackbarText(value){
@@ -61,9 +65,12 @@ export default class TaskFrame extends Component {
   }
 
   toggleChecked() {
-    // Set the checked property to the opposite of its current value
+    this.setState({
+      checked: !this.state.checked
+    });
+
     Tasks.update(this.props.task._id, {
-      $set: { checked: !this.props.task.checked },
+      $set: { checked: !this.state.checked },
     });
   }
 
@@ -104,11 +111,18 @@ export default class TaskFrame extends Component {
       </IconMenu>
     );
 
+    const leftCheckbox = (
+      <Checkbox
+        checked={this.state.checked}
+        onCheck={this.toggleChecked}
+      />
+    );
+
     return (
       <MuiThemeProvider>
         <div>
           <ListItem
-            leftCheckbox={<Checkbox />}
+            leftCheckbox={leftCheckbox}
             primaryText={this.props.task.taskName}
             secondaryText="More Information"
             rightIconButton={rightIconMenu}

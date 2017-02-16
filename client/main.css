@@ -59,17 +59,11 @@ html, body {
   margin-left:-.5em;
 }
 
-.app{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.ths {
+  width: 20%;
 }
 
 .appHeader{
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -159,6 +153,10 @@ html, body {
   font-size: 8em;
   color: var(--main-dark);
   font-weight: 100;
+}
+
+.timerContainers {
+  margin-bottom: 2em;
 }
 
 .clock {

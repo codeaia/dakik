@@ -33,12 +33,11 @@ export default class About extends Component {
     return (
       <MuiThemeProvider>
         <Flexbox flexDirection="column">
-          <h1>About Page</h1>
           <Tabs>
             <Tab label="Aim">
               <div style={styles.background}>
                 <List>
-                  <ListItem primaryText="Our aim is to produce a self-control application for people which should be also fun to use."/>
+                  <ListItem primaryText="Pomo App is a free, cross-platform time-management application."/>
                 </List>
               </div>
             </Tab>
@@ -46,7 +45,7 @@ export default class About extends Component {
               <div style={styles.background}>
                 <List>
                   <ListItem primaryText="A countdown Timer which can be paused at wish, can play even when you are not online."/>
-                  <ListItem primaryText="Adding listing, editing and deleting tasks."/>
+                  <ListItem primaryText="Adding listing, editing, checking and deleting tasks."/>
                   <ListItem primaryText="Connection to trello account and ability to use tables."/>
                 </List>
               </div>
@@ -54,20 +53,34 @@ export default class About extends Component {
             <Tab label="Known Issues">
               <div style={styles.background}>
                 <List>
-                  <ListItem primaryText="Currently No."/>
+                  <ListItem primaryText="Countdown Timer play pause button, if clicked too much, can play the timer much quicker. Workaround is to press pause, wait a second, press play just after."/>
                 </List>
             </div>
           </Tab>
           <Tab label="Patch Notes">
             <div style={styles.background}>
               <List>
-                <ListItem style={styles.headline} primaryText="Patch 0.8.4"/>
+                <ListItem style={styles.headline} primaryText="Patch 0.9.0"/>
+                <ListItem
+                  primaryText="What's New: "
+                  nestedItems={[
+                    <ListItem key={1} primaryText="Basic validation rules are added to signin and signup functions."/>,
+                    <ListItem key={2} primaryText="Checking tasks is now possible."/>,
+                  ]}
+                />
                 <ListItem
                   primaryText="Changes: "
                   nestedItems={[
-                    <ListItem key={1} primaryText="About page is now changed."/>,
-                    ]}
-                  />
+                    <ListItem key={1} primaryText="Clock size adjusted."/>,
+                    <ListItem key={2} primaryText="About page patch notes are updated."/>,
+                  ]}
+                />
+                <ListItem
+                  primaryText="Fixes: "
+                  nestedItems={[
+                    <ListItem key={1} primaryText="Several unused code is deleted and performance seems to be getting much better."/>,
+                  ]}
+                />
               </List>
             </div>
           </Tab>

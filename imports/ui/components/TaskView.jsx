@@ -26,38 +26,39 @@ export default class TaskView extends Component {
   }
 
   renderTasks() {
-    if (!this.props.loading) {
-      return this.props.tasks.map((task) => (
-        <TaskFrame key={task._id} task={task}/>
-      ));
-    } else {
-      <Loading/>
-    }
+    return this.props.tasks.map((task) => (
+      <TaskFrame key={task._id} task={task} currentUser={this.props.currentUser}/>
+    ));
   }
 
   render() {
-    return (
-      <MuiThemeProvider>
-        <Flexbox className="taskList">
-          <Card className="taskListCard">
-            <CardText>
-              <Subheader>
-                #TagNameHere
-                <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
-              </Subheader>
-              <List>
-                {this.renderTasks()}
-              </List>
-            </CardText>
-          </Card>
-        </Flexbox>
-      </MuiThemeProvider>
-    );
+    if (this.props.tasks !== undefined && this.props.currentUser !== undefined) {
+      return (
+        <MuiThemeProvider>
+          <Flexbox className="taskList">
+            <Card className="taskListCard">
+              <CardText>
+                <Subheader>
+                  #TagNameHere
+                  <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
+                </Subheader>
+                <List>
+                  {this.renderTasks()}
+                </List>
+              </CardText>
+            </Card>
+          </Flexbox>
+        </MuiThemeProvider>
+      );
+    } else {
+      return (
+        <Loading/>
+      );
+    }
   }
 }
 
 TaskView.propTypes = {
   currentUser: React.PropTypes.object,
-  loading: React.PropTypes.bool,
   tasks: React.PropTypes.array,
 };

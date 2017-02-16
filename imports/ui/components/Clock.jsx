@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 
 export default class Clock extends Component {
-
   constructor(props) {
     super(props);
 
@@ -44,8 +43,8 @@ export default class Clock extends Component {
               color="white"
               mode="determinate"
               value={this.props.elapsedAngle}
-              size={350}
-              thickness={7}
+              size={288}
+              thickness={12}
             />
           </div>
         </div>
