@@ -56,6 +56,7 @@ class TaskNew extends Component {
       "snackbarMessage": "Task added",
       "snackbar": true
     });
+    
     Meteor.setTimeout(function(){
       Session.set({
         "snackbar": false
@@ -63,9 +64,9 @@ class TaskNew extends Component {
     },4000);
 
     Tasks.insert({
+      ownerId,
       taskName,
       taskPriority,
-      ownerId,
       checked,
       totalPomos,
       createdAt: new Date(), // current time

@@ -38,6 +38,7 @@ export default class TaskFrame extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.routeEdit = this.routeEdit.bind(this);
     this.handleShare = this.handleShare.bind(this);
+    this.getStatus = this.getStatus.bind(this);
   }
 
   componentDidMount(){
@@ -92,6 +93,12 @@ export default class TaskFrame extends Component {
     this.openSnackbar();
   }
 
+  getStatus(){
+    if (this.state.checked) {
+      return 'line-through';
+    }
+  }
+
   render() {
     const iconButtonElement = (
       <IconButton
@@ -124,8 +131,10 @@ export default class TaskFrame extends Component {
           <ListItem
             leftCheckbox={leftCheckbox}
             primaryText={this.props.task.taskName}
-            secondaryText="More Information"
             rightIconButton={rightIconMenu}
+            style={{
+              textDecoration: this.getStatus()
+            }}
           />
           <Snackbar
             open={this.state.snackbar}
