@@ -188,6 +188,7 @@ export default class Auth extends Component {
                   email: this.state.signupEmail,
                   password: this.state.signupPassword,
                   profile: {
+                    hideCompleted: false,
                     playing: false,
                     elapsedTime: 1,
                     updateTime: 0

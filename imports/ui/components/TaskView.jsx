@@ -15,7 +15,7 @@ export default class TaskView extends Component {
     super(props);
 
     this.state = {
-      hideCompleted: true,
+      hideCompleted: false,
     };
 
     this.routeNewTask = this.routeNewTask.bind(this);
@@ -23,11 +23,19 @@ export default class TaskView extends Component {
     this.toggleHide = this.toggleHide.bind(this);
   }
 
+  componentWillReceiveProps(nextProps){
+    if (nextProps.currentUser !== undefined) {
+      this.setState({
+        hideCompleted: nextProps.currentUser.profile.hideCompleted,
+      });
+    }
+  }
+
   routeNewTask(){
     FlowRouter.go('/taskNew/');
   }
 
-  renderTasks() {
+  renderTasks(){
     let filteredTasks = this.props.tasks;
     if (this.state.hideCompleted) {
       filteredTasks = filteredTasks.filter(task => !task.checked);
@@ -41,6 +49,11 @@ export default class TaskView extends Component {
     this.setState({
       hideCompleted: !this.state.hideCompleted,
     });
+
+    var newProfile = this.props.currentUser.profile;
+    newProfile.hideCompleted = !this.props.currentUser.profile.hideCompleted;
+
+    Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
   }
 
   render() {
