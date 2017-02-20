@@ -1,5 +1,4 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
-import Flexbox from 'flexbox-react';
+import React, { Component, constructor, State } from 'react';
 
 export default class TagView extends Component {
   constructor(props) {
@@ -8,8 +7,7 @@ export default class TagView extends Component {
 
   render() {
     return (
-      <h1>Tag View Page Placeholder</h1>
-
+      <h1>Coming soon..</h1>
     );
   }
 }

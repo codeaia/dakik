@@ -1,19 +1,14 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
+import React, { Component, constructor, State } from 'react';
 
 export default class Statistics extends Component {
 
   constructor(props) {
     super(props);
-    console.log('Statistics Page Loaded..');
-
   }
 
   render() {
     return (
-      <h1>Placeholder</h1>
+      <h1>Coming soon..</h1>
     );
   }
 

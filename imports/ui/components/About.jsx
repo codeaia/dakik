@@ -1,10 +1,7 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
+import React, { Component, constructor, State } from 'react';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
-import ChatContainer from './ChatContainer.jsx';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {List, ListItem} from 'material-ui/List';
 

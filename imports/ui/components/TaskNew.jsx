@@ -1,12 +1,11 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 import { Session } from 'meteor/session'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import {Card, CardActions, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -26,7 +25,6 @@ class TaskNew extends Component {
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
-
   }
 
   updateTaskName(e){
@@ -56,7 +54,7 @@ class TaskNew extends Component {
       "snackbarMessage": "Task added",
       "snackbar": true
     });
-    
+
     Meteor.setTimeout(function(){
       Session.set({
         "snackbar": false

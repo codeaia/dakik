@@ -1,22 +1,10 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
-import {mount} from 'react-mounter';
-
-import Nav from './Nav.jsx';
-import TaskEditContainer from './TaskEdit.jsx';
-import {mainLayout} from '../layouts/mainLayout.jsx';
-
+import React, { Component, constructor, State } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';
-import ContentSend from 'material-ui/svg-icons/content/send';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 
 import { Tasks } from '../../api/tasks.js';
@@ -103,11 +91,10 @@ export default class TaskFrame extends Component {
     const iconButtonElement = (
       <IconButton
         touch={true}
-        tooltip="Options.."
+        tooltip="Options"
         tooltipPosition="bottom-left"
-      >
-        <MoreVertIcon color={grey400} />
-      </IconButton>
+        iconClassName="fa fa-ellipsis-v"
+      />
     );
 
     const rightIconMenu = (

@@ -1,5 +1,4 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
-import Flexbox from 'flexbox-react';
+import React, { Component, constructor, State } from 'react';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -8,8 +7,7 @@ export default class Settings extends Component {
 
   render() {
     return (
-      <h1>Settings Page Placeholder</h1>
-
+      <h1>Coming soon..</h1>
     );
   }
 }

@@ -5,7 +5,6 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
@@ -27,7 +26,6 @@ export default class Auth extends Component {
 
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
-
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
 
     this.updateSigninUsername = this.updateSigninUsername.bind(this);

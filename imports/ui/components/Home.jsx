@@ -32,8 +32,6 @@ class Home extends Component {
 
 Home.propTypes = {
   currentUser: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  tasks: React.PropTypes.array,
 };
 
 export default HomeContainer = createContainer(() => {

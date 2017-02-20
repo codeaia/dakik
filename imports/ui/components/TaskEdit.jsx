@@ -5,7 +5,7 @@ import Loading from './Loading.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import {Card, CardActions, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';

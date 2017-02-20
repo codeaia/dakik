@@ -1,17 +1,13 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import classnames from 'classnames';
-import ReactDOM from 'react-dom';
 import Flexbox from 'flexbox-react';
-
+import IconButton from 'material-ui/IconButton';
 import Loading from './Loading.jsx';
-
 import Toggle from 'material-ui/Toggle';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Subheader from 'material-ui/Subheader';
-import {Card, CardText, CardHeader} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
+import {Card, CardText} from 'material-ui/Card';
+import {List} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
-import {MdAddBox} from 'react-icons/lib/md';
 
 export default class TaskView extends Component {
 
@@ -56,7 +52,7 @@ export default class TaskView extends Component {
               <CardText>
                 <Subheader>
                   #TagNameHere
-                  <MdAddBox className="addButton" onClick={this.routeNewTask}></MdAddBox>
+                  <IconButton iconClassName="fa fa-plus-square-o" style={{padding: '-12px'}} onClick={this.routeNewTask} tooltip="New Task"/>
                   <Toggle label="Hide completed tasks" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide}/>
                 </Subheader>
                 <List>

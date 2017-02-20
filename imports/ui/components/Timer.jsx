@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
+import React, { Component, constructor, State } from 'react';
 import Flexbox from 'flexbox-react';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

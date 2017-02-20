@@ -13,8 +13,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
-
-import { MdHome, MdPlaylistAddCheck, MdInsertChart, MdSettings, MdMenu, MdInfo } from 'react-icons/lib/md';
+import IconButton from 'material-ui/IconButton';
 
 class Nav extends Component {
   constructor(props) {
@@ -44,6 +43,7 @@ class Nav extends Component {
     this.routeStatistics = this.routeStatistics.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
     this.routeAbout = this.routeAbout.bind(this);
+    this.routeIntegrations = this.routeIntegrations.bind(this);
   }
 
   updateSnackbarText(value){
@@ -80,28 +80,23 @@ class Nav extends Component {
     this.setState({openLogout: false});
   }
 
-  routeAbout(event){
+  routeAbout(){
     this.handleCloseDrawer();
     FlowRouter.go('/about');
   }
 
-  routeProfile(event){
-    event.preventDefault();
-
+  routeProfile(){
     this.handleCloseDrawer();
     FlowRouter.go('/profile');
   }
 
-  routeSettings(event){
-    event.preventDefault();
+  routeSettings(){
 
     this.handleCloseDrawer();
     FlowRouter.go('/settings');
   }
 
-  handleLogout(event){
-    event.preventDefault();
-
+  handleLogout(){
     Meteor.logout(function(err){
       if(err) {
         this.updateSnackbarText('Logout Failed!');
@@ -112,23 +107,22 @@ class Nav extends Component {
     });
   }
 
-  routeHome(event){
-    event.preventDefault();
-
+  routeHome(){
     this.handleCloseDrawer();
     FlowRouter.go('/');
   }
 
-  routeTasks(event){
-    event.preventDefault();
-
+  routeTasks(){
     this.handleCloseDrawer();
     FlowRouter.go('/tasks');
   }
 
-  routeStatistics(event){
-    event.preventDefault();
+  routeIntegrations(){
+    this.handleCloseDrawer();
+    FlowRouter.go('/integrations');
+  }
 
+  routeStatistics(){
     this.handleCloseDrawer();
     FlowRouter.go('/statistics');
   }
@@ -141,7 +135,7 @@ class Nav extends Component {
         onTouchTap={this.handleCloseLogout}
         />,
       <FlatButton
-        label="Yeah, get me out"
+        label="Log out"
         primary={true}
         onTouchTap={this.handleLogout}
         />,
@@ -151,7 +145,7 @@ class Nav extends Component {
       <MuiThemeProvider>
         <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
           <Flexbox className="drawerButton">
-            <MdMenu onTouchTap={this.handleOpenDrawer}/>
+            <IconButton iconClassName="fa fa-bars" onTouchTap={this.handleOpenDrawer}/>
           </Flexbox>
           <Dialog
             actions={actions}
@@ -159,7 +153,7 @@ class Nav extends Component {
             open={this.state.openLogout}
             onRequestClose={this.handleCloseLogout}
             >
-            Log out ?
+            Are you sure ?
           </Dialog>
           <Drawer
             docked={false}
@@ -177,14 +171,15 @@ class Nav extends Component {
                 className="drawerAnim1"
                 />
               <CardActions>
-                <FlatButton label="Settings" onTouchTap={this.routeSettings}/>
-                <FlatButton label="Logout" onTouchTap={this.handleOpenLogout}/>
+                <IconButton iconClassName="fa fa-cog" style={{padding: '-12px'}} onClick={this.routeSettings} tooltip="Settings"/>
+                <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} onClick={this.handleOpenLogout} tooltip="Log out"/>
               </CardActions>
             </Card>
-            <MenuItem leftIcon={<MdHome />} onClick={this.routeHome}>Home</MenuItem>
-            <MenuItem leftIcon={<MdPlaylistAddCheck />} onClick={this.routeTasks}>Tasks</MenuItem>
-            <MenuItem leftIcon={<MdInsertChart />} onClick={this.routeStatistics}>Statistics</MenuItem>
-            <MenuItem leftIcon={<MdInfo />} onClick={this.routeAbout}>About</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-home" style={{padding: '-12px'}}/>} onClick={this.routeHome}>Home</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-list-ul" style={{padding: '-12px'}}/>} onClick={this.routeTasks}>Tasks</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-link" style={{padding: '-12px'}}/>} onClick={this.routeIntegrations}>Integrations</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-bar-chart" style={{padding: '-12px'}}/>} onClick={this.routeStatistics}>Statistics</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-info-circle" style={{padding: '-12px'}}/>} onClick={this.routeAbout}>About</MenuItem>
           </Drawer>
           <Snackbar
             open={this.state.snackbar}
