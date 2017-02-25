@@ -21,6 +21,7 @@ export default class Timer extends Component {
 
     this.toggleClock = this.toggleClock.bind(this);
     this.getIconName = this.getIconName.bind(this);
+    this.handleStop = this.handleStop.bind(this);
   }
 
   componentDidMount(){
@@ -37,7 +38,6 @@ export default class Timer extends Component {
         playing: this.props.currentUser.profile.playing,
         elapsedTime: this.props.currentUser.profile.elapsedTime + timeDiff,
         elapsedAngle: this.props.currentUser.profile.elapsedTime / 15,
-
       });
     }else {
       // update the selected task and add 1 pomo time to it
@@ -123,6 +123,22 @@ export default class Timer extends Component {
     }
   }
 
+  handleStop() {
+    this.setState({
+      playing: false,
+      elapsedTime: 1,
+      elapsedAngle: 0,
+    });
+
+    const newProfile = this.state.currentUser.profile;
+
+    newProfile.playing = false;
+    newProfile.elapsedTime = 1;
+    newProfile.updateTime = 0;
+
+    Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+  }
+
   getIconName(){
     if(this.state.playing){
       return 'fa fa-pause';
@@ -139,6 +155,7 @@ export default class Timer extends Component {
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
               <FloatingActionButton iconClassName={this.getIconName()} onClick={this.toggleClock}/>
+            <FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>
         </MuiThemeProvider>

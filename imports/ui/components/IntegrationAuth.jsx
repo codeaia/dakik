@@ -3,6 +3,7 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
+import WunderlistApi from './WunderlistApi.jsx';
 
 export default class IntegrationAuth extends Component {
   constructor(props) {
@@ -137,7 +138,7 @@ export default class IntegrationAuth extends Component {
             </Tab>
             <Tab label="Wunderlist">
               <div>
-                Coming soon..
+                <WunderlistApi />
               </div>
             </Tab>
           </Tabs>
