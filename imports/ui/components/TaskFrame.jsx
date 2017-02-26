@@ -6,6 +6,9 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import {Card, CardText} from 'material-ui/Card';
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -19,6 +22,7 @@ export default class TaskFrame extends Component {
       checked: false,
       popup: false,
       popupEdit: false,
+      popup2: false,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
@@ -28,6 +32,10 @@ export default class TaskFrame extends Component {
     this.getStatus = this.getStatus.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.openEditTask = this.openEditTask.bind(this);
+    this.closePopup = this.closePopup.bind(this);
+    this.closePopup2 = this.closePopup.bind(this);
+
+    console.log(this.props.task);
   }
 
   componentDidMount(){
@@ -60,6 +68,18 @@ export default class TaskFrame extends Component {
     });
   }
 
+  closePopup() {
+    this.setState({
+      popup: false
+    });
+  }
+
+  closePopop2() {
+    this.setState({
+      popup: false
+    });
+  }
+
   openEditTask(){
     this.setState({
       popup: false,
@@ -84,6 +104,38 @@ export default class TaskFrame extends Component {
   }
 
   render() {
+
+    const actions = [
+      <FlatButton
+        label="CANCEL"
+        primary={true}
+        onTouchTap={this.closePopup}
+      />,
+      <FlatButton
+        label="EDIT"
+        primary={true}
+        onTouchTap={this.closePopup}
+      />,
+      <FlatButton
+        label="START"
+        primary={true}
+        onTouchTap={this.closePopup}
+      />,
+    ];
+
+    const actions2 = [
+      <FlatButton
+        label="CANCEL"
+        primary={true}
+        onTouchTap={this.closePopup2}
+      />,
+      <FlatButton
+        label="SAVE"
+        primary={true}
+        onTouchTap={this.closePopup2}
+      />,
+    ];
+
     const iconButtonElement = (
       <IconButton
         touch={true}
@@ -112,6 +164,31 @@ export default class TaskFrame extends Component {
               textDecoration: this.getStatus()
             }}
           />
+          <Dialog
+            title="TASK DETAILS"
+            actions={actions}
+            modal={false}
+            open={this.state.popup}
+            onRequestClose={this.closePopup}
+            >
+            <Card>
+              <CardText>
+                Task Name: {this.props.task.taskName} <br />
+                Priority: {this.props.task.taskPriority} <br />
+                Pomotime: {this.props.task.totalPomos} <br />
+                Estimated Pomos: {this.props.task.taskGoal} <br />
+                Due Date: {this.props.task.newDate.getDate()}-{this.props.task.newDate.getMonth()}-{this.props.task.newDate.getFullYear()}
+              </CardText>
+            </Card>
+          </Dialog>
+          <Dialog
+            title="TASK EDIT"
+            actions={actions2}
+            modal={false}
+            open={this.state.popup2}
+            onRequestClose={this.closePopup2}
+            >
+          </Dialog>
           <Snackbar
             open={this.state.snackbar}
             message={this.state.message}

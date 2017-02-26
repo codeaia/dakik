@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { Tasks } from '../../api/tasks.js';
+import DatePicker from 'material-ui/DatePicker';
 
 class TaskNew extends Component {
   constructor(props) {
@@ -19,12 +20,22 @@ class TaskNew extends Component {
       taskName: '',
       taskPriority: 0,
       checked: false,
+      taskGoal: 0,
+      dueDate: null,
     };
 
     this.cancelAdding = this.cancelAdding.bind(this);
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
+    this.updateTaskGoal = this.updateTaskGoal.bind(this);
+    this.updateDueDate = this.updateDueDate.bind(this);
+  }
+
+  updateTaskGoal(event, index, value) {
+    this.setState({
+      taskGoal: value
+    });
   }
 
   updateTaskName(e){
@@ -51,6 +62,8 @@ class TaskNew extends Component {
     const ownerId = this.props.currentUser._id;
     const checked = false;
     const totalPomos = 0;
+    const taskGoal = this.state.taskGoal;
+    const newDate = this.state.dueDate;
 
     Session.set({
       "snackbarMessage": "Task added",
@@ -69,11 +82,19 @@ class TaskNew extends Component {
       taskPriority,
       checked,
       totalPomos,
+      taskGoal,
+      newDate,
       createdAt: new Date(), // current time
     });
 
     Session.set({
       "route": "timer"
+    });
+  }
+
+  updateDueDate(event, date) {
+    this.setState({
+      dueDate: date,
     });
   }
 
@@ -102,6 +123,27 @@ class TaskNew extends Component {
                   <MenuItem value={4} primaryText="4 (This Month)" />
                   <MenuItem value={5} primaryText="5 (Any Time)" />
                 </SelectField>
+                <SelectField
+                  floatingLabelText="Task Goal"
+                  value={this.state.taskGoal}
+                  onChange={this.updateTaskGoal}
+                  >
+                  <MenuItem value={1} primaryText="1" />
+                  <MenuItem value={2} primaryText="2" />
+                  <MenuItem value={3} primaryText="3" />
+                  <MenuItem value={4} primaryText="4" />
+                  <MenuItem value={5} primaryText="5" />
+                  <MenuItem value={6} primaryText="6" />
+                  <MenuItem value={7} primaryText="7" />
+                  <MenuItem value={8} primaryText="8" />
+                  <MenuItem value={9} primaryText="9" />
+                  <MenuItem value={10} primaryText="10" />
+                </SelectField>
+                  <DatePicker
+                    hintText="Due Date"
+                    value={this.state.dueDate}
+                    onChange={this.updateDueDate}
+                    />
               </Flexbox>
             </CardText>
             <CardActions>
