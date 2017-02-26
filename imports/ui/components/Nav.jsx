@@ -110,16 +110,16 @@ class Nav extends Component {
 
     return (
       <MuiThemeProvider>
-        <Flexbox alignSelf='center'>
+        <Flexbox flexDirection='row' className='navContainer'>
           <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
             Are you sure ?
           </Dialog>
-          <Menu>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-user-circle" style={{padding: '-12px'}}/>} onClick={this.routeProfile}>Profile</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-home" style={{padding: '-12px'}}/>} onClick={this.routeHome}>Home</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-cog" style={{padding: '-12px'}} tooltip="Settings"/>} onClick={this.routeSettings}>Settings</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out"/>} onClick={this.handleOpenLogout}>Logout</MenuItem>
-          </Menu>
+          <div className='menuBG'>
+            <IconButton iconClassName="fa fa-user-circle" style={{padding: '-12px'}} tooltip="Profile" onClick={this.routeProfile}/>
+            <IconButton iconClassName="fa fa-home" style={{padding: '-12px'}} tooltip="Home" onClick={this.routeHome}/>
+            <IconButton iconClassName="fa fa-cog" style={{padding: '-12px'}} tooltip="Settings" onClick={this.routeSettings}/>
+            <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
+          </div>
           <Snackbar
             open={this.state.snackbar}
             message={this.state.message}

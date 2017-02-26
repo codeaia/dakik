@@ -32,9 +32,9 @@ class App extends Component {
     if (this.props.currentUser !== undefined) {
       if (this.state.route == 'timer') {
         return (
-          <Flexbox>
+          <Flexbox flexDirection='column'>
             <Nav/>
-            <Flexbox flexDirection='column' className='fullWidth'>
+            <Flexbox flexDirection='column' className='timerContainer'>
               <Timer currentUser={this.props.currentUser}/>
               <TaskViewContainer/>
             </Flexbox>
@@ -42,7 +42,7 @@ class App extends Component {
         );
       } else if(this.state.route == 'statistics') {
         return (
-          <Flexbox>
+          <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
               <Profile currentUser={this.props.currentUser}/>
@@ -52,7 +52,7 @@ class App extends Component {
         );
       } else if(this.state.route == 'settings'){
         return (
-          <Flexbox>
+          <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
               <IntegrationAuth/>
@@ -62,7 +62,7 @@ class App extends Component {
         );
       } else if(this.state.route == 'taskNew'){
         return (
-          <Flexbox>
+          <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
               <TaskNew/>
