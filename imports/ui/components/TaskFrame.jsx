@@ -9,8 +9,17 @@ import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardText} from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import DatePicker from 'material-ui/DatePicker';
+import Flexbox from 'flexbox-react';
 
 import { Tasks } from '../../api/tasks.js';
+
+const customContentStyle = {
+  width: '30%',
+  maxWidth: 'none',
+};
 
 export default class TaskFrame extends Component {
   constructor(props) {
@@ -23,6 +32,11 @@ export default class TaskFrame extends Component {
       popup: false,
       popupEdit: false,
       popup2: false,
+
+      taskName: '',
+      taskPriority: 0,
+      taskGoal: 0,
+      dueDate: null,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
@@ -33,7 +47,14 @@ export default class TaskFrame extends Component {
     this.openPopup = this.openPopup.bind(this);
     this.openEditTask = this.openEditTask.bind(this);
     this.closePopup = this.closePopup.bind(this);
-    this.closePopup2 = this.closePopup.bind(this);
+    this.closePopup2 = this.closePopup2.bind(this);
+    this.openEditPopup = this.openEditPopup.bind(this);
+    this.editNewDetails = this.editNewDetails.bind(this);
+
+    this.updateTaskName = this.updateTaskName.bind(this);
+    this.updatePriority = this.updatePriority.bind(this);
+    this.updateTaskGoal = this.updateTaskGoal.bind(this);
+    this.updateDueDate = this.updateDueDate.bind(this);
 
     console.log(this.props.task);
   }
@@ -74,9 +95,62 @@ export default class TaskFrame extends Component {
     });
   }
 
-  closePopop2() {
+  closePopup2() {
     this.setState({
-      popup: false
+      popup2: false
+    });
+  }
+
+  updateTaskName(e){
+    this.setState({
+      taskName: e.target.value
+    });
+  }
+
+  updatePriority(event, index, value){
+    this.setState({
+      taskPriority: value
+    });
+  }
+
+  updateTaskGoal(event, index, value) {
+    this.setState({
+      taskGoal: value
+    });
+  }
+
+  updateDueDate(event, date) {
+    this.setState({
+      dueDate: date,
+    });
+  }
+
+  editNewDetails() {
+    const taskId = this.props.task._id;
+
+    const taskName = this.state.taskName;
+    const taskPriority = this.state.taskPriority;
+    const taskGoal = this.state.taskGoal;
+    const dueDate = this.state.dueDate;
+
+    Tasks.update(
+      {_id: taskId},
+      {$set: {
+        taskName,
+        taskPriority,
+        taskGoal,
+        dueDate,
+        }
+      }
+    );
+
+    this.closePopup2();
+  }
+
+  openEditPopup() {
+    this.setState({
+      popup: false,
+      popup2: true
     });
   }
 
@@ -114,7 +188,7 @@ export default class TaskFrame extends Component {
       <FlatButton
         label="EDIT"
         primary={true}
-        onTouchTap={this.closePopup}
+        onTouchTap={this.openEditPopup}
       />,
       <FlatButton
         label="START"
@@ -132,7 +206,7 @@ export default class TaskFrame extends Component {
       <FlatButton
         label="SAVE"
         primary={true}
-        onTouchTap={this.closePopup2}
+        onTouchTap={this.editNewDetails}
       />,
     ];
 
@@ -177,7 +251,7 @@ export default class TaskFrame extends Component {
                 Priority: {this.props.task.taskPriority} <br />
                 Pomotime: {this.props.task.totalPomos} <br />
                 Estimated Pomos: {this.props.task.taskGoal} <br />
-                Due Date: {this.props.task.newDate.getDate()}-{this.props.task.newDate.getMonth()}-{this.props.task.newDate.getFullYear()}
+              Due Date: {this.props.task.dueDate.getDate()}-{this.props.task.dueDate.getMonth()}-{this.props.task.dueDate.getFullYear()}
               </CardText>
             </Card>
           </Dialog>
@@ -187,7 +261,51 @@ export default class TaskFrame extends Component {
             modal={false}
             open={this.state.popup2}
             onRequestClose={this.closePopup2}
+            contentStyle={customContentStyle}
             >
+            <CardText>
+              <Flexbox flexDirection="column">
+                <TextField
+                  name={this.state.taskName}
+                  type="text"
+                  onChange={this.updateTaskName}
+                  floatingLabelText="Task Name"
+                  />
+                <SelectField
+                  floatingLabelText="Priority"
+                  value={this.state.taskPriority}
+                  onChange={this.updatePriority}
+                  >
+                  <MenuItem value={0} primaryText="0 (No Priority)" />
+                  <MenuItem value={1} primaryText="1 (Urgent)" />
+                  <MenuItem value={2} primaryText="2 (Today)" />
+                  <MenuItem value={3} primaryText="3 (This Week)" />
+                  <MenuItem value={4} primaryText="4 (This Month)" />
+                  <MenuItem value={5} primaryText="5 (Any Time)" />
+                </SelectField>
+                <SelectField
+                  floatingLabelText="Task Goal"
+                  value={this.state.taskGoal}
+                  onChange={this.updateTaskGoal}
+                  >
+                  <MenuItem value={1} primaryText="1" />
+                  <MenuItem value={2} primaryText="2" />
+                  <MenuItem value={3} primaryText="3" />
+                  <MenuItem value={4} primaryText="4" />
+                  <MenuItem value={5} primaryText="5" />
+                  <MenuItem value={6} primaryText="6" />
+                  <MenuItem value={7} primaryText="7" />
+                  <MenuItem value={8} primaryText="8" />
+                  <MenuItem value={9} primaryText="9" />
+                  <MenuItem value={10} primaryText="10" />
+                </SelectField>
+                  <DatePicker
+                    hintText="Due Date"
+                    value={this.state.dueDate}
+                    onChange={this.updateDueDate}
+                    />
+              </Flexbox>
+            </CardText>
           </Dialog>
           <Snackbar
             open={this.state.snackbar}
