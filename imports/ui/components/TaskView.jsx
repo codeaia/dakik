@@ -32,7 +32,9 @@ export default class TaskView extends Component {
   }
 
   routeNewTask(){
-    FlowRouter.go('/taskNew/');
+    Session.set({
+      "route": "taskNew"
+    });
   }
 
   renderTasks(){

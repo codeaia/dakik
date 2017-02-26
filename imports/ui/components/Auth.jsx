@@ -220,25 +220,26 @@ export default class Auth extends Component {
 
 render() {
   return (
-    <MuiThemeProvider>
-      <div className="auth">
-        <Tabs>
-          <Tab label="Sign In">
-            <Card>
-              <CardText>
-                <Flexbox flexDirection="column">
-                  <TextField
-                    name="signinUsername"
-                    type="text"
-                    onChange = {this.updateSigninUsername}
-                    floatingLabelText = "Username"
-                  />
-                  <TextField
-                    name="signinPassword"
-                    type="password"
-                    onChange = {this.updateSigninPassword}
-                    floatingLabelText = "Password"
-                    className = "textfield" />
+    <div className="fullHeight">
+      <MuiThemeProvider>
+        <div className="auth">
+          <Tabs>
+            <Tab label="Sign In">
+              <Card>
+                <CardText>
+                  <Flexbox flexDirection="column">
+                    <TextField
+                      name="signinUsername"
+                      type="text"
+                      onChange = {this.updateSigninUsername}
+                      floatingLabelText = "Username"
+                    />
+                    <TextField
+                      name="signinPassword"
+                      type="password"
+                      onChange = {this.updateSigninPassword}
+                      floatingLabelText = "Password"
+                      className = "textfield" />
                   </Flexbox>
                 </CardText>
                 <CardActions>
@@ -295,6 +296,7 @@ render() {
           />
         </div>
       </MuiThemeProvider>
+    </div>    
     );
   }
 }

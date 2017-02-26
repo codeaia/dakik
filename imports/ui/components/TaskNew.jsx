@@ -40,7 +40,9 @@ class TaskNew extends Component {
   }
 
   cancelAdding(){
-    FlowRouter.go('/');
+    Session.set({
+      "route": "timer"
+    });
   }
 
   addNewTask(event){
@@ -70,7 +72,9 @@ class TaskNew extends Component {
       createdAt: new Date(), // current time
     });
 
-    FlowRouter.go('/');
+    Session.set({
+      "route": "timer"
+    });
   }
 
   render() {

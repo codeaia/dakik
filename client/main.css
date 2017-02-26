@@ -10,17 +10,13 @@ html, body {
   height: 100%;
 }
 
-.card {
-    display: block;
-    padding: 2px;
+.fullWidth {
+  width: 100%;
 }
 
-.output {
-    padding: 4px;
-}
-
-#contentLayoutPullD{
-  margin-top: 0em;
+.taskNewContainer {
+  align-items: center;
+  width: 100%;
 }
 
 :root {
@@ -28,131 +24,11 @@ html, body {
   --main-light: #1DE9B6;
 }
 
-#errNumber{
-  font-family:Roboto, sans-serif;
-  font-size: 25em;
-  color: #80DEEA;
-  margin-top:0em;
-  margin-bottom:0em;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-#errText{
-  font-family:Roboto, sans-serif;
-  font-size: 10em;
-  color: #4DD0E1;
-  margin-top:-.9em;
-  margin-bottom:0em;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.appBar {
-  position:fixed;
-  width:100%;
-  z-index:1111;
-  margin-bottom:10px;
-}
-.appBarComp {
-  margin-top:-.5em;
-  margin-left:-.5em;
-}
-
-.ths {
-  width: 20%;
-}
-
-.appHeader{
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
 .chatBox{
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;;
   height: 100%;
-}
-
-.Nav{
-  width: 100%;
-  align-items: center;
-  flex-direction:column;
-}
-
-.navIcons{
-  font-size: 5em;
-  color: var(--main-light);
-  flex-direction: row;
-  justify-content:space-around;
-  width: 65%;
-}
-
-.navIcons *{
-  margin-top: 10%;
-  margin-bottom: 10%;
-  width: 100%;
-  padding-top: 2.5%;
-}
-
-.drawer{
-  height: 100%;
-}
-
-.drawerButton {
-  align-self: flex-start;
-  font-size: 3em;
-  color: var(--main-dark);
-}
-
-.navIcons *:hover{
-}
-
-.nIconCont{
-
-}
-
-.nIconCont:hover{
-  color: var(--main-dark);
-  /* background-color: rgba(255, 255, 255,.3);*/
-  transition: all 0.3s ease;
-}
-
-.nIconCont.curr{
-  -webkit-box-shadow: 0px -5px 0px 0px var(--main-dark);
-  -moz-box-shadow: 0px -5px 0px 0px var(--main-dark);
-  box-shadow: 0px -5px 0px 0px var(--main-dark);
-  color:var(--main-dark);
-  /*background-color: rgba(255, 255, 255,.3);*/
-}
-
-/*----------------------   Home Page  -----------------------*/
-.homeTitle{
-  display: flex;
-  flex-direction: row;
-  justify-content:space-between;
-  align-items: center;
-  width: 90%;
-}
-
-.homeTitle *{
-  padding-top: -20%;
-
-}
-
-.tIcon{
-  color: var(--main-dark);
-  font-size: 2.5em;
-}
-
-.title{
-  font-family: 'Raleway', sans-serif;
-  font-size: 8em;
-  color: var(--main-dark);
-  font-weight: 100;
 }
 
 .timerContainers {
@@ -170,18 +46,14 @@ html, body {
 }
 
 .clockText{
-  padding-top: 175px;
-  margin-bottom: -215px;
+  margin-top: -2.5em;
+  margin-bottom: 1.5em;
 }
 
 .circular {
   left: 0;
   width: 100%;
   text-align: center;
-}
-
-#TagMenuIcon{
-
 }
 
 .appBody{
@@ -192,39 +64,6 @@ html, body {
   align-items: center;
 }
 
-.tagFrame{
-  flex-direction: column;
-  justify-content:space-around;
-  width: 80%;
-  background-color: rgb(4, 157, 97);
-  align-items: center;
-  padding-bottom: 5%;
-}
-
-.tagFrameHeader{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-}
-.tagFrameBody{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.tagName{
-  font-family: 'Raleway', sans-serif;
-  font-size: 2em;
-  color: white;
-  font-weight: 400;
-  align-self: flex-start;
-  margin-top: 0px;
-  margin-bottom: 0px
-}
-
 .addButton{
   font-family: 'Raleway', sans-serif;
   align-self: flex-start;
@@ -233,26 +72,6 @@ html, body {
   opacity: .8;
 }
 
-.addButton:hover{
-  opacity: 1;
-}
-
-.totalPomos{
-  font-family: 'Raleway', sans-serif;
-  font-size: 1.5em;
-  color: white;
-  font-weight: 800;
-  background-color: black;
-  opacity: .5;
-  align-self:flex-start;
-  padding:0.5em;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.taskFrame:before{
-
-}
 
 .taskFrame{
   transition: all 0.3s ease;
@@ -319,147 +138,6 @@ html, body {
   width: 80%;
 }
 
-/* ---------------------   Edit New task   -----------------------*/
-.taskEdit{
-  flex-direction: column;
-  background-color:var(--main-dark);
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
-
-.taskNameCont{
-  flex-direction: row;
-  align-content:center;
-  margin-top: 5em;
-  margin-bottom: 2em;
-  width: 50%;
-}
-
-.priority{
-  width: 80%;
-  margin-top: 4em;
-}
-
-.taskPrefs{
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
-  font-size: 3em;
-}
-
-.taskPrefEach{
-  flex-direction: column;
-  justify-content: space-between;
-  margin: .5em;
-  margin-top: 1.5em;
-
-}
-
-.prefName{
-  font-family: 'Raleway', sans-serif;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: white;
-  text-align:center;
-  border: none;
-  align-self: flex-end;
-}
-
-.resetButton{
-  background-color: rgba(0, 0, 0,0);
-  font-family: 'Raleway', sans-serif;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  adding-left: 10px;
-  padding-right: 10px;
-  color: white;
-  text-align:center;
-  border: none;
-  font-size: 1em;
-}
-
-.prefValue{
-  background-color: rgba(0, 0, 0,.5);
-  font-family: 'Raleway', sans-serif;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: white;
-  text-align:center;
-  border: none;
-  align-self: flex-start;
-}
-
-.totalPomosPref{
-  display: flex;
-  flex-direction: row;
-}
-
-.sTagsButtonCont{
-  margin: 2em;
-  width: 80%;
-  justify-content: center;
-  margin-bottom: 6em;
-}
-
-.sTagsButton{
-  background-color: rgba(0, 0, 0,.5);
-  font-family: 'Raleway', sans-serif;
-  padding: 10px;
-  color: white;
-  text-align:center;
-  border: none;
-  font-size: 4em;
-  margin-top: 1em;
-}
-
-
-.ownTags{
-  flex-direction: row;
-  width: 80%;
-  justify-content: center;
-}
-
-.ownTags .tagName{
-  font-family: 'Raleway', sans-serif;
-  font-size: 3em;
-  color: white;
-  margin-top: 1px;
-  margin-bottom: 1em;
-  padding: .3em;
-  border: none;
-}
-
-.bottomNav{
-  flex-direction: row;
-  width: 100%;
-}
-
-.bottomNav button{
-  border: none;
-  width: 100%;
-  font-family: 'Raleway', sans-serif;
-  padding: 3%;
-  color: white;
-  text-align:center;
-  border: none;
-  font-size: 4em;
-  margin-top: 10%;
-}
-
-.cancel{
-  background-color: rgba(0, 0, 0,.5);
-}
-
-.ok{
-  background-color: green;
-}
 
 /*-----------------------  Tag View -----------------------------*/
 .tagView{
@@ -525,11 +203,8 @@ html, body {
   height: 100%;
 }
 
-.drawerAnim1 *{
-}
+.drawer *{
 
-.drawerAnim1:hover{
-  background-color: rgba(164, 255, 255, 0.45);
 }
 
 /* ---------------------    Animations  --------------------------*/

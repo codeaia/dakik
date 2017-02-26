@@ -17,16 +17,17 @@ export default class TaskFrame extends Component {
       snackbar: false,
       message: 'error',
       checked: false,
+      popup: false,
+      popupEdit: false,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
     this.toggleChecked = this.toggleChecked.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.routeEdit = this.routeEdit.bind(this);
-    this.handleShare = this.handleShare.bind(this);
     this.getStatus = this.getStatus.bind(this);
+    this.openPopup = this.openPopup.bind(this);
+    this.openEditTask = this.openEditTask.bind(this);
   }
 
   componentDidMount(){
@@ -53,6 +54,19 @@ export default class TaskFrame extends Component {
     });
   }
 
+  openPopup(){
+    this.setState({
+      popup: true
+    });
+  }
+
+  openEditTask(){
+    this.setState({
+      popup: false,
+      popupEdit: true
+    });
+  }
+
   toggleChecked() {
     this.setState({
       checked: !this.state.checked
@@ -61,24 +75,6 @@ export default class TaskFrame extends Component {
     Tasks.update(this.props.task._id, {
       $set: { checked: !this.state.checked },
     });
-  }
-
-  handleDelete() {
-    this.updateSnackbarText('Task deleted');
-    this.openSnackbar();
-    Tasks.remove(this.props.task._id);
-  }
-
-  routeEdit(){
-    const route1 = "/taskEdit/";
-    const route2 = this.props.task._id;
-    const route = route1.concat(route2);
-    FlowRouter.go(route);
-  }
-
-  handleShare(){
-    this.updateSnackbarText('Not yet implemented');
-    this.openSnackbar();
   }
 
   getStatus(){
@@ -97,14 +93,6 @@ export default class TaskFrame extends Component {
       />
     );
 
-    const rightIconMenu = (
-      <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem onTouchTap={this.handleShare}>Share</MenuItem>
-        <MenuItem onTouchTap={this.routeEdit}>Edit</MenuItem>
-        <MenuItem onTouchTap={this.handleDelete}>Delete</MenuItem>
-      </IconMenu>
-    );
-
     const leftCheckbox = (
       <Checkbox
         checked={this.state.checked}
@@ -118,7 +106,8 @@ export default class TaskFrame extends Component {
           <ListItem
             leftCheckbox={leftCheckbox}
             primaryText={this.props.task.taskName}
-            rightIconButton={rightIconMenu}
+            rightIconButton={<IconButton iconClassName="fa fa-wrench" style={{padding: '-12px'}} onClick={this.openPopup} tooltip="Settings"/>
+            }
             style={{
               textDecoration: this.getStatus()
             }}

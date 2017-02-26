@@ -14,6 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
+import Menu from 'material-ui/Menu';
 
 class Nav extends Component {
   constructor(props) {
@@ -22,28 +23,20 @@ class Nav extends Component {
     this.state = {
       snackbar: Session.get("snackbar"),
       message: Session.get("snackbarMessage"),
-      open: false,
       openLogout: false
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
-
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
 
-    this.handleOpenDrawer = this.handleOpenDrawer.bind(this);
-    this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleCloseLogout = this.handleCloseLogout.bind(this);
     this.handleOpenLogout = this.handleOpenLogout.bind(this);
 
     this.routeProfile = this.routeProfile.bind(this);
     this.routeHome = this.routeHome.bind(this);
-    this.routeTasks = this.routeTasks.bind(this);
-    this.routeStatistics = this.routeStatistics.bind(this);
     this.routeSettings = this.routeSettings.bind(this);
-    this.routeAbout = this.routeAbout.bind(this);
-    this.routeIntegrations = this.routeIntegrations.bind(this);
   }
 
   updateSnackbarText(value){
@@ -64,14 +57,6 @@ class Nav extends Component {
     });
   }
 
-  handleOpenDrawer(){
-    this.setState({open: true});
-  }
-
-  handleCloseDrawer(){
-    this.setState({open: false});
-  }
-
   handleOpenLogout(){
     this.setState({openLogout: true});
   }
@@ -80,20 +65,22 @@ class Nav extends Component {
     this.setState({openLogout: false});
   }
 
-  routeAbout(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/about');
+  routeHome(){
+    Session.set({
+      "route": "timer"
+    });
   }
 
   routeProfile(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/profile');
+    Session.set({
+      "route": "statistics"
+    });
   }
 
   routeSettings(){
-
-    this.handleCloseDrawer();
-    FlowRouter.go('/settings');
+    Session.set({
+      "route": "settings"
+    });
   }
 
   handleLogout(){
@@ -105,26 +92,6 @@ class Nav extends Component {
         FlowRouter.go('/auth');
       }
     });
-  }
-
-  routeHome(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/');
-  }
-
-  routeTasks(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/tasks');
-  }
-
-  routeIntegrations(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/integrations');
-  }
-
-  routeStatistics(){
-    this.handleCloseDrawer();
-    FlowRouter.go('/statistics');
   }
 
   render() {
@@ -143,44 +110,16 @@ class Nav extends Component {
 
     return (
       <MuiThemeProvider>
-        <Flexbox className="Nav" id="Nav" style={{backgroundColor: this.props.color}}>
-          <Flexbox className="drawerButton">
-            <IconButton iconClassName="fa fa-bars" onTouchTap={this.handleOpenDrawer}/>
-          </Flexbox>
-          <Dialog
-            actions={actions}
-            modal={false}
-            open={this.state.openLogout}
-            onRequestClose={this.handleCloseLogout}
-            >
+        <Flexbox>
+          <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
             Are you sure ?
           </Dialog>
-          <Drawer
-            docked={false}
-            width={300}
-            open={this.state.open}
-            onRequestChange={(open) => this.setState({open})}
-            className = "drawer"
-            >
-            <Card>
-              <CardHeader
-                title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
-                subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
-                avatar="/jsa-128.jpg"
-                onTouchTap={this.routeProfile}
-                className="drawerAnim1"
-                />
-              <CardActions>
-                <IconButton iconClassName="fa fa-cog" style={{padding: '-12px'}} onClick={this.routeSettings} tooltip="Settings"/>
-                <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} onClick={this.handleOpenLogout} tooltip="Log out"/>
-              </CardActions>
-            </Card>
+          <Menu>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-user-circle" style={{padding: '-12px'}}/>} onClick={this.routeProfile}>Profile</MenuItem>
             <MenuItem leftIcon={<IconButton iconClassName="fa fa-home" style={{padding: '-12px'}}/>} onClick={this.routeHome}>Home</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-list-ul" style={{padding: '-12px'}}/>} onClick={this.routeTasks}>Tasks</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-link" style={{padding: '-12px'}}/>} onClick={this.routeIntegrations}>Integrations</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-bar-chart" style={{padding: '-12px'}}/>} onClick={this.routeStatistics}>Statistics</MenuItem>
-            <MenuItem leftIcon={<IconButton iconClassName="fa fa-info-circle" style={{padding: '-12px'}}/>} onClick={this.routeAbout}>About</MenuItem>
-          </Drawer>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-cog" style={{padding: '-12px'}} tooltip="Settings"/>} onClick={this.routeSettings}>Settings</MenuItem>
+            <MenuItem leftIcon={<IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out"/>} onClick={this.handleOpenLogout}>Logout</MenuItem>
+          </Menu>
           <Snackbar
             open={this.state.snackbar}
             message={this.state.message}

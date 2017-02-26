@@ -8,10 +8,22 @@ export default class Clock extends Component {
 
     this.getMinutes = this.getMinutes.bind(this);
     this.getSeconds = this.getSeconds.bind(this);
+    this.drawMinutes = this.drawMinutes.bind(this);
+    this.drawSeconds = this.drawSeconds.bind(this);
   }
 
   getMinutes(){
-    var temp = 25 - Math.floor(parseInt(this.props.elapsedTime, 10) / 60);
+    var minutes = 25 - this.props.elapsedTime / 60;
+    return parseInt(minutes);
+  }
+
+  getSeconds(){
+    var seconds = (1500 - this.props.elapsedTime) % 60;
+    return parseInt(seconds);
+  }
+
+  drawMinutes(){
+    var temp = this.getMinutes();
     if (temp < 10) {
       return '0' + temp.toString();
     } else {
@@ -19,15 +31,12 @@ export default class Clock extends Component {
     }
   }
 
-  getSeconds(){
-    var minute = 25 - Math.floor(parseInt(this.props.elapsedTime, 10) / 60);
-    var temp = parseInt(this.props.elapsedTime, 10);
-    var seconds = 60 - (temp - (25 - minute) * 60);
-
-    if (seconds < 10) {
-      return '0' + seconds.toString();
+  drawSeconds(){
+    var temp = this.getSeconds();
+    if (temp < 10) {
+      return '0' + temp.toString();
     } else {
-      return seconds;
+      return temp;
     }
   }
 
@@ -35,17 +44,17 @@ export default class Clock extends Component {
     return (
       <MuiThemeProvider>
         <div className="clock">
-          <div className="clockText">
-            {this.getMinutes()}:{this.getSeconds()}
-          </div>
           <div className="circular">
             <CircularProgress
               color="white"
               mode="determinate"
-              value={this.props.elapsedAngle}
+              value={100 - this.props.elapsedAngle}
               size={288}
               thickness={12}
             />
+          </div>
+          <div className="clockText">
+            {this.drawMinutes()}:{this.drawSeconds()}
           </div>
         </div>
       </MuiThemeProvider>
