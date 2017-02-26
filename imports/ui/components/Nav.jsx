@@ -110,7 +110,7 @@ class Nav extends Component {
 
     return (
       <MuiThemeProvider>
-        <Flexbox>
+        <Flexbox alignSelf='center'>
           <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
             Are you sure ?
           </Dialog>
