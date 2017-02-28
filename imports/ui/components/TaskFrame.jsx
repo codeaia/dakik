@@ -194,6 +194,7 @@ export default class TaskFrame extends Component {
     if (this.state.checked) {
       return 'checked';
     }
+    return '';
   }
 
   getStyle(){
