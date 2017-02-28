@@ -1,5 +1,7 @@
 import React, { Component, constructor, State } from 'react';
 import Flexbox from 'flexbox-react';
+import ReactCSSTransition from 'react-addons-css-transition-group';
+
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -148,14 +150,15 @@ export default class Timer extends Component {
   render() {
     if (this.props.currentUser) {
       return (
-        <MuiThemeProvider>
+	    <MuiThemeProvider>
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-              <FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
+            	<FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>
         </MuiThemeProvider>
+
       );
     } else {
       return (

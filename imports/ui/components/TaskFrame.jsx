@@ -44,6 +44,7 @@ export default class TaskFrame extends Component {
     this.closeSnackbar = this.closeSnackbar.bind(this);
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
     this.toggleChecked = this.toggleChecked.bind(this);
+    this.getStyle = this.getStyle.bind(this);
     this.getStatus = this.getStatus.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.openEditTask = this.openEditTask.bind(this);
@@ -189,10 +190,16 @@ export default class TaskFrame extends Component {
       $set: { checked: !this.state.checked },
     });
   }
-
-  getStatus(){
+   getStatus(){
     if (this.state.checked) {
-      return 'line-through';
+      return 'checked';
+    }
+  }
+
+  getStyle(){
+    if (this.state.checked) {
+      return {
+        textDecoration: 'line-through',opacity: ".5"}
     }
   }
 
@@ -248,14 +255,11 @@ export default class TaskFrame extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <ListItem
+          <ListItem className= {"taskListItem " + this.getStatus()}
             leftCheckbox={leftCheckbox}
             primaryText={this.props.task.taskName}
             rightIconButton={<IconButton iconClassName="fa fa-wrench" style={{padding: '-12px'}} onClick={this.openPopup} tooltip="Settings"/>
             }
-            style={{
-              textDecoration: this.getStatus()
-            }}
           />
           <Dialog
             title="TASK DETAILS"
