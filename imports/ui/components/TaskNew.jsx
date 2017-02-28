@@ -63,7 +63,7 @@ class TaskNew extends Component {
     const checked = false;
     const totalPomos = 0;
     const taskGoal = this.state.taskGoal;
-    const newDate = this.state.dueDate;
+    const dueDate = this.state.dueDate;
 
     Session.set({
       "snackbarMessage": "Task added",
@@ -83,7 +83,7 @@ class TaskNew extends Component {
       checked,
       totalPomos,
       taskGoal,
-      newDate,
+      dueDate,
       createdAt: new Date(), // current time
     });
 
@@ -106,7 +106,7 @@ class TaskNew extends Component {
             <CardText>
               <Flexbox flexDirection="column">
                 <TextField
-                  name={this.state.taskName}
+                  value={this.state.taskName}
                   type="text"
                   onChange={this.updateTaskName}
                   floatingLabelText="Task Name"

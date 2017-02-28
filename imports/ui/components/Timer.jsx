@@ -15,11 +15,10 @@ export default class Timer extends Component {
     this.state = {
       playing: true,
       currentUser: null,
-      elapsedTime: 1,
+      elapsedTime: 0,
       elapsedAngle: 0,
     }
 
-    this.toggleClock = this.toggleClock.bind(this);
     this.getIconName = this.getIconName.bind(this);
     this.handleStop = this.handleStop.bind(this);
   }
@@ -38,7 +37,6 @@ export default class Timer extends Component {
         playing: this.props.currentUser.profile.playing,
         elapsedTime: this.props.currentUser.profile.elapsedTime + timeDiff,
         elapsedAngle: this.props.currentUser.profile.elapsedTime / 15,
-
       });
     }else {
       // update the selected task and add 1 pomo time to it
@@ -49,6 +47,16 @@ export default class Timer extends Component {
     });
 
     if (this.state.playing) {
+      this.timer = setTimeout(() => this.progress(), 1000);
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(!this.props.currentUser.profile.playing && nextProps.currentUser.profile.playing && !this.state.playing){
+      this.setState({
+        playing: true,
+        elapsedTime: nextProps.currentUser.profile.elapsedTime,
+      });
       this.timer = setTimeout(() => this.progress(), 1000);
     }
   }
@@ -79,64 +87,53 @@ export default class Timer extends Component {
           elapsedAngle: temp / 15,
         });
         this.timer = setTimeout(() => this.progress(), 1000);
-      } else {
+      } else if(this.state.elapsedTime == 1500){
         this.setState({
           playing: false,
         });
-      }
-    }
-  }
 
-  toggleClock(){
-    if (this.state.playing) {
-      this.setState({
-        playing: false,
-      });
+        var i = this.state.elapsedAngle;
 
-      if (Meteor.user()) {
-        var date = new Date();
+        while (i < 100) {
+          this.state.elapsedAngle = this.state.elapsedAngle + 1;
+          i++;
+        }
+
         const newProfile = this.state.currentUser.profile;
-
         newProfile.playing = false;
-        newProfile.elapsedTime = this.state.elapsedTime;
-        newProfile.updateTime = date.valueOf();
-
+        newProfile.elapsedTime = 0;
+        newProfile.updateTime = null;
+        newProfile.currentTaskId = null;
         Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+
+        const taskId = this.props.task._id;
+        const totalPomos = this.props.task.totalPomos + 1;
+        Tasks.update({_id: taskId},{$set: {totalPomos}});
       }
-    }else {
-      this.setState({
-        playing: true,
-      });
-
-      if (Meteor.user()) {
-        var date = new Date();
-        const newProfile = this.state.currentUser.profile;
-
-        newProfile.playing = true;
-        newProfile.elapsedTime = this.state.elapsedTime;
-        newProfile.updateTime = date.valueOf();
-
-        Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
-      }
-
-      this.timer = setTimeout(() => this.progress(), 1000);
     }
   }
 
   handleStop() {
     this.setState({
       playing: false,
-      elapsedTime: 1,
+      elapsedTime: 0,
       elapsedAngle: 0,
     });
+
+    var i = this.state.elapsedAngle;
+
+    while (i < 100) {
+      this.state.elapsedAngle = this.state.elapsedAngle + 1;
+      i++;
+    }
 
     const newProfile = this.state.currentUser.profile;
 
     newProfile.playing = false;
-    newProfile.elapsedTime = 1;
-    newProfile.updateTime = 0;
+    newProfile.elapsedTime = 0;
+    newProfile.updateTime = null;
+    newProfile.currentTaskId = null;
 
-+
     Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
   }
 
@@ -155,7 +152,6 @@ export default class Timer extends Component {
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-              <FloatingActionButton iconClassName={this.getIconName()} onClick={this.toggleClock}/>
               <FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>

@@ -6,7 +6,7 @@ Meteor.startup(() => {
   injectTapEventPlugin();
 
   Session.set({
-    "route": "settings",
+    "route": "timer",
     "snackbarMessage": "error",
     "snackbar": false,
   });

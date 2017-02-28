@@ -13,6 +13,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import DatePicker from 'material-ui/DatePicker';
 import Flexbox from 'flexbox-react';
+var moment = require('moment');
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -33,10 +34,10 @@ export default class TaskFrame extends Component {
       popupEdit: false,
       popup2: false,
 
-      taskName: '',
-      taskPriority: 0,
-      taskGoal: 0,
-      dueDate: null,
+      taskName: this.props.task.taskName,
+      taskPriority: this.props.task.taskPriority,
+      taskGoal: this.props.task.taskGoal,
+      dueDate: this.props.task.dueDate,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
@@ -55,14 +56,15 @@ export default class TaskFrame extends Component {
     this.updatePriority = this.updatePriority.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
-
-    console.log(this.props.task);
+    this.startPomo = this.startPomo.bind(this);
   }
 
   componentDidMount(){
     this.setState({
       checked: this.props.task.checked,
     });
+
+
   }
 
   updateSnackbarText(value){
@@ -101,19 +103,19 @@ export default class TaskFrame extends Component {
     });
   }
 
-  updateTaskName(e){
+  updateTaskName(event, value){
     this.setState({
-      taskName: e.target.value
+      taskName: value
     });
   }
 
-  updatePriority(event, index, value){
+  updatePriority(event, value){
     this.setState({
       taskPriority: value
     });
   }
 
-  updateTaskGoal(event, index, value) {
+  updateTaskGoal(event, value) {
     this.setState({
       taskGoal: value
     });
@@ -125,9 +127,23 @@ export default class TaskFrame extends Component {
     });
   }
 
+  startPomo(){
+    if (!this.props.currentUser.profile.playing) {
+      var date = new Date();
+      const newProfile = this.props.currentUser.profile;
+
+      newProfile.playing = true;
+      newProfile.elapsedTime = 1490;
+      newProfile.updateTime = date.valueOf();
+      newProfile.currentTaskId = this.props.task._id;
+
+      Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
+      this.closePopup();
+    }
+  }
+
   editNewDetails() {
     const taskId = this.props.task._id;
-
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
     const taskGoal = this.state.taskGoal;
@@ -143,14 +159,17 @@ export default class TaskFrame extends Component {
         }
       }
     );
-
     this.closePopup2();
   }
 
   openEditPopup() {
     this.setState({
       popup: false,
-      popup2: true
+      popup2: true,
+      taskName: this.props.task.taskName,
+      taskPriority: this.props.task.taskPriority,
+      taskGoal: this.props.task.taskGoal,
+      dueDate: this.props.task.dueDate,
     });
   }
 
@@ -178,7 +197,6 @@ export default class TaskFrame extends Component {
   }
 
   render() {
-
     const actions = [
       <FlatButton
         label="CANCEL"
@@ -193,7 +211,8 @@ export default class TaskFrame extends Component {
       <FlatButton
         label="START"
         primary={true}
-        onTouchTap={this.closePopup}
+        disabled={this.props.currentUser.profile.playing ? true : false}
+        onTouchTap={this.startPomo}
       />,
     ];
 
@@ -244,14 +263,14 @@ export default class TaskFrame extends Component {
             modal={false}
             open={this.state.popup}
             onRequestClose={this.closePopup}
-            >
+          >
             <Card>
               <CardText>
                 Task Name: {this.props.task.taskName} <br />
                 Priority: {this.props.task.taskPriority} <br />
                 Pomotime: {this.props.task.totalPomos} <br />
                 Estimated Pomos: {this.props.task.taskGoal} <br />
-              Due Date: {this.props.task.dueDate.getDate()}-{this.props.task.dueDate.getMonth()}-{this.props.task.dueDate.getFullYear()}
+                Due Date: {moment(this.props.task.dueDate).format("MMM Do YY")}
               </CardText>
             </Card>
           </Dialog>
@@ -262,20 +281,21 @@ export default class TaskFrame extends Component {
             open={this.state.popup2}
             onRequestClose={this.closePopup2}
             contentStyle={customContentStyle}
-            >
+          >
             <CardText>
               <Flexbox flexDirection="column">
                 <TextField
-                  name={this.state.taskName}
+                  id="edit-task-name"
+                  value={this.state.taskName}
                   type="text"
                   onChange={this.updateTaskName}
                   floatingLabelText="Task Name"
-                  />
+                />
                 <SelectField
                   floatingLabelText="Priority"
                   value={this.state.taskPriority}
                   onChange={this.updatePriority}
-                  >
+                >
                   <MenuItem value={0} primaryText="0 (No Priority)" />
                   <MenuItem value={1} primaryText="1 (Urgent)" />
                   <MenuItem value={2} primaryText="2 (Today)" />
@@ -287,7 +307,7 @@ export default class TaskFrame extends Component {
                   floatingLabelText="Task Goal"
                   value={this.state.taskGoal}
                   onChange={this.updateTaskGoal}
-                  >
+                >
                   <MenuItem value={1} primaryText="1" />
                   <MenuItem value={2} primaryText="2" />
                   <MenuItem value={3} primaryText="3" />
@@ -299,11 +319,11 @@ export default class TaskFrame extends Component {
                   <MenuItem value={9} primaryText="9" />
                   <MenuItem value={10} primaryText="10" />
                 </SelectField>
-                  <DatePicker
-                    hintText="Due Date"
-                    value={this.state.dueDate}
-                    onChange={this.updateDueDate}
-                    />
+                <DatePicker
+                  hintText="Due Date"
+                  value={this.state.dueDate}
+                  onChange={this.updateDueDate}
+                />
               </Flexbox>
             </CardText>
           </Dialog>

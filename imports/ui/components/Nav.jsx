@@ -110,7 +110,7 @@ class Nav extends Component {
 
     return (
       <MuiThemeProvider>
-        <Flexbox flexDirection='row' className='navContainer'>
+        <div>
           <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
             Are you sure ?
           </Dialog>
@@ -126,7 +126,7 @@ class Nav extends Component {
             autoHideDuration={4000}
             onRequestClose={this.closeSnackbar}
           />
-        </Flexbox>
+        </div>
       </MuiThemeProvider>
     );
   }

@@ -35,7 +35,9 @@ class App extends Component {
           <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='timerContainer'>
-              <Timer currentUser={this.props.currentUser}/>
+              <div className='timer'>
+                <Timer currentUser={this.props.currentUser}/>
+              </div>
               <TaskViewContainer/>
             </Flexbox>
           </Flexbox>
