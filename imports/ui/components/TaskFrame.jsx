@@ -132,7 +132,7 @@ export default class TaskFrame extends Component {
       const newProfile = this.props.currentUser.profile;
 
       newProfile.playing = true;
-      newProfile.elapsedTime = 1200;
+      newProfile.elapsedTime = 0;
       newProfile.updateTime = date.valueOf();
       newProfile.currentTaskId = this.props.task._id;
 
