@@ -14,77 +14,75 @@ import IntegrationAuth from './IntegrationAuth.jsx';
 import Profile from './Profile.jsx';
 import Nav from './Nav.jsx';
 
-
 class App extends Component {
   constructor(props) {
-	super(props);
+	   super(props);
 
-	this.state = {
-	  route: this.props.route,
-	}
+  	this.state = {
+  	  route: this.props.route,
+  	}
   }
 
   componentWillReceiveProps(nextProps){
-	this.setState({
-	  route: nextProps.route,
-	});
+  	this.setState({
+  	  route: nextProps.route,
+  	});
   }
 
   render() {
-	if (this.props.currentUser !== undefined) {
-	  if (this.state.route == 'timer') {
-		return (
-			<Flexbox flexDirection='column'>
-				<Nav/>
-				<ReactCSSTransition
-					transitionName = "fromTopLoad"
-					transitionEnterTimeout = {600}
-					transitionLeaveTimeout = {400}
-				>	
-				<Flexbox flexDirection='column' className='timerContainer'>
-			  		<div className='timer'>
-						<Timer currentUser={this.props.currentUser}/>
-			  		</div>
-			  		<TaskViewContainer/>
-				</Flexbox>
-				</ReactCSSTransition>
-			</Flexbox>
-		);
-	  } else if(this.state.route == 'statistics') {
-		return (
-		  <Flexbox flexDirection='column'>
-			<Nav/>
-			<Flexbox flexDirection='column' className='taskNewContainer'>
-			  <Profile currentUser={this.props.currentUser}/>
-			  <Statistics/>
-			</Flexbox>
-		  </Flexbox>
-		);
-	  } else if(this.state.route == 'settings'){
-		return (
-		  <Flexbox flexDirection='column'>
-			<Nav/>
-			<Flexbox flexDirection='column' className='taskNewContainer'>
-			  <IntegrationAuth/>
-			  <Settings/>
-			</Flexbox>
-		  </Flexbox>
-		);
-	  } else if(this.state.route == 'taskNew'){
-		return (
-		  <Flexbox flexDirection='column'>
-			<Nav/>
-			<Flexbox flexDirection='column' className='taskNewContainer'>
-			  <TaskNew/>
-			</Flexbox>
-		  </Flexbox>
-		);
-	  }
-	} else {
-	  return (
-		<Loading/>
-	  );
-	}
+  	if (this.props.currentUser !== undefined) {
+  	  if (this.state.route == 'timer') {
+  		return (
+  			<Flexbox flexDirection='column'>
+  				<Nav/>
+  				<ReactCSSTransition
+  					transitionName = "fromTopLoad"
+  					transitionEnterTimeout = {600}
+  					transitionLeaveTimeout = {400}>
+            <Flexbox flexDirection='column' className='timerContainer'>
+  			  		<div className='timer'>
+                <Timer currentUser={this.props.currentUser}/>
+  			  		</div>
+  			  		<TaskViewContainer/>
+            </Flexbox>
+  				</ReactCSSTransition>
+  			</Flexbox>
+  		);
+  	  } else if(this.state.route == 'statistics') {
+  		return (
+  		  <Flexbox flexDirection='column'>
+          <Nav/>
+          <Flexbox flexDirection='column' className='taskNewContainer'>
+            <Profile currentUser={this.props.currentUser}/>
+            <Statistics/>
+          </Flexbox>
+  		  </Flexbox>
+  		);
+  	  } else if(this.state.route == 'settings'){
+  		return (
+  		  <Flexbox flexDirection='column'>
+          <Nav/>
+          <Flexbox flexDirection='column' className='taskNewContainer'>
+            <IntegrationAuth/>
+            <Settings/>
+          </Flexbox>
+  		  </Flexbox>
+  		);
+  	  } else if(this.state.route == 'taskNew'){
+  		return (
+  		  <Flexbox flexDirection='column'>
+          <Nav/>
+          <Flexbox flexDirection='column' className='taskNewContainer'>
+            <TaskNew/>
+          </Flexbox>
+  		  </Flexbox>
+  		);
+  	  }
+  	} else {
+  	  return (
+  		<Loading/>
+  	  );
+  	}
   }
 }
 

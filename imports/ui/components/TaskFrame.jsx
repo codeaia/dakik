@@ -64,8 +64,6 @@ export default class TaskFrame extends Component {
     this.setState({
       checked: this.props.task.checked,
     });
-
-
   }
 
   updateSnackbarText(value){
@@ -134,7 +132,7 @@ export default class TaskFrame extends Component {
       const newProfile = this.props.currentUser.profile;
 
       newProfile.playing = true;
-      newProfile.elapsedTime = 1490;
+      newProfile.elapsedTime = 1200;
       newProfile.updateTime = date.valueOf();
       newProfile.currentTaskId = this.props.task._id;
 
@@ -157,50 +155,50 @@ export default class TaskFrame extends Component {
         taskPriority,
         taskGoal,
         dueDate,
-        }
       }
-    );
-    this.closePopup2();
-  }
-
-  openEditPopup() {
-    this.setState({
-      popup: false,
-      popup2: true,
-      taskName: this.props.task.taskName,
-      taskPriority: this.props.task.taskPriority,
-      taskGoal: this.props.task.taskGoal,
-      dueDate: this.props.task.dueDate,
-    });
-  }
-
-  openEditTask(){
-    this.setState({
-      popup: false,
-      popupEdit: true
-    });
-  }
-
-  toggleChecked() {
-    this.setState({
-      checked: !this.state.checked
-    });
-
-    Tasks.update(this.props.task._id, {
-      $set: { checked: !this.state.checked },
-    });
-  }
-   getStatus(){
-    if (this.state.checked) {
-      return 'checked';
     }
-    return '';
-  }
+  );
+  this.closePopup2();
+}
 
-  getStyle(){
-    if (this.state.checked) {
-      return {
-        textDecoration: 'line-through',opacity: ".5"}
+openEditPopup() {
+  this.setState({
+    popup: false,
+    popup2: true,
+    taskName: this.props.task.taskName,
+    taskPriority: this.props.task.taskPriority,
+    taskGoal: this.props.task.taskGoal,
+    dueDate: this.props.task.dueDate,
+  });
+}
+
+openEditTask(){
+  this.setState({
+    popup: false,
+    popupEdit: true
+  });
+}
+
+toggleChecked() {
+  this.setState({
+    checked: !this.state.checked
+  });
+
+  Tasks.update(this.props.task._id, {
+    $set: { checked: !this.state.checked },
+  });
+}
+getStatus(){
+  if (this.state.checked) {
+    return 'checked';
+  }
+  return '';
+}
+
+getStyle(){
+  if (this.state.checked) {
+    return {
+      textDecoration: 'line-through',opacity: ".5"}
     }
   }
 
@@ -340,6 +338,6 @@ export default class TaskFrame extends Component {
           />
         </div>
       </MuiThemeProvider>
-    );
-  }
-}
+          );
+        }
+      }

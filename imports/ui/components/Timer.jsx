@@ -2,10 +2,11 @@ import React, { Component, constructor, State } from 'react';
 import Flexbox from 'flexbox-react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+
+import { Tasks } from '../../api/tasks.js';
 
 import Loading from './Loading.jsx';
 import Clock from './Clock.jsx';
@@ -89,27 +90,13 @@ export default class Timer extends Component {
           elapsedAngle: temp / 15,
         });
         this.timer = setTimeout(() => this.progress(), 1000);
-      } else if(this.state.elapsedTime == 1500){
-        this.setState({
-          playing: false,
-        });
+      } else if(this.state.elapsedTime >= 1500){
+        this.handleStop();
 
-        var i = this.state.elapsedAngle;
+        const taskId = this.props.currentUser.profile.currentTaskId;
+        const temp = Tasks.findOne({_id: taskId});
+        const totalPomos = temp.totalPomos + 1;
 
-        while (i < 100) {
-          this.state.elapsedAngle = this.state.elapsedAngle + 1;
-          i++;
-        }
-
-        const newProfile = this.state.currentUser.profile;
-        newProfile.playing = false;
-        newProfile.elapsedTime = 0;
-        newProfile.updateTime = null;
-        newProfile.currentTaskId = null;
-        Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
-
-        const taskId = this.props.task._id;
-        const totalPomos = this.props.task.totalPomos + 1;
         Tasks.update({_id: taskId},{$set: {totalPomos}});
       }
     }
@@ -119,15 +106,8 @@ export default class Timer extends Component {
     this.setState({
       playing: false,
       elapsedTime: 0,
-      elapsedAngle: 0,
+      elapsedAngle: 0
     });
-
-    var i = this.state.elapsedAngle;
-
-    while (i < 100) {
-      this.state.elapsedAngle = this.state.elapsedAngle + 1;
-      i++;
-    }
 
     const newProfile = this.state.currentUser.profile;
 
@@ -150,11 +130,11 @@ export default class Timer extends Component {
   render() {
     if (this.props.currentUser) {
       return (
-	    <MuiThemeProvider>
+        <MuiThemeProvider>
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-            	<FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
+              <FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>
         </MuiThemeProvider>
