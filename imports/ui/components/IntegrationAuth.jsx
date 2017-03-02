@@ -1,13 +1,25 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, PropTypes, constructor, State } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import WunderlistApi from './WunderlistApi.jsx';
 
+import { Tasks } from '../../api/tasks.js';
+
 export default class IntegrationAuth extends Component {
   constructor(props) {
     super(props);
+
+    Meteor.subscribe('tasks');
+
+    this.connectToTrello = this.connectToTrello.bind(this);
+    this.exitFromTrello = this.exitFromTrello.bind(this);
+    this.updateLogin = this.updateLogin.bind(this);
+    this.handleDisabled = this.handleDisabled.bind(this);
+    this.handleDisabled2 = this.handleDisabled2.bind(this);
+    this.addToDatabase = this.addToDatabase.bind(this);
 
     Trello.authorize({
       interactive:false,
@@ -27,25 +39,18 @@ export default class IntegrationAuth extends Component {
     }
 
     Trello.authorize({
-      interactive:false,
-      success: this.onAuthorize2
+      interactive:false
     });
-
-    this.connectToTrello = this.connectToTrello.bind(this);
-    this.onAuthorize = this.onAuthorize.bind(this);
-    this.onAuthorize2 = this.onAuthorize2.bind(this);
-    this.exitFromTrello = this.exitFromTrello.bind(this);
-    this.updateLogin = this.updateLogin.bind(this);
-    this.handleDisabled = this.handleDisabled.bind(this);
-    this.handleDisabled2 = this.handleDisabled2.bind(this);
   }
 
   connectToTrello(){
     Trello.authorize({
       name: "PROJECT",
-      type: "popup",
-      success: this.onAuthorize
+      type: "popup"
     })
+
+    this.handleDisabled();
+    this.handleDisabled2();
   }
 
   updateLogin() {
@@ -56,89 +61,73 @@ export default class IntegrationAuth extends Component {
 
   exitFromTrello() {
     Trello.deauthorize();
-    $(".output").empty();
     this.handleDisabled2();
     this.handleDisabled();
   }
 
-  onAuthorize() {  // Boardları yazdıracağımız yer
-    this.handleDisabled();
-    this.handleDisabled2();
-
-    $(".output").empty();
-
-    Trello.members.get("me", function(member){
-        //$("#fullName").text(member.fullName);
-
-        var $cards = $("<div>")
-            .text("Loading Cards...")
-            .appendTo(".output");
-
-        // Output a list of all of the cards that the member
-        // is assigned to
-        //Trello.get("lists/5853d4b1d571299a7aeeb3d5/cards", function(cards) { Belirli bir listedeki cardları alıyo
-        //Trello.get("boards/581379388d608e841d188d97/cards", function(cards) {  Bütün cardları alıyo
-        Trello.get("/member/me/boards", function(cards) {
-            $cards.empty();
-            $.each(cards, function(ix, card) {
-                $("<a>")
-                .attr({href: card.url, target: "trello"})
-                .addClass("card")
-                .text(card.name)
-                .appendTo($cards);
-            });//each
-        });//Trello.get ++ boards
-    });//Trello.get ++ name
-  }
-
-  onAuthorize2() {
-    $(".output").empty();
+  addToDatabase() {
+    const ownerId = this.props.currentUser._id;
+    const checked = false;
+    const taskPriority = 0;
+    const totalPomos = 0;
+    const taskGoal = 0;
+    const newDate = new Date();
+    const dueDate = new Date();
 
     Trello.members.get("me", function(member){
-        //$("#fullName").text(member.fullName);
+      Trello.get("/member/me/boards", function(boards) {
+        for(i=0;i<boards.length;i++) {
+          Trello.get('/boards/' + boards[i].id + '/lists', function(lists) {
+            for(x=0;x<lists.length;x++) {
+              Trello.get('/lists/' + lists[x].id + '/cards', function(cards) {
+                for(y=0;y<cards.length;y++) {
+                  const taskName = cards[y].name;
 
-        var $cards = $("<div>")
-            .text("Loading Cards...")
-            .appendTo(".output");
-
-        // Output a list of all of the cards that the member
-        // is assigned to
-        //Trello.get("lists/5853d4b1d571299a7aeeb3d5/cards", function(cards) { Belirli bir listedeki cardları alıyo
-        //Trello.get("boards/581379388d608e841d188d97/cards", function(cards) {  Bütün cardları alıyo
-        Trello.get("/member/me/boards", function(cards) {
-            $cards.empty();
-            $.each(cards, function(ix, card) {
-                $("<a>")
-                .attr({href: card.url, target: "trello"})
-                .addClass("card")
-                .text(card.name)
-                .appendTo($cards);
-            });//each
-        });//Trello.get ++ boards
+                  Tasks.insert({
+                    ownerId,
+                    taskName,
+                    taskPriority,
+                    checked,
+                    totalPomos,
+                    taskGoal,
+                    newDate,
+                    dueDate,
+                    createdAt: new Date(), // current time
+                  });
+                }
+              });
+            }
+          });//Trello.get ++ lists
+        }
+      });//Trello.get ++ boards
     });//Trello.get ++ name
   }
 
   handleDisabled() {
-    this.setState({disabled: !this.state.disabled});
+    if (this.refs.myRef) {
+      this.setState({disabled: !this.state.disabled});
+    }
   }
 
   handleDisabled2() {
-    this.setState({disabled2: !this.state.disabled2});
+    if (this.refs.myRef) {
+      this.setState({disabled2: !this.state.disabled2});
+    }
   }
 
   render() {
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider ref="myRef">
         <Flexbox flexDirection="column">
           <Tabs>
             <Tab label="Trello">
-                <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
-                <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
-                <div className="output"></div>
+              <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
+              <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
+              <FlatButton label="Sync" onTouchTap={this.addToDatabase}/>
             </Tab>
             <Tab label="Wunderlist">
               <div>
-                <WunderlistApi />
+                <WunderlistApi currentUser={this.props.currentUser} task={this.props.task}/>
               </div>
             </Tab>
           </Tabs>
