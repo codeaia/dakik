@@ -222,7 +222,7 @@ render() {
   return (
     <div className="fullHeight">
       <MuiThemeProvider>
-        <div className="auth">
+        <Flexbox className="auth">
           <Tabs>
             <Tab label="Sign In">
               <Card>
@@ -294,9 +294,9 @@ render() {
             autoHideDuration={4000}
             onRequestClose={this.closeSnackbar}
           />
-        </div>
+        </Flexbox>
       </MuiThemeProvider>
-    </div>    
+    </div>
     );
   }
 }

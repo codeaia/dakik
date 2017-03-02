@@ -1,7 +1,6 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, constructor} from 'react';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {List, ListItem} from 'material-ui/List';
 
@@ -47,44 +46,54 @@ export default class About extends Component {
                 </List>
               </div>
             </Tab>
+            <Tab label="Team">
+              <div style={styles.background}>
+                <List>
+                  <ListItem key={5} primaryText="Abdullah Öğük" secondaryText="UI Designer"/>
+                  <ListItem key={1} primaryText="Ahmet Kaşif" secondaryText="Developer"/>
+                  <ListItem key={2} primaryText="İbrahim Konuk" secondaryText="Artist"/>
+                  <ListItem key={4} primaryText="Hilmi Araz" secondaryText="Integrator"/>
+                  <ListItem key={3} primaryText="Uğur Kafalı" secondaryText="Integrator"/>
+                </List>
+              </div>
+            </Tab>
+            <Tab label="Patch Notes">
+              <div style={styles.background}>
+                <List>
+                  <ListItem style={styles.headline} primaryText="Patch 0.9.0"/>
+                  <ListItem
+                    primaryText="What's New: "
+                    nestedItems={[
+                      <ListItem key={1} primaryText="Basic validation rules are added to signin and signup functions."/>,
+                      <ListItem key={2} primaryText="Checking tasks is now possible."/>,
+                    ]}
+                  />
+                  <ListItem
+                    primaryText="Changes: "
+                    nestedItems={[
+                      <ListItem key={1} primaryText="Clock size adjusted."/>,
+                      <ListItem key={2} primaryText="About page patch notes are updated."/>,
+                    ]}
+                  />
+                  <ListItem
+                    primaryText="Fixes: "
+                    nestedItems={[
+                      <ListItem key={1} primaryText="Several unused code is deleted and performance seems to be getting much better."/>,
+                    ]}
+                  />
+                </List>
+              </div>
+            </Tab>
             <Tab label="Known Issues">
               <div style={styles.background}>
                 <List>
                   <ListItem primaryText="Countdown Timer play pause button, if clicked too much, can play the timer much quicker. Workaround is to press pause, wait a second, press play just after."/>
                 </List>
-            </div>
-          </Tab>
-          <Tab label="Patch Notes">
-            <div style={styles.background}>
-              <List>
-                <ListItem style={styles.headline} primaryText="Patch 0.9.0"/>
-                <ListItem
-                  primaryText="What's New: "
-                  nestedItems={[
-                    <ListItem key={1} primaryText="Basic validation rules are added to signin and signup functions."/>,
-                    <ListItem key={2} primaryText="Checking tasks is now possible."/>,
-                  ]}
-                />
-                <ListItem
-                  primaryText="Changes: "
-                  nestedItems={[
-                    <ListItem key={1} primaryText="Clock size adjusted."/>,
-                    <ListItem key={2} primaryText="About page patch notes are updated."/>,
-                  ]}
-                />
-                <ListItem
-                  primaryText="Fixes: "
-                  nestedItems={[
-                    <ListItem key={1} primaryText="Several unused code is deleted and performance seems to be getting much better."/>,
-                  ]}
-                />
-              </List>
-            </div>
-          </Tab>
+              </div>
+            </Tab>
           </Tabs>
         </Flexbox>
       </MuiThemeProvider>
     );
   }
-
 }

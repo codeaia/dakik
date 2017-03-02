@@ -98,8 +98,27 @@ export default class Timer extends Component {
         const totalPomos = temp.totalPomos + 1;
 
         Tasks.update({_id: taskId},{$set: {totalPomos}});
+
+        const newProfile = this.props.currentUser.profile;
+        if (newProfile.pomoCount !== undefined) {
+          newProfile.pomoCount++;
+        } else {
+          newProfile.pomoCount = 1;
+        }
+
+        Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
       }
     }
+  }
+
+  handlePause() {
+    this.setState({
+      playing: !this.state.playing,
+    });
+
+    const newProfile = this.state.currentUser.profile;
+    newProfile.playing = false;
+    Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
   }
 
   handleStop() {
@@ -134,11 +153,11 @@ export default class Timer extends Component {
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-              <FloatingActionButton iconClassName="fa fa-stop" onClick={this.handleStop}/>
+              <FloatingActionButton style={{marginRight: "1em"}} iconClassName="fa fa-pause" onClick={this.handlePause}/>
+              <FloatingActionButton disabled={!this.props.currentUser.profile.playing}iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>
         </MuiThemeProvider>
-
       );
     } else {
       return (

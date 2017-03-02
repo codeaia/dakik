@@ -6,13 +6,9 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import WunderlistApi from './WunderlistApi.jsx';
 
-import { Tasks } from '../../api/tasks.js';
-
 export default class IntegrationAuth extends Component {
   constructor(props) {
     super(props);
-
-    Meteor.subscribe('tasks');
 
     this.connectToTrello = this.connectToTrello.bind(this);
     this.exitFromTrello = this.exitFromTrello.bind(this);
@@ -127,7 +123,7 @@ export default class IntegrationAuth extends Component {
             </Tab>
             <Tab label="Wunderlist">
               <div>
-                <WunderlistApi currentUser={this.props.currentUser} task={this.props.task}/>
+                <WunderlistApi currentUser={this.props.currentUser} tasks={this.props.tasks}/>
               </div>
             </Tab>
           </Tabs>

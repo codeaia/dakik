@@ -87,6 +87,15 @@ class TaskNew extends Component {
       createdAt: new Date(), // current time
     });
 
+    const newProfile = this.props.currentUser.profile;
+    if (newProfile.taskCount !== undefined) {
+      newProfile.taskCount++;
+    } else {
+      newProfile.taskCount = 1;
+    }
+
+    Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
+
     Session.set({
       "route": "timer"
     });
