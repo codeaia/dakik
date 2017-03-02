@@ -1,5 +1,4 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-import ReactCSSTransition from 'react-addons-css-transition-group';
 
 import Flexbox from 'flexbox-react';
 import IconButton from 'material-ui/IconButton';
@@ -47,14 +46,7 @@ export default class TaskView extends Component {
     }
 
     return filteredTasks.map((task) => (
-      <ReactCSSTransition
-        key={task._id}
-        transitionName = "taskFrameLoad"
-        transitionEnterTimeout = {600}
-        transitionLeaveTimeout = {400}
-      >
         <TaskFrame key={task._id} task={task} currentUser={this.props.currentUser}/>
-      </ReactCSSTransition>
     ));
   }
 

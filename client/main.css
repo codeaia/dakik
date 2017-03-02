@@ -61,23 +61,29 @@ html, body {
 	width: 100%;
 }
 
-.menuBG button *{
+.menuBG button * {
 color: var(--main-dark) !important;
 
 }
 .menuBG button{
 	color: var(--main-dark) !important;
 	border-top: 5px var(--main-lighter) solid !important;
-		
+}
+
+.menuBG {
+	
+	animation: topSlideIn linear .7s !important;
+  animation-iteration-count: 1 !important;
+  transform-origin: 50% 50% !important;
 }
 .menuBG button:hover{
 
 }
 
-.menuBG .selected.button {
+.menuBG .selected.navButton {
 	border-top: 3px var(--main-darker) solid !important;  
 }
-.menuBG .selected.button *{
+.menuBG .selected.navButton *{
 	color: var(--main-darker) !important;
 }
 
@@ -175,42 +181,6 @@ color: var(--main-dark) !important;
   text-decoration: line-through;
 } 
 
-/* Taskframe Animation*/
-.taskFrameLoad-enter{
-	animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1);
-}
-
-.taskFrameLoad-leave{
-	animation: slideOut 0.4s cubic-bezier(.165, .84, .44, 1);
-}
-
-@keyframes slideIn{
-	from {
-		opacity: 0;
-		transform: translate3d(-50px,0,0)
-	}
-    
-	to {
-		opacity: 1;
-		transform: translate3d(0,0,0)
-	}
-}
-
-@keyframes slideOut{
-	from {
-		opacity: 1;
-		transform: translate3d(0,0,0)
-	}
-    
-	to {
-		opacity: 0;
-		transform: translate3d(50px,0,0)
-	}
-}
-
-
-
-
 /* ---------------------   Tasks Page   -----------------------*/
 
 .taskList{
@@ -246,16 +216,48 @@ color: var(--main-dark) !important;
 
 
 
+									/* Animations */
+
+
+
+/* Taskframe Animation*/
+.taskFrameLoad-enter{
+	animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1) !important;
+}
+
+.taskFrameLoad-leave{
+	animation: slideOut 0.4s cubic-bezier(.165, .84, .44, 1) !important;
+}
+
+@keyframes slideIn{
+	0% {
+		opacity: 0;
+		transform: translate3d(-50px,0,0);
+	}
+    
+	100% {
+		opacity: 1;
+		transform: translate3d(0,0,0);
+	}
+}
+
+@keyframes slideOut{
+	0% {
+		opacity: 1;
+		transform: translate3d(0,0,0);
+	}
+    
+	100% {
+		opacity: 0;
+		transform: translate3d(50px,0,0);
+	}
+}
+
+
+
+
 
 /*Nav and timer Animation*/
-.fromTopLoad-enter{
-	animation: topSlideIn 1.6s cubic-bezier(.165, .84, .44, 1);
-}
-
-.fromTopLoad-leave{
-	animation: slideOutt 1.6s cubic-bezier(.165, .84, .44, 1);
-
-}
 
 .timer {
   animation: topSlideIn linear .5s;
@@ -284,11 +286,11 @@ color: var(--main-dark) !important;
   }
   58% {
     opacity:0.40527838960015594;
-    transform:  translate(2px,-29px)  scaleX(1.00) scaleY(1.00) ;
+    transform:  translate(0,0)  scaleX(1.00) scaleY(1.00) ;
   }
   100% {
     opacity:1;
-    transform:  translate(2px,2px)  scaleX(1.00) scaleY(1.00) ;
+    transform:  translate(0,0)  scaleX(1.00) scaleY(1.00) ;
   }
 }
 
