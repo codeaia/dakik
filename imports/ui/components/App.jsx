@@ -66,7 +66,7 @@ class App extends Component {
     		  <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
-              <IntegrationAuth currentUser={this.props.currentUser} tasks={this.props.tasks}/>
+              <IntegrationAuth currentUser={this.props.currentUser} task={this.props.task}/>
               <Settings/>
             </Flexbox>
     		  </Flexbox>
@@ -101,17 +101,17 @@ class App extends Component {
 App.propTypes = {
   currentUser: React.PropTypes.object,
   route: React.PropTypes.string,
-  tasks: React.PropTypes.array,
+  task: React.PropTypes.array,
 };
 
 export default AppContainer = createContainer(() => {
   const currentUser = Meteor.user();
-  const tasks = Tasks.find().fetch();
+  const task = Tasks.find().fetch();
   const route = Session.get('route');
 
   return {
     currentUser,
     route,
-    tasks,
+    task,
   };
 }, App);

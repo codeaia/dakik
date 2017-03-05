@@ -4,9 +4,13 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { Tasks } from '../../api/tasks.js';
 
+allTasks = null;
+
 export default class WunderlistApi extends Component {
   constructor(props) {
     super(props);
+
+    allTasks = this.props.task;
 
     this.takeToken = this.takeToken.bind(this);
     this.insertLists = this.insertLists.bind(this);
@@ -71,24 +75,71 @@ export default class WunderlistApi extends Component {
     const taskGoal = 0;
     const newDate = new Date();
     const dueDate = new Date();
+    var equal = 0;
 
     Meteor.call('fetchFromService2', function(err, respJson) {
       for(i=0; i<respJson.length; i++) {
         Meteor.call('fetchFromService3', respJson[i].id, function(err, respJsonTask) {
           for(x=0;x<respJsonTask.length;x++) {
             const taskName = respJsonTask[x].title;
+            console.log(respJsonTask[x].title);
 
-            Tasks.insert({
-              ownerId,
-              taskName,
-              taskPriority,
-              checked,
-              totalPomos,
-              taskGoal,
-              newDate,
-              dueDate,
-              createdAt: new Date(), // current time
-            });
+            if(allTasks == null) {
+              Tasks.insert({
+                ownerId,
+                taskName,
+                taskPriority,
+                checked,
+                totalPomos,
+                taskGoal,
+                newDate,
+                dueDate,
+                createdAt: new Date(), // current time
+              });
+              allTasks[allTasks.length] = allTasks[0];
+              allTasks[allTasks.length-1].taskName = taskName;
+              allTasks[allTasks.length-1].ownerId = ownerId;
+              allTasks[allTasks.length-1].taskPriority = 0;
+              allTasks[allTasks.length-1].checked = false;
+              allTasks[allTasks.length-1].totalPomos = 0;
+              allTasks[allTasks.length-1].taskGoal = 0;
+              allTasks[allTasks.length-1].newDate = new Date();
+              allTasks[allTasks.length-1].dueDate = new Date();
+              allTasks[allTasks.length-1].createdAt = new Date();
+
+              equal = equal + 1;
+            } else {
+              for(y=0;y<allTasks.length;y++) {
+                if(respJsonTask[x].title == allTasks[y].taskName) {
+                  equal = equal + 1;
+                }
+              }
+            }
+
+            if(equal==0) {
+              Tasks.insert({
+                ownerId,
+                taskName,
+                taskPriority,
+                checked,
+                totalPomos,
+                taskGoal,
+                newDate,
+                dueDate,
+                createdAt: new Date(), // current time
+              });
+              allTasks[allTasks.length] = allTasks[0];
+              allTasks[allTasks.length-1].taskName = taskName;
+              allTasks[allTasks.length-1].ownerId = ownerId;
+              allTasks[allTasks.length-1].taskPriority = 0;
+              allTasks[allTasks.length-1].checked = false;
+              allTasks[allTasks.length-1].totalPomos = 0;
+              allTasks[allTasks.length-1].taskGoal = 0;
+              allTasks[allTasks.length-1].newDate = new Date();
+              allTasks[allTasks.length-1].dueDate = new Date();
+              allTasks[allTasks.length-1].createdAt = new Date();
+            }
+            equal = 0;
           }
         });
       }
