@@ -190,7 +190,7 @@ export default class Auth extends Component {
                   profile: {
                     hideCompleted: false,
                     playing: false,
-                    elapsedTime: 1,
+                    elapsedTime: 0,
                     updateTime: 0
                   }
                 }, (error, data) => {

@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 
 import Timer from './Timer.jsx';
-import TaskViewContainer from './TaskViewContainer.jsx';
+import TaskView from './TaskView.jsx';
 import Statistics from './Statistics.jsx';
 import Settings from './Settings.jsx';
 import About from './About.jsx';
@@ -46,7 +46,7 @@ class App extends Component {
     			  		<div className='timer'>
                   <Timer currentUser={this.props.currentUser}/>
     			  		</div>
-    			  		<TaskViewContainer/>
+    			  		<TaskView currentUser={this.props.currentUser} tasks={this.props.tasks}/>
               </Flexbox>
     				</ReactCSSTransition>
     			</Flexbox>
@@ -66,7 +66,7 @@ class App extends Component {
     		  <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
-              <IntegrationAuth currentUser={this.props.currentUser} task={this.props.task}/>
+              <IntegrationAuth currentUser={this.props.currentUser} tasks={this.props.tasks}/>
               <Settings/>
             </Flexbox>
     		  </Flexbox>
@@ -76,11 +76,11 @@ class App extends Component {
     		  <Flexbox flexDirection='column'>
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
-              <TaskNew/>
+              <TaskNew currentUser={this.props.currentUser}/>
             </Flexbox>
     		  </Flexbox>
     		);
-  	  }else if(this.state.route == 'about'){
+  	  } else if(this.state.route == 'about'){
     		return (
     		  <Flexbox flexDirection='column'>
             <Nav/>
@@ -101,17 +101,18 @@ class App extends Component {
 App.propTypes = {
   currentUser: React.PropTypes.object,
   route: React.PropTypes.string,
-  task: React.PropTypes.array,
+  tasks: React.PropTypes.array,
 };
 
 export default AppContainer = createContainer(() => {
+  Meteor.subscribe('tasks');
   const currentUser = Meteor.user();
-  const task = Tasks.find().fetch();
+  const tasks = Tasks.find().fetch();
   const route = Session.get('route');
 
   return {
     currentUser,
     route,
-    task,
+    tasks,
   };
 }, App);

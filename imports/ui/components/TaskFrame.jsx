@@ -18,11 +18,6 @@ var moment = require('moment');
 
 import { Tasks } from '../../api/tasks.js';
 
-const customContentStyle = {
-  width: '30%',
-  maxWidth: 'none',
-};
-
 export default class TaskFrame extends Component {
   constructor(props) {
   	super(props);
@@ -52,6 +47,7 @@ export default class TaskFrame extends Component {
   	this.closePopup2 = this.closePopup2.bind(this);
   	this.openEditPopup = this.openEditPopup.bind(this);
   	this.editNewDetails = this.editNewDetails.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
 
   	this.updateTaskName = this.updateTaskName.bind(this);
   	this.updatePriority = this.updatePriority.bind(this);
@@ -139,6 +135,14 @@ export default class TaskFrame extends Component {
   	  Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
   	  this.closePopup();
   	}
+  }
+
+  deleteTask(){
+    this.setState({
+    	popup: false,
+    	popup2: false
+    });
+    Tasks.remove(this.props.task._id);
   }
 
   editNewDetails() {
@@ -280,7 +284,6 @@ export default class TaskFrame extends Component {
             modal={false}
             open={this.state.popup2}
             onRequestClose={this.closePopup2}
-            contentStyle={customContentStyle}
             >
             <CardText>
               <Flexbox flexDirection="column">

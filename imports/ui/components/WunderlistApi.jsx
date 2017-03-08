@@ -73,9 +73,9 @@ export default class WunderlistApi extends Component {
     const taskPriority = 0;
     const totalPomos = 0;
     const taskGoal = 0;
-    const newDate = new Date();
-    const dueDate = new Date();
-    var equal = 0;
+    const integratedWith = "wunderlist";
+    const dueDate = null;
+    const createdAt = new Date();
 
     Meteor.call('fetchFromService2', function(err, respJson) {
       for(i=0; i<respJson.length; i++) {
@@ -92,10 +92,11 @@ export default class WunderlistApi extends Component {
                 checked,
                 totalPomos,
                 taskGoal,
-                newDate,
+                integratedWith,
                 dueDate,
-                createdAt: new Date(), // current time
+                createdAt,
               });
+
               allTasks[allTasks.length] = allTasks[0];
               allTasks[allTasks.length-1].taskName = taskName;
               allTasks[allTasks.length-1].ownerId = ownerId;
@@ -103,8 +104,8 @@ export default class WunderlistApi extends Component {
               allTasks[allTasks.length-1].checked = false;
               allTasks[allTasks.length-1].totalPomos = 0;
               allTasks[allTasks.length-1].taskGoal = 0;
-              allTasks[allTasks.length-1].newDate = new Date();
-              allTasks[allTasks.length-1].dueDate = new Date();
+              allTasks[allTasks.length-1].integratedWith = integratedWith;
+              allTasks[allTasks.length-1].dueDate = dueDate;
               allTasks[allTasks.length-1].createdAt = new Date();
 
               equal = equal + 1;
@@ -124,9 +125,9 @@ export default class WunderlistApi extends Component {
                 checked,
                 totalPomos,
                 taskGoal,
-                newDate,
+                integratedWith,
                 dueDate,
-                createdAt: new Date(), // current time
+                createdAt,
               });
               allTasks[allTasks.length] = allTasks[0];
               allTasks[allTasks.length-1].taskName = taskName;
@@ -135,8 +136,8 @@ export default class WunderlistApi extends Component {
               allTasks[allTasks.length-1].checked = false;
               allTasks[allTasks.length-1].totalPomos = 0;
               allTasks[allTasks.length-1].taskGoal = 0;
-              allTasks[allTasks.length-1].newDate = new Date();
-              allTasks[allTasks.length-1].dueDate = new Date();
+              allTasks[allTasks.length-1].integratedWith = integratedWith;
+              allTasks[allTasks.length-1].dueDate = dueDate;
               allTasks[allTasks.length-1].createdAt = new Date();
             }
             equal = 0;
@@ -144,6 +145,7 @@ export default class WunderlistApi extends Component {
         });
       }
     });
+    console.log('bitti');
   }
 
   handleDisabled() {

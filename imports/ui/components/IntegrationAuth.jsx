@@ -73,9 +73,9 @@ export default class IntegrationAuth extends Component {
     const taskPriority = 0;
     const totalPomos = 0;
     const taskGoal = 0;
-    const newDate = new Date();
-    const dueDate = new Date();
-    var equal = 0;
+    const integratedWith = "trello";
+    const dueDate = null;
+    const createdAt = new Date();
 
     Trello.members.get("me", function(member){
       Trello.get("/member/me/boards", function(boards) {
@@ -94,9 +94,9 @@ export default class IntegrationAuth extends Component {
                       checked,
                       totalPomos,
                       taskGoal,
-                      newDate,
+                      integratedWith,
                       dueDate,
-                      createdAt: new Date(), // current time
+                      createdAt,
                     });
                     allTasks[allTasks.length] = allTasks[0];
                     allTasks[allTasks.length-1].taskName = taskName;
@@ -105,8 +105,8 @@ export default class IntegrationAuth extends Component {
                     allTasks[allTasks.length-1].checked = false;
                     allTasks[allTasks.length-1].totalPomos = 0;
                     allTasks[allTasks.length-1].taskGoal = 0;
-                    allTasks[allTasks.length-1].newDate = new Date();
-                    allTasks[allTasks.length-1].dueDate = new Date();
+                    allTasks[allTasks.length-1].integratedWith = integratedWith;
+                    allTasks[allTasks.length-1].dueDate = dueDate;
                     allTasks[allTasks.length-1].createdAt = new Date();
 
                     equal = equal + 1;
@@ -126,9 +126,9 @@ export default class IntegrationAuth extends Component {
                       checked,
                       totalPomos,
                       taskGoal,
-                      newDate,
+                      integratedWith,
                       dueDate,
-                      createdAt: new Date(), // current time
+                      createdAt,
                     });
                     allTasks[allTasks.length] = allTasks[0];
                     allTasks[allTasks.length-1].taskName = taskName;
@@ -137,8 +137,8 @@ export default class IntegrationAuth extends Component {
                     allTasks[allTasks.length-1].checked = false;
                     allTasks[allTasks.length-1].totalPomos = 0;
                     allTasks[allTasks.length-1].taskGoal = 0;
-                    allTasks[allTasks.length-1].newDate = new Date();
-                    allTasks[allTasks.length-1].dueDate = new Date();
+                    allTasks[allTasks.length-1].integratedWith = integratedWith;
+                    allTasks[allTasks.length-1].dueDate = dueDate;
                     allTasks[allTasks.length-1].createdAt = new Date();
                   }
                   equal = 0;

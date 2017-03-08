@@ -24,6 +24,7 @@ export default class Timer extends Component {
 
     this.getIconName = this.getIconName.bind(this);
     this.handleStop = this.handleStop.bind(this);
+    this.handlePause = this.handlePause.bind(this);
   }
 
   componentDidMount(){
@@ -112,13 +113,16 @@ export default class Timer extends Component {
   }
 
   handlePause() {
-    this.setState({
-      playing: !this.state.playing,
-    });
-
-    const newProfile = this.state.currentUser.profile;
-    newProfile.playing = false;
-    Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+    if (this.state.playing) {
+      this.setState({
+        playing: false,
+      });
+    } else {
+      this.setState({
+        playing: true,
+      });
+      this.timer = setTimeout(() => this.progress(), 1000);
+    }
   }
 
   handleStop() {
@@ -153,7 +157,7 @@ export default class Timer extends Component {
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-              <FloatingActionButton style={{marginRight: "1em"}} iconClassName="fa fa-pause" onClick={this.handlePause}/>
+              <FloatingActionButton style={{marginRight: "1em"}} iconClassName={this.getIconName()} onClick={this.handlePause}/>
               <FloatingActionButton disabled={!this.props.currentUser.profile.playing}iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>

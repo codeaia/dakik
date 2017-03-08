@@ -8,11 +8,12 @@ import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
+import Loading from './Loading.jsx';
 import MenuItem from 'material-ui/MenuItem';
 import { Tasks } from '../../api/tasks.js';
 import DatePicker from 'material-ui/DatePicker';
 
-class TaskNew extends Component {
+export default class TaskNew extends Component {
   constructor(props) {
     super(props);
 
@@ -63,6 +64,7 @@ class TaskNew extends Component {
     const checked = false;
     const totalPomos = 0;
     const taskGoal = this.state.taskGoal;
+    const integratedWith = "none";
     const dueDate = this.state.dueDate;
 
     Session.set({
@@ -83,8 +85,9 @@ class TaskNew extends Component {
       checked,
       totalPomos,
       taskGoal,
+      integratedWith,
       dueDate,
-      createdAt: new Date(), // current time
+      createdAt: new Date(),
     });
 
     const newProfile = this.props.currentUser.profile;
@@ -165,13 +168,3 @@ class TaskNew extends Component {
     );
   }
 }
-
-TaskNew.propTypes = {
-  currentUser: PropTypes.object,
-};
-
-export default createContainer(() => {
-  return {
-    currentUser: Meteor.user(),
-  };
-}, TaskNew);

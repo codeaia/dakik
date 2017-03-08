@@ -54,7 +54,7 @@ export default class Profile extends Component {
       />,
     ];
 
-    if (this.props.currentUser !== undefined) {
+    if (this.props.currentUser != undefined) {
       return (
         <MuiThemeProvider>
           <Card>
@@ -65,8 +65,10 @@ export default class Profile extends Component {
             />
             <CardTitle title="İstatistiklerin"/>
             <CardText>
-              Task Record: {this.props.currentUser.profile.taskCount ? this.props.currentUser.profile.taskCount : 0}<br/>
-              Pomo Record: {this.props.currentUser.profile.pomoCount ? this.props.currentUser.profile.pomoCount : 0}<br/>
+              Tasks Created: {this.props.currentUser.profile.taskCount ? this.props.currentUser.profile.taskCount : 0}<br/>
+              Tasks Integrated With Trello: {this.props.currentUser.profile.trelloTaskCount ? this.props.currentUser.profile.trelloTaskCount : 0}<br/>
+              Tasks Integrated With Wunderlist: {this.props.currentUser.profile.trelloTaskCount ? this.props.currentUser.profile.trelloTaskCount : 0}<br/>
+              Finished Pomos: {this.props.currentUser.profile.pomoCount ? this.props.currentUser.profile.pomoCount : 0}<br/>
             </CardText>
             <CardActions>
               <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
