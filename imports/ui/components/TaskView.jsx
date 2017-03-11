@@ -113,6 +113,7 @@ export default class TaskView extends Component {
   renderTasks(){
     if(this.props.tasks.length != 0) {
       this.state.allTasksLength = this.props.tasks.length;
+      Session.set('length', this.state.allTasksLength);
       this.state.viewTasks = [];
 
       console.log(this.state.allTasksLength);

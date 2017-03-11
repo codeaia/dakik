@@ -58,6 +58,9 @@ export default class TaskNew extends Component {
   }
 
   addNewTask(event){
+    if(Session.get('endNumber') == Session.get('length') && Session.get('endNumber') % 5 != 0) {
+      Session.set('endNumber', Session.get('endNumber')+1);
+    }
     const taskName = this.state.taskName;
     const taskPriority = this.state.taskPriority;
     const ownerId = this.props.currentUser._id;
