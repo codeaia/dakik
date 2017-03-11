@@ -4,13 +4,9 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { Tasks } from '../../api/tasks.js';
 
-allTasks = null;
-
 export default class WunderlistApi extends Component {
   constructor(props) {
     super(props);
-
-    allTasks = this.props.task;
 
     this.takeToken = this.takeToken.bind(this);
     this.insertLists = this.insertLists.bind(this);
@@ -35,10 +31,14 @@ export default class WunderlistApi extends Component {
     if(code=="") {
       this.state = {
         disabled: false,
+        allTasks: this.props.tasks,
+        equal: true
       }
     } else {
       this.state = {
         disabled: true,
+        allTasks: this.props.tasks,
+        equal: true
       }
       this.takeToken();
     }
@@ -76,15 +76,16 @@ export default class WunderlistApi extends Component {
     const integratedWith = "wunderlist";
     const dueDate = null;
     const createdAt = new Date();
+    var self = this;
 
     Meteor.call('fetchFromService2', function(err, respJson) {
       for(i=0; i<respJson.length; i++) {
         Meteor.call('fetchFromService3', respJson[i].id, function(err, respJsonTask) {
           for(x=0;x<respJsonTask.length;x++) {
-            const taskName = respJsonTask[x].title;
-            console.log(respJsonTask[x].title);
 
-            if(allTasks == null) {
+            const taskName = respJsonTask[x].title;
+
+            if(self.state.allTasks[0] == null) {
               Tasks.insert({
                 ownerId,
                 taskName,
@@ -97,27 +98,27 @@ export default class WunderlistApi extends Component {
                 createdAt,
               });
 
-              allTasks[allTasks.length] = allTasks[0];
-              allTasks[allTasks.length-1].taskName = taskName;
-              allTasks[allTasks.length-1].ownerId = ownerId;
-              allTasks[allTasks.length-1].taskPriority = 0;
-              allTasks[allTasks.length-1].checked = false;
-              allTasks[allTasks.length-1].totalPomos = 0;
-              allTasks[allTasks.length-1].taskGoal = 0;
-              allTasks[allTasks.length-1].integratedWith = integratedWith;
-              allTasks[allTasks.length-1].dueDate = dueDate;
-              allTasks[allTasks.length-1].createdAt = new Date();
+              self.state.allTasks[0] = new Object;
+              self.state.allTasks[0].taskName = taskName;
+              self.state.allTasks[0].ownerId = ownerId;
+              self.state.allTasks[0].taskPriority = 0;
+              self.state.allTasks[0].checked = false;
+              self.state.allTasks[0].totalPomos = 0;
+              self.state.allTasks[0].taskGoal = 0;
+              self.state.allTasks[0].integratedWith = integratedWith;
+              self.state.allTasks[0].dueDate = dueDate;
+              self.state.allTasks[0].createdAt = new Date();
 
-              equal = equal + 1;
+              self.state.equal = false;
             } else {
-              for(y=0;y<allTasks.length;y++) {
-                if(respJsonTask[x].title == allTasks[y].taskName) {
-                  equal = equal + 1;
+              for(y=0;y<self.state.allTasks.length;y++) {
+                if(respJsonTask[x].title == self.state.allTasks[y].taskName) {
+                  self.state.equal = false;
                 }
               }
             }
 
-            if(equal==0) {
+            if(self.state.equal) {
               Tasks.insert({
                 ownerId,
                 taskName,
@@ -129,23 +130,22 @@ export default class WunderlistApi extends Component {
                 dueDate,
                 createdAt,
               });
-              allTasks[allTasks.length] = allTasks[0];
-              allTasks[allTasks.length-1].taskName = taskName;
-              allTasks[allTasks.length-1].ownerId = ownerId;
-              allTasks[allTasks.length-1].taskPriority = 0;
-              allTasks[allTasks.length-1].checked = false;
-              allTasks[allTasks.length-1].totalPomos = 0;
-              allTasks[allTasks.length-1].taskGoal = 0;
-              allTasks[allTasks.length-1].integratedWith = integratedWith;
-              allTasks[allTasks.length-1].dueDate = dueDate;
-              allTasks[allTasks.length-1].createdAt = new Date();
+              self.state.allTasks[self.state.allTasks.length] = new Object;
+              self.state.allTasks[self.state.allTasks.length-1].taskName = taskName;
+              self.state.allTasks[self.state.allTasks.length-1].ownerId = ownerId;
+              self.state.allTasks[self.state.allTasks.length-1].taskPriority = 0;
+              self.state.allTasks[self.state.allTasks.length-1].checked = false;
+              self.state.allTasks[self.state.allTasks.length-1].totalPomos = 0;
+              self.state.allTasks[self.state.allTasks.length-1].taskGoal = 0;
+              self.state.allTasks[self.state.allTasks.length-1].integratedWith = integratedWith;
+              self.state.allTasks[self.state.allTasks.length-1].dueDate = dueDate;
+              self.state.allTasks[self.state.allTasks.length-1].createdAt = new Date();
             }
-            equal = 0;
+            self.state.equal = true;
           }
         });
       }
     });
-    console.log('bitti');
   }
 
   handleDisabled() {

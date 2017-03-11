@@ -9,21 +9,38 @@ import Subheader from 'material-ui/Subheader';
 import {Card, CardText} from 'material-ui/Card';
 import {List} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
-
 import RaisedButton from 'material-ui/RaisedButton';
-
-startNumber = 0;
-endNumber = 5;
-allTasksLength = 0;
 
 export default class TaskView extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      hideCompleted: false,
-    };
+    if(Session.get('startNumber') == 0) {
+      this.state = {
+        hideCompleted: false,
+        allTasksLength: 0,
+        viewTasks: [],
+        disabledPrev: true,
+        disabledNext: false
+      };
+    } else if(Session.get('endNumber') == this.props.tasks.length) {
+      this.state = {
+        hideCompleted: false,
+        allTasksLength: 0,
+        viewTasks: [],
+        disabledPrev: false,
+        disabledNext: true
+      };
+    } else {
+      this.state = {
+        hideCompleted: false,
+        allTasksLength: 0,
+        viewTasks: [],
+        disabledPrev: false,
+        disabledNext: false
+      };
+    }
 
     this.routeNewTask = this.routeNewTask.bind(this);
     this.renderTasks = this.renderTasks.bind(this);
@@ -33,33 +50,47 @@ export default class TaskView extends Component {
   }
 
   nextButton() {
-    if(endNumber == allTasksLength) {
+    if(Session.get('endNumber') == this.state.allTasksLength) {
       //Just Checking
-    } else if((endNumber+5) > allTasksLength) {
-      startNumber = startNumber + 5;
-      endNumber = allTasksLength;
+    } else if((Session.get('endNumber')+5) > this.state.allTasksLength) {
+      Session.set('startNumber', Session.get('startNumber') + 5);
+      Session.set('endNumber', this.state.allTasksLength);
     } else {
-      startNumber = startNumber + 5;
-      endNumber = endNumber + 5;
+      Session.set('startNumber', Session.get('startNumber') + 5);
+      Session.set('endNumber', Session.get('endNumber') + 5);
+    }
+
+    if(Session.get('endNumber') == this.state.allTasksLength) {
+      this.state.disabledNext = true;
+    } else {
+      this.state.disabledPrev = false;
+      this.state.disabledNext = false;
     }
 
     this.setState(this.state);
   }
 
   prevButton() {
-    if(endNumber == allTasksLength) {
-      startNumber = startNumber - 5;
-      if((allTasksLength % 5) == 0) {
-        endNumber = endNumber - 5;
+    if(Session.get('endNumber') == this.state.allTasksLength) {
+      Session.set('startNumber', Session.get('startNumber') - 5);
+      if((this.state.allTasksLength % 5) == 0) {
+        Session.set('endNumber', Session.get('endNumber') - 5);
       } else {
-        endNumber = endNumber - allTasksLength % 5;
+        Session.set('endNumber', Session.get('endNumber') - this.state.allTasksLength % 5);
       }
-    } else if((startNumber-5) < 0) {
-      startNumber = 0;
-      endNumber = endNumber - startNumber;
+    } else if((Session.get('startNumber')-5) < 0) {
+      Session.set('startNumber', 0);
+      Session.set('endNumber', Session.get('endNumber') - Session.get('startNumber'));
     } else {
-      startNumber = startNumber - 5;
-      endNumber = endNumber - 5;
+      Session.set('startNumber', Session.get('startNumber') - 5);
+      Session.set('endNumber', Session.get('endNumber') - 5);
+    }
+
+    if(Session.get('startNumber') == 0) {
+      this.state.disabledPrev = true;
+    } else {
+      this.state.disabledPrev = false;
+      this.state.disabledNext = false;
     }
 
     this.setState(this.state);
@@ -81,20 +112,29 @@ export default class TaskView extends Component {
 
   renderTasks(){
     if(this.props.tasks.length != 0) {
-      allTasksLength = this.props.tasks.length;
-      console.log(allTasksLength);
-      let filteredTasks = this.props.tasks;
-      let allTasks = [];
+      this.state.allTasksLength = this.props.tasks.length;
+      this.state.viewTasks = [];
 
-      for(i=startNumber;i<endNumber;i++) {
-        allTasks[i] = filteredTasks[i];
+      console.log(this.state.allTasksLength);
+      let filteredTasks = this.props.tasks;
+
+      if(this.state.allTasksLength<=Session.get('startNumber')) {
+        Session.set('startNumber', Session.get('startNumber') - 5);
+        Session.set('endNumber', Session.get('endNumber') - 1);
+      }
+      if(this.state.allTasksLength<Session.get('endNumber')) {
+        Session.set('endNumber', this.state.allTasksLength);
+      }
+
+      for(i=Session.get('startNumber');i<Session.get('endNumber');i++) {
+        this.state.viewTasks[i] = filteredTasks[i];
       }
 
       if (this.state.hideCompleted) {
-        allTasks = allTasks.filter(task => !task.checked);
+        this.state.viewTasks = this.state.viewTasks.filter(task => !task.checked);
       }
 
-      return allTasks.map((task) => (
+      return this.state.viewTasks.map((task) => (
           <TaskFrame key={task._id} task={task} currentUser={this.props.currentUser}/>
       ));
     }
@@ -121,8 +161,8 @@ export default class TaskView extends Component {
                 <Subheader>
                   #TagNameHere
                   <IconButton iconClassName="fa fa-plus-square-o" style={{padding: '-12px'}} onClick={this.routeNewTask} tooltip="New Task"/>
-                  <RaisedButton label="Prev" onClick={this.prevButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
-                  <RaisedButton label="Next" onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+                  <RaisedButton label="Prev" disabled={this.state.disabledPrev} onClick={this.prevButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+                  <RaisedButton label="Next" disabled={this.state.disabledNext} onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
                   <Toggle label="Hide completed tasks" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide}/>
                 </Subheader>
                 <List>

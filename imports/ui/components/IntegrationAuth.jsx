@@ -8,13 +8,9 @@ import WunderlistApi from './WunderlistApi.jsx';
 
 import { Tasks } from '../../api/tasks.js';
 
-allTasks = null;
-
 export default class IntegrationAuth extends Component {
   constructor(props) {
     super(props);
-
-    allTasks = this.props.task;
 
     this.connectToTrello = this.connectToTrello.bind(this);
     this.exitFromTrello = this.exitFromTrello.bind(this);
@@ -31,18 +27,24 @@ export default class IntegrationAuth extends Component {
     if(isLoggedIn) {
       this.state = {
         disabled: true,
-        disabled2: false
+        disabled2: false,
+        allTasks: [],
+        equal: true
       }
     } else {
       this.state = {
         disabled: false,
-        disabled2: true
+        disabled2: true,
+        allTasks: [],
+        equal: true
       }
     }
 
     Trello.authorize({
       interactive:false
     });
+
+    this.state.allTasks = this.props.tasks;
   }
 
   connectToTrello(){
@@ -76,6 +78,7 @@ export default class IntegrationAuth extends Component {
     const integratedWith = "trello";
     const dueDate = null;
     const createdAt = new Date();
+    var self = this;
 
     Trello.members.get("me", function(member){
       Trello.get("/member/me/boards", function(boards) {
@@ -86,7 +89,7 @@ export default class IntegrationAuth extends Component {
                 for(y=0;y<cards.length;y++) {
                   const taskName = cards[y].name;
 
-                  if(allTasks == null) {
+                  if(self.state.allTasks[0] == null) {
                     Tasks.insert({
                       ownerId,
                       taskName,
@@ -98,27 +101,27 @@ export default class IntegrationAuth extends Component {
                       dueDate,
                       createdAt,
                     });
-                    allTasks[allTasks.length] = allTasks[0];
-                    allTasks[allTasks.length-1].taskName = taskName;
-                    allTasks[allTasks.length-1].ownerId = ownerId;
-                    allTasks[allTasks.length-1].taskPriority = 0;
-                    allTasks[allTasks.length-1].checked = false;
-                    allTasks[allTasks.length-1].totalPomos = 0;
-                    allTasks[allTasks.length-1].taskGoal = 0;
-                    allTasks[allTasks.length-1].integratedWith = integratedWith;
-                    allTasks[allTasks.length-1].dueDate = dueDate;
-                    allTasks[allTasks.length-1].createdAt = new Date();
+                    self.state.allTasks[0] = new Object;
+                    self.state.allTasks[0].taskName = taskName;
+                    self.state.allTasks[0].ownerId = ownerId;
+                    self.state.allTasks[0].taskPriority = 0;
+                    self.state.allTasks[0].checked = false;
+                    self.state.allTasks[0].totalPomos = 0;
+                    self.state.allTasks[0].taskGoal = 0;
+                    self.state.allTasks[0].integratedWith = integratedWith;
+                    self.state.allTasks[0].dueDate = dueDate;
+                    self.state.allTasks[0].createdAt = new Date();
 
-                    equal = equal + 1;
+                    equal = false;
                   } else {
-                    for(z=0;z<allTasks.length;z++) {
-                      if(cards[y].name == allTasks[z].taskName) {
-                        equal = equal + 1;
+                    for(z=0;z<self.state.allTasks.length;z++) {
+                      if(cards[y].name == self.state.allTasks[z].taskName) {
+                        equal = false;
                       }
                     }
                   }
 
-                  if(equal==0) {
+                  if(equal) {
                     Tasks.insert({
                       ownerId,
                       taskName,
@@ -130,18 +133,18 @@ export default class IntegrationAuth extends Component {
                       dueDate,
                       createdAt,
                     });
-                    allTasks[allTasks.length] = allTasks[0];
-                    allTasks[allTasks.length-1].taskName = taskName;
-                    allTasks[allTasks.length-1].ownerId = ownerId;
-                    allTasks[allTasks.length-1].taskPriority = 0;
-                    allTasks[allTasks.length-1].checked = false;
-                    allTasks[allTasks.length-1].totalPomos = 0;
-                    allTasks[allTasks.length-1].taskGoal = 0;
-                    allTasks[allTasks.length-1].integratedWith = integratedWith;
-                    allTasks[allTasks.length-1].dueDate = dueDate;
-                    allTasks[allTasks.length-1].createdAt = new Date();
+                    self.state.allTasks[self.state.allTasks.length] = new Object;
+                    self.state.allTasks[self.state.allTasks.length-1].taskName = taskName;
+                    self.state.allTasks[self.state.allTasks.length-1].ownerId = ownerId;
+                    self.state.allTasks[self.state.allTasks.length-1].taskPriority = 0;
+                    self.state.allTasks[self.state.allTasks.length-1].checked = false;
+                    self.state.allTasks[self.state.allTasks.length-1].totalPomos = 0;
+                    self.state.allTasks[self.state.allTasks.length-1].taskGoal = 0;
+                    self.state.allTasks[self.state.allTasks.length-1].integratedWith = integratedWith;
+                    self.state.allTasks[self.state.allTasks.length-1].dueDate = dueDate;
+                    self.state.allTasks[self.state.allTasks.length-1].createdAt = new Date();
                   }
-                  equal = 0;
+                  equal = true;
                 }
               });
             }
@@ -175,7 +178,7 @@ export default class IntegrationAuth extends Component {
             </Tab>
             <Tab label="Wunderlist">
               <div>
-                <WunderlistApi currentUser={this.props.currentUser} task={this.props.task}/>
+                <WunderlistApi currentUser={this.props.currentUser} tasks={this.props.tasks}/>
               </div>
             </Tab>
           </Tabs>
