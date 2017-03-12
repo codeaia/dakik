@@ -146,7 +146,9 @@ export default class TaskFrame extends Component {
     if(this.props.endNumber-1 == this.props.startNumber) {
       this.props.updateStartNumber(this.props.startNumber-5);
       this.props.updateEndNumber(this.props.endNumber-1);
-    } else {
+    } else if (this.props.endNumber < this.props.length) {
+      
+    }else {
       this.props.updateEndNumber(this.props.endNumber-1);
     }
     Tasks.remove(this.props.task._id);
