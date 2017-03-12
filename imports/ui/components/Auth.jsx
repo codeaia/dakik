@@ -5,9 +5,11 @@ import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import {Card, CardActions, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
+import Rsvg from 'react-inlinesvg';
+import Loading from './Loading.jsx';
 
 export default class Auth extends Component {
   constructor(props) {
@@ -223,7 +225,14 @@ render() {
     <div className="fullHeight">
       <MuiThemeProvider>
         <Flexbox className="auth">
-          <Tabs>
+		<Card>
+			<CardHeader>
+		    	<Loading></Loading>
+		        <div className = "authLogo">
+		        	<img src="dakik_logo.svg" alt=""/>
+		        </div>
+		    </CardHeader>
+        	<Tabs>
             <Tab label="Sign In">
               <Card>
                 <CardText>
@@ -294,6 +303,7 @@ render() {
             autoHideDuration={4000}
             onRequestClose={this.closeSnackbar}
           />
+		  </Card>
         </Flexbox>
       </MuiThemeProvider>
     </div>

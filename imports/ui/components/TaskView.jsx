@@ -10,6 +10,7 @@ import {Card, CardText} from 'material-ui/Card';
 import {List} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
+import ReactCSSTransition from 'react-addons-css-transition-group';
 
 export default class TaskView extends Component {
 
@@ -167,7 +168,12 @@ export default class TaskView extends Component {
                   <Toggle label="Hide completed tasks" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide}/>
                 </Subheader>
                 <List>
+				<ReactCSSTransition
+    					    transitionName = "taskFrameLoad"
+    					    transitionEnterTimeout = {600}
+    					    transitionLeaveTimeout = {400}>
                   {this.renderTasks()}
+			  	</ReactCSSTransition>
                 </List>
               </CardText>
             </Card>

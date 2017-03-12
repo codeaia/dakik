@@ -19,8 +19,10 @@
     "react-countdown-clock": "^1.0.9",
     "react-dom": "^15.4.2",
     "react-icons": "^2.2.1",
+    "react-inlinesvg": "^0.5.5",
     "react-mounter": "^1.2.0",
     "react-tap-event-plugin": "^2.0.1",
     "wunderlist-api": "^1.0.1"
+
   }
 }

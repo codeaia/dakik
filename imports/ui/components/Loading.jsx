@@ -1,6 +1,7 @@
 import React, { Component, constructor} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
+import Rsvg from 'react-inlinesvg';
 
 export default class Loading extends Component {
   constructor(props) {
@@ -9,9 +10,7 @@ export default class Loading extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <CircularProgress color="white" size={80} thickness={5} />
-      </MuiThemeProvider>
+      <Rsvg className = "loading" uniquifyIDs={false} src="icon1.svg"> </Rsvg>
     );
   }
 }
