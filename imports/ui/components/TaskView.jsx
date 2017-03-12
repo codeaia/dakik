@@ -17,88 +17,103 @@ export default class TaskView extends Component {
   constructor(props) {
     super(props);
 
-    if(Session.get('startNumber') == 0) {
-      this.state = {
-        hideCompleted: false,
-        allTasksLength: 0,
-        viewTasks: [],
-        disabledPrev: true,
-        disabledNext: false
-      };
-    } else if(Session.get('endNumber') == this.props.tasks.length) {
-      this.state = {
-        hideCompleted: false,
-        allTasksLength: 0,
-        viewTasks: [],
-        disabledPrev: false,
-        disabledNext: true
-      };
-    } else {
-      this.state = {
-        hideCompleted: false,
-        allTasksLength: 0,
-        viewTasks: [],
-        disabledPrev: false,
-        disabledNext: false
-      };
-    }
+    this.state = {
+      hideCompleted: false,
+      disabledPrev: true,
+      disabledNext: false,
+      startNumber: 0,
+      endNumber: 5
+    };
 
     this.routeNewTask = this.routeNewTask.bind(this);
     this.renderTasks = this.renderTasks.bind(this);
     this.toggleHide = this.toggleHide.bind(this);
     this.prevButton = this.prevButton.bind(this);
     this.nextButton = this.nextButton.bind(this);
+    this.updateDisabledPrev = this.updateDisabledPrev.bind(this);
+    this.updateDisabledNext = this.updateDisabledNext.bind(this);
+    this.updateEndNumber = this.updateEndNumber.bind(this);
+    this.updateStartNumber = this.updateStartNumber.bind(this);
+  }
+
+  updateDisabledPrev(value) {
+    this.setState({
+      disabledPrev: value
+    });
+  }
+
+  updateDisabledNext(value) {
+    this.setState({
+      disabledNext: value
+    });
+  }
+
+  updateEndNumber(value) {
+    this.setState({
+      endNumber: value
+    });
+  }
+
+  updateStartNumber(value) {
+    this.setState({
+      startNumber: value
+    });
   }
 
   nextButton() {
-    if(Session.get('endNumber') == this.state.allTasksLength) {
-      //Just Checking
-    } else if((Session.get('endNumber')+5) > this.state.allTasksLength) {
-      Session.set('startNumber', Session.get('startNumber') + 5);
-      Session.set('endNumber', this.state.allTasksLength);
+    if((this.state.endNumber + 5) > this.props.tasks.length) {
+      this.setState({
+        disabledPrev: false,
+        disabledNext: true,
+        startNumber: this.state.startNumber + 5,
+        endNumber: this.props.tasks.length
+      });
     } else {
-      Session.set('startNumber', Session.get('startNumber') + 5);
-      Session.set('endNumber', Session.get('endNumber') + 5);
+      if((this.state.endNumber + 5) == this.props.tasks.length) {
+        this.setState({
+          disabledPrev: false,
+          disabledNext: true,
+          startNumber: this.state.startNumber + 5,
+          endNumber: this.state.endNumber + 5
+        });
+      } else {
+        this.setState({
+          disabledPrev: false,
+          disabledNext: false,
+          startNumber: this.state.startNumber + 5,
+          endNumber: this.state.endNumber + 5
+        });
+      }
     }
-
-    if(Session.get('endNumber') == this.state.allTasksLength) {
-      this.state.disabledNext = true;
-    } else {
-      this.state.disabledPrev = false;
-      this.state.disabledNext = false;
-    }
-
-    this.setState(this.state);
   }
 
   prevButton() {
-    if(Session.get('endNumber') == this.state.allTasksLength) {
-      Session.set('startNumber', Session.get('startNumber') - 5);
-      if((this.state.allTasksLength % 5) == 0) {
-        Session.set('endNumber', Session.get('endNumber') - 5);
+    if(this.state.endNumber == this.props.tasks.length) {
+      this.updateStartNumber(this.state.startNumber - 5);
+
+      if((this.props.tasks.length % 5) == 0) {
+        this.updateEndNumber(this.state.endNumber - 5);
       } else {
-        Session.set('endNumber', Session.get('endNumber') - this.state.allTasksLength % 5);
+        this.updateEndNumber(this.state.endNumber - this.props.tasks.length % 5);
       }
-    } else if((Session.get('startNumber')-5) < 0) {
-      Session.set('startNumber', 0);
-      Session.set('endNumber', Session.get('endNumber') - Session.get('startNumber'));
+    } else if((this.state.startNumber-5) < 0) {
+      this.updateStartNumber(0);
+      this.updateEndNumber(this.state.endNumber - this.state.startNumber);
     } else {
-      Session.set('startNumber', Session.get('startNumber') - 5);
-      Session.set('endNumber', Session.get('endNumber') - 5);
+      this.updateStartNumber(this.state.startNumber - 5);
+      this.updateEndNumber(this.state.endNumber - 5);
     }
 
-    if(Session.get('startNumber') == 0) {
-      this.state.disabledPrev = true;
+    if(this.state.startNumber-5 == 0) {
+      this.updateDisabledPrev(true);
     } else {
-      this.state.disabledPrev = false;
-      this.state.disabledNext = false;
+      this.updateDisabledPrev(false);
+      this.updateDisabledNext(false);
     }
-
-    this.setState(this.state);
   }
 
   componentWillReceiveProps(nextProps){
-    if (nextProps.currentUser !== undefined) {
+    if (nextProps.currentUser !== undefined && nextProps.tasks.length != 0) {
       this.setState({
         hideCompleted: nextProps.currentUser.profile.hideCompleted,
       });
@@ -113,31 +128,29 @@ export default class TaskView extends Component {
 
   renderTasks(){
     if(this.props.tasks.length != 0) {
-      this.state.allTasksLength = this.props.tasks.length;
-      Session.set('length', this.state.allTasksLength);
-      this.state.viewTasks = [];
 
-      console.log(this.state.allTasksLength);
+      console.log(this.props.tasks.length);
       let filteredTasks = this.props.tasks;
+      let viewTasks = [];
 
-      if(this.state.allTasksLength<=Session.get('startNumber')) {
-        Session.set('startNumber', Session.get('startNumber') - 5);
-        Session.set('endNumber', Session.get('endNumber') - 1);
-      }
-      if(this.state.allTasksLength<Session.get('endNumber')) {
-        Session.set('endNumber', this.state.allTasksLength);
-      }
-
-      for(i=Session.get('startNumber');i<Session.get('endNumber');i++) {
-        this.state.viewTasks[i] = filteredTasks[i];
+      for(i=this.state.startNumber;i<this.state.endNumber;i++) {
+        viewTasks[i] = filteredTasks[i];
       }
 
       if (this.state.hideCompleted) {
-        this.state.viewTasks = this.state.viewTasks.filter(task => !task.checked);
+        viewTasks = viewTasks.filter(task => !task.checked);
       }
 
-      return this.state.viewTasks.map((task) => (
-          <TaskFrame key={task._id} task={task} currentUser={this.props.currentUser}/>
+      return viewTasks.map((task) => (
+          <TaskFrame key={task._id}
+            task={task}
+            currentUser={this.props.currentUser}
+            startNumber={this.state.startNumber}
+            endNumber={this.state.endNumber}
+            length={this.props.tasks.length}
+            updateStartNumber={this.updateStartNumber}
+            updateEndNumber={this.updateEndNumber}
+            />
       ));
     }
   }
@@ -154,7 +167,7 @@ export default class TaskView extends Component {
   }
 
   render() {
-    if (this.props.tasks !== undefined && this.props.currentUser !== undefined) {
+    if (this.props.tasks !== undefined && this.props.currentUser !== undefined && this.props.tasks.length != 0) {
       return (
         <MuiThemeProvider>
           <Flexbox className="taskList">
@@ -168,12 +181,12 @@ export default class TaskView extends Component {
                   <Toggle label="Hide completed tasks" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide}/>
                 </Subheader>
                 <List>
-				<ReactCSSTransition
-    					    transitionName = "taskFrameLoad"
-    					    transitionEnterTimeout = {600}
-    					    transitionLeaveTimeout = {400}>
-                  {this.renderTasks()}
-			  	</ReactCSSTransition>
+                  <ReactCSSTransition
+              		   transitionName = "taskFrameLoad"
+              		   transitionEnterTimeout = {600}
+              			 transitionLeaveTimeout = {400}>
+                      {this.renderTasks()}
+          			  </ReactCSSTransition>
                 </List>
               </CardText>
             </Card>

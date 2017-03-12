@@ -27,24 +27,18 @@ export default class IntegrationAuth extends Component {
     if(isLoggedIn) {
       this.state = {
         disabled: true,
-        disabled2: false,
-        allTasks: [],
-        equal: true
+        disabled2: false
       }
     } else {
       this.state = {
         disabled: false,
-        disabled2: true,
-        allTasks: [],
-        equal: true
+        disabled2: true
       }
     }
 
     Trello.authorize({
       interactive:false
     });
-
-    this.state.allTasks = this.props.tasks;
   }
 
   connectToTrello(){
@@ -78,7 +72,8 @@ export default class IntegrationAuth extends Component {
     const integratedWith = "trello";
     const dueDate = null;
     const createdAt = new Date();
-    var self = this;
+    var allTasks= this.props.tasks;
+    var equal = true;
 
     Trello.members.get("me", function(member){
       Trello.get("/member/me/boards", function(boards) {
@@ -89,7 +84,7 @@ export default class IntegrationAuth extends Component {
                 for(y=0;y<cards.length;y++) {
                   const taskName = cards[y].name;
 
-                  if(self.state.allTasks[0] == null) {
+                  if(allTasks[0] == null) {
                     Tasks.insert({
                       ownerId,
                       taskName,
@@ -101,21 +96,21 @@ export default class IntegrationAuth extends Component {
                       dueDate,
                       createdAt,
                     });
-                    self.state.allTasks[0] = new Object;
-                    self.state.allTasks[0].taskName = taskName;
-                    self.state.allTasks[0].ownerId = ownerId;
-                    self.state.allTasks[0].taskPriority = 0;
-                    self.state.allTasks[0].checked = false;
-                    self.state.allTasks[0].totalPomos = 0;
-                    self.state.allTasks[0].taskGoal = 0;
-                    self.state.allTasks[0].integratedWith = integratedWith;
-                    self.state.allTasks[0].dueDate = dueDate;
-                    self.state.allTasks[0].createdAt = new Date();
+                    allTasks[0] = new Object;
+                    allTasks[0].taskName = taskName;
+                    allTasks[0].ownerId = ownerId;
+                    allTasks[0].taskPriority = 0;
+                    allTasks[0].checked = false;
+                    allTasks[0].totalPomos = 0;
+                    allTasks[0].taskGoal = 0;
+                    allTasks[0].integratedWith = integratedWith;
+                    allTasks[0].dueDate = dueDate;
+                    allTasks[0].createdAt = new Date();
 
                     equal = false;
                   } else {
-                    for(z=0;z<self.state.allTasks.length;z++) {
-                      if(cards[y].name == self.state.allTasks[z].taskName) {
+                    for(z=0;z<allTasks.length;z++) {
+                      if(cards[y].name == allTasks[z].taskName) {
                         equal = false;
                       }
                     }
@@ -133,16 +128,16 @@ export default class IntegrationAuth extends Component {
                       dueDate,
                       createdAt,
                     });
-                    self.state.allTasks[self.state.allTasks.length] = new Object;
-                    self.state.allTasks[self.state.allTasks.length-1].taskName = taskName;
-                    self.state.allTasks[self.state.allTasks.length-1].ownerId = ownerId;
-                    self.state.allTasks[self.state.allTasks.length-1].taskPriority = 0;
-                    self.state.allTasks[self.state.allTasks.length-1].checked = false;
-                    self.state.allTasks[self.state.allTasks.length-1].totalPomos = 0;
-                    self.state.allTasks[self.state.allTasks.length-1].taskGoal = 0;
-                    self.state.allTasks[self.state.allTasks.length-1].integratedWith = integratedWith;
-                    self.state.allTasks[self.state.allTasks.length-1].dueDate = dueDate;
-                    self.state.allTasks[self.state.allTasks.length-1].createdAt = new Date();
+                    allTasks[allTasks.length] = new Object;
+                    allTasks[allTasks.length-1].taskName = taskName;
+                    allTasks[allTasks.length-1].ownerId = ownerId;
+                    allTasks[allTasks.length-1].taskPriority = 0;
+                    allTasks[allTasks.length-1].checked = false;
+                    allTasks[allTasks.length-1].totalPomos = 0;
+                    allTasks[allTasks.length-1].taskGoal = 0;
+                    allTasks[allTasks.length-1].integratedWith = integratedWith;
+                    allTasks[allTasks.length-1].dueDate = dueDate;
+                    allTasks[allTasks.length-1].createdAt = new Date();
                   }
                   equal = true;
                 }

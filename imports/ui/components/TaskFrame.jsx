@@ -142,6 +142,13 @@ export default class TaskFrame extends Component {
     	popup: false,
     	popup2: false
     });
+
+    if(this.props.endNumber-1 == this.props.startNumber) {
+      this.props.updateStartNumber(this.props.startNumber-5);
+      this.props.updateEndNumber(this.props.endNumber-1);
+    } else {
+      this.props.updateEndNumber(this.props.endNumber-1);
+    }
     Tasks.remove(this.props.task._id);
   }
 

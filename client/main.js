@@ -5,9 +5,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 Meteor.startup(() => {
   injectTapEventPlugin();
 
-  Session.set('startNumber', 0);
-  Session.set('endNumber', 5);
-
   Session.set({
     "route": "timer",
     "snackbarMessage": "error",
