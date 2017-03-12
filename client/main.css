@@ -261,12 +261,15 @@ html, body {
 	/*height: 100%;*/
 }
 
-.authLogo {
+.authLogo  {
 	display: flex;
 	flex-direction: column;
+	-webkit-align-items: center;
 	align-items: center;
+	-webkit-justify-content: center;
 	justify-content: center;
 	width: 7.5em;
+	margin: auto;
 }
 
 #svgLogo {

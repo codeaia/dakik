@@ -9,7 +9,6 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import Rsvg from 'react-inlinesvg';
-import Loading from './Loading.jsx';
 
 export default class Auth extends Component {
   constructor(props) {
@@ -227,7 +226,6 @@ render() {
         <Flexbox className="auth">
 		<Card>
 			<CardHeader>
-		    	<Loading></Loading>
 		        <div className = "authLogo">
 		        	<img src="dakik_logo.svg" alt=""/>
 		        </div>
