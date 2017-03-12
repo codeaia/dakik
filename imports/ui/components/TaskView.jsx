@@ -167,7 +167,7 @@ export default class TaskView extends Component {
   }
 
   render() {
-    if (this.props.tasks !== undefined && this.props.currentUser !== undefined && this.props.tasks.length != 0) {
+    if (this.props.tasks !== undefined && this.props.currentUser !== undefined) {
       return (
         <MuiThemeProvider>
           <Flexbox className="taskList">
