@@ -133,8 +133,14 @@ export default class TaskView extends Component {
       let filteredTasks = this.props.tasks;
       let viewTasks = [];
 
-      for(i=this.state.startNumber;i<this.state.endNumber;i++) {
-        viewTasks[i] = filteredTasks[i];
+      if(this.state.endNumber > this.props.tasks.length) {
+        for(i=this.state.startNumber;i<this.props.tasks.length;i++) {
+          viewTasks[i] = filteredTasks[i];
+        }
+      } else {
+        for(i=this.state.startNumber;i<this.state.endNumber;i++) {
+          viewTasks[i] = filteredTasks[i];
+        }
       }
 
       if (this.state.hideCompleted) {
