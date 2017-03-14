@@ -127,6 +127,7 @@ export default class TaskFrame extends Component {
   	  var date = new Date();
   	  const newProfile = this.props.currentUser.profile;
 
+      newProfile.startDisabled = true;
   	  newProfile.playing = true;
   	  newProfile.elapsedTime = 0;
   	  newProfile.updateTime = date.valueOf();
@@ -143,11 +144,16 @@ export default class TaskFrame extends Component {
     	popup2: false
     });
 
+    if(this.props.length <= 6) {
+      this.props.updateDisabledNext(true);
+      this.props.updateDisabledPrev(true);
+    }
+
     if(this.props.endNumber-1 == this.props.startNumber) {
       this.props.updateStartNumber(this.props.startNumber-5);
       this.props.updateEndNumber(this.props.endNumber-1);
     } else if (this.props.endNumber < this.props.length) {
-      
+
     }else {
       this.props.updateEndNumber(this.props.endNumber-1);
     }
@@ -217,6 +223,7 @@ export default class TaskFrame extends Component {
       <FlatButton
         label="DELETE"
         primary={true}
+        disabled={this.props.currentUser.profile.startDisabled}
         onTouchTap={this.deleteTask}
       />,
       <FlatButton
@@ -227,7 +234,7 @@ export default class TaskFrame extends Component {
       <FlatButton
         label="START"
         primary={true}
-        disabled={this.props.currentUser.profile.playing ? true : false}
+        disabled={this.props.currentUser.profile.startDisabled}
         onTouchTap={this.startPomo}
       />,
     ];

@@ -17,7 +17,6 @@ export default class Timer extends Component {
 
     this.state = {
       playing: true,
-      currentUser: null,
       elapsedTime: 0,
       elapsedAngle: 0,
     }
@@ -46,17 +45,13 @@ export default class Timer extends Component {
       // update the selected task and add 1 pomo time to it
     }
 
-    this.setState({
-      currentUser: this.props.currentUser,
-    });
-
     if (this.state.playing) {
       this.timer = setTimeout(() => this.progress(), 1000);
     }
   }
 
   componentWillReceiveProps(nextProps){
-    if(!this.props.currentUser.profile.playing && nextProps.currentUser.profile.playing && !this.state.playing){
+    if(nextProps.currentUser.profile.playing && !this.state.playing){
       this.setState({
         playing: true,
         elapsedTime: nextProps.currentUser.profile.elapsedTime,
@@ -68,13 +63,13 @@ export default class Timer extends Component {
   componentWillUnmount(){
     if (Meteor.user()) {
       var date = new Date();
-      const newProfile = this.state.currentUser.profile;
+      const newProfile = this.props.currentUser.profile;
 
       newProfile.playing = this.state.playing;
       newProfile.elapsedTime = this.state.elapsedTime;
       newProfile.updateTime = date.valueOf();
 
-      Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+      Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
     }
 
     if (this.state.playing) {
@@ -107,6 +102,8 @@ export default class Timer extends Component {
           newProfile.pomoCount = 1;
         }
 
+        newProfile.startDisabled = false;
+
         Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
       }
     }
@@ -117,10 +114,26 @@ export default class Timer extends Component {
       this.setState({
         playing: false,
       });
+      var date = new Date();
+      const newProfile = this.props.currentUser.profile;
+
+      newProfile.playing = false;
+      newProfile.elapsedTime = this.state.elapsedTime;
+      newProfile.updateTime = date.valueOf();
+
+      Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
     } else {
       this.setState({
         playing: true,
       });
+      var date = new Date();
+      const newProfile = this.props.currentUser.profile;
+
+      newProfile.playing = true;
+      newProfile.elapsedTime = this.state.elapsedTime;
+      newProfile.updateTime = date.valueOf();
+
+      Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
       this.timer = setTimeout(() => this.progress(), 1000);
     }
   }
@@ -132,14 +145,15 @@ export default class Timer extends Component {
       elapsedAngle: 0
     });
 
-    const newProfile = this.state.currentUser.profile;
+    const newProfile = this.props.currentUser.profile;
 
+    newProfile.startDisabled = false;
     newProfile.playing = false;
     newProfile.elapsedTime = 0;
     newProfile.updateTime = null;
     newProfile.currentTaskId = null;
 
-    Meteor.users.update({_id: this.state.currentUser._id},{$set: {profile: newProfile}});
+    Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
   }
 
   getIconName(){
@@ -158,7 +172,7 @@ export default class Timer extends Component {
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
               <FloatingActionButton style={{marginRight: "1em"}} iconClassName={this.getIconName()} onClick={this.handlePause}/>
-              <FloatingActionButton disabled={!this.props.currentUser.profile.playing}iconClassName="fa fa-stop" onClick={this.handleStop}/>
+              <FloatingActionButton disabled={!this.props.currentUser.profile.playing} iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>
         </MuiThemeProvider>

@@ -23,6 +23,6 @@ if (Meteor.isServer) {
   // This code only runs on the server
 
   Meteor.publish('tasks', function tasksPublication() {
-    return Tasks.find({ownerId: this.userId});
+    return Tasks.find({ownerId: this.userId}, {sort: {createdAt: 1}});
   });
 }

@@ -61,7 +61,11 @@ export default class TaskView extends Component {
   }
 
   nextButton() {
-    if((this.state.endNumber + 5) > this.props.tasks.length) {
+    if(this.props.tasks.length <= 5) {
+      this.setState({
+        disabledNext: true
+      });
+    }else if((this.state.endNumber + 5) > this.props.tasks.length) {
       this.setState({
         disabledPrev: false,
         disabledNext: true,
@@ -88,35 +92,51 @@ export default class TaskView extends Component {
   }
 
   prevButton() {
-    if(this.state.endNumber == this.props.tasks.length) {
-      this.updateStartNumber(this.state.startNumber - 5);
-
+    if((this.state.startNumber-5) <= 0) {
+     this.setState({
+       disabledPrev: true,
+       disabledNext: false,
+       startNumber: 0,
+       endNumber: 5
+     });
+    } else if(this.state.endNumber == this.props.tasks.length) {
       if((this.props.tasks.length % 5) == 0) {
-        this.updateEndNumber(this.state.endNumber - 5);
+        this.setState({
+          disabledPrev: false,
+          disabledNext: false,
+          startNumber: this.state.startNumber - 5,
+          endNumber: this.props.tasks.length - 5
+        });
       } else {
-        this.updateEndNumber(this.state.endNumber - this.props.tasks.length % 5);
+        this.setState({
+          disabledPrev: false,
+          disabledNext: false,
+          startNumber: this.state.startNumber - 5,
+          endNumber: this.state.endNumber - this.props.tasks.length % 5
+        });
       }
-    } else if((this.state.startNumber-5) < 0) {
-      this.updateStartNumber(0);
-      this.updateEndNumber(this.state.endNumber - this.state.startNumber);
     } else {
-      this.updateStartNumber(this.state.startNumber - 5);
-      this.updateEndNumber(this.state.endNumber - 5);
-    }
-
-    if(this.state.startNumber-5 == 0) {
-      this.updateDisabledPrev(true);
-    } else {
-      this.updateDisabledPrev(false);
-      this.updateDisabledNext(false);
+      this.setState({
+        disabledPrev: false,
+        disabledNext: false,
+        startNumber: this.state.startNumber - 5,
+        endNumber: this.state.endNumber - 5
+      });
     }
   }
 
   componentWillReceiveProps(nextProps){
-    if (nextProps.currentUser !== undefined && nextProps.tasks.length != 0) {
-      this.setState({
-        hideCompleted: nextProps.currentUser.profile.hideCompleted,
-      });
+    if (nextProps.currentUser !== undefined) {
+      if(this.props.tasks.length <= 5 && this.state.disabledNext == false) {
+        this.setState({
+          hideCompleted: nextProps.currentUser.profile.hideCompleted,
+          disabledNext: true
+        });
+      } else {
+        this.setState({
+          hideCompleted: nextProps.currentUser.profile.hideCompleted,
+        });
+      }
     }
   }
 
@@ -148,7 +168,8 @@ export default class TaskView extends Component {
       }
 
       return viewTasks.map((task) => (
-          <TaskFrame key={task._id}
+          <TaskFrame
+            key={task._id}
             task={task}
             currentUser={this.props.currentUser}
             startNumber={this.state.startNumber}
@@ -156,8 +177,24 @@ export default class TaskView extends Component {
             length={this.props.tasks.length}
             updateStartNumber={this.updateStartNumber}
             updateEndNumber={this.updateEndNumber}
+            updateDisabledPrev={this.updateDisabledPrev}
+            updateDisabledNext={this.updateDisabledNext}
             />
       ));
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.tasks !== this.props.tasks) {
+      if(this.props.tasks.length <= 5) {
+        this.setState({
+          disabledNext: true
+        });
+      }
+    } else if(this.props.tasks.length <= 5 && this.state.disabledNext == false) {
+      this.setState({
+        disabledNext: true
+      });
     }
   }
 
@@ -188,11 +225,11 @@ export default class TaskView extends Component {
                 </Subheader>
                 <List>
                   <ReactCSSTransition
-              		   transitionName = "taskFrameLoad"
-              		   transitionEnterTimeout = {600}
-              			 transitionLeaveTimeout = {400}>
+    					      transitionName = "taskFrameLoad"
+   					        transitionEnterTimeout = {600}
+    					      transitionLeaveTimeout = {400}>
                       {this.renderTasks()}
-          			  </ReactCSSTransition>
+			  	        </ReactCSSTransition>
                 </List>
               </CardText>
             </Card>
@@ -206,8 +243,3 @@ export default class TaskView extends Component {
     }
   }
 }
-
-  TaskView.propTypes = {
-    currentUser: React.PropTypes.object,
-    tasks: React.PropTypes.array,
-  };
