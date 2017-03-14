@@ -1,23 +1,27 @@
-# pomodoro-app
+# Dakik
 
-#How To Install
+Simple, cross-platform and reactive time-management app created by Codeaia in 2016-2017.
 
-1) Clone the project using any tool to your local computer.
+Register and check this app at **https://dakik.herokuapp.com**
 
-2) Run command 'meteor npm install'. (This one is for node packages which needs seperate initialization)
+### How To Install
+* You should have meteor installed on your system.
 
-3) Run command 'meteor reset'. (Optional/Conditional, If database spesific changes are applied to project, it can be broken on your environment. So, better delete your database before starting the server.)
+* Clone the project.
 
-4) Run one of the following commands belonging to your aim;
+* Run following commands in root directory of the project in order.
 
-  -) Run command 'meteor run'.
+  * meteor npm install
 
-  -) Run command 'meteor run android' to use it with an android emulator.
+  * meteor run
 
-  -) Run command 'meteor run android-device --mobile-server http://yourlocalip' to let your phone connect to your database, using that you must! connect both of them to the same network.
+### Team
+1) UI Designer: [Abdullah Öğük](http://github.com/abdullahoguk)
 
-5) Here are some shots. Very much WIP.
+2) Developer: [Ahmet Kaşif](http://github.com/ahmetkasif)
 
-![alt tag](https://github.com/ahmetkasif/Previews/blob/master/pomo1.png)
+3) Artist: [İbrahim Konuk](http://github.com/iknk)
 
-6) And lastly, you can register and check this app at https://app-karpuz.herokuapp.com, 
+4) Developer: [Hilmi Araz](http://github.com/hilmi3x)
+
+5) Developer: [Uğur Kafalı](http://github.com/raguer100)
