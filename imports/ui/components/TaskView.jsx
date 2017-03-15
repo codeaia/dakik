@@ -11,6 +11,7 @@ import {List} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactCSSTransition from 'react-addons-css-transition-group';
+import { Tasks } from '../../api/tasks.js';
 
 export default class TaskView extends Component {
 
@@ -61,11 +62,7 @@ export default class TaskView extends Component {
   }
 
   nextButton() {
-    if(this.props.tasks.length <= 5) {
-      this.setState({
-        disabledNext: true
-      });
-    }else if((this.state.endNumber + 5) > this.props.tasks.length) {
+    if((this.state.endNumber + 5) > this.props.tasks.length) {
       this.setState({
         disabledPrev: false,
         disabledNext: true,
@@ -127,16 +124,9 @@ export default class TaskView extends Component {
 
   componentWillReceiveProps(nextProps){
     if (nextProps.currentUser !== undefined) {
-      if(this.props.tasks.length <= 5 && this.state.disabledNext == false) {
-        this.setState({
-          hideCompleted: nextProps.currentUser.profile.hideCompleted,
-          disabledNext: true
-        });
-      } else {
-        this.setState({
-          hideCompleted: nextProps.currentUser.profile.hideCompleted,
-        });
-      }
+      this.setState({
+        hideCompleted: nextProps.currentUser.profile.hideCompleted,
+      });
     }
   }
 
@@ -184,20 +174,6 @@ export default class TaskView extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.tasks !== this.props.tasks) {
-      if(this.props.tasks.length <= 5) {
-        this.setState({
-          disabledNext: true
-        });
-      }
-    } else if(this.props.tasks.length <= 5 && this.state.disabledNext == false) {
-      this.setState({
-        disabledNext: true
-      });
-    }
-  }
-
   toggleHide(){
     this.setState({
       hideCompleted: !this.state.hideCompleted,
@@ -210,7 +186,7 @@ export default class TaskView extends Component {
   }
 
   render() {
-    if (this.props.tasks !== undefined && this.props.currentUser !== undefined) {
+    if (this.props.tasks !== undefined && this.props.currentUser !== undefined && this.props.length !== undefined) {
       return (
         <MuiThemeProvider>
           <Flexbox className="taskList">
@@ -220,7 +196,7 @@ export default class TaskView extends Component {
                   #TagNameHere
                   <IconButton iconClassName="fa fa-plus-square-o" style={{padding: '-12px'}} onClick={this.routeNewTask} tooltip="New Task"/>
                   <RaisedButton label="Prev" disabled={this.state.disabledPrev} onClick={this.prevButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
-                  <RaisedButton label="Next" disabled={this.state.disabledNext} onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+                  <RaisedButton label="Next" disabled={this.props.length <= 5 ? true : this.state.disabledNext} onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
                   <Toggle label="Hide completed tasks" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide}/>
                 </Subheader>
                 <List>
@@ -243,3 +219,9 @@ export default class TaskView extends Component {
     }
   }
 }
+
+TaskView.propTypes = {
+  currentUser: React.PropTypes.object,
+  tasks: React.PropTypes.array,
+  length: React.PropTypes.number,
+};

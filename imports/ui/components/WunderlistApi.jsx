@@ -1,6 +1,7 @@
 import React, { Component, constructor, PropTypes} from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import FlatButton from 'material-ui/FlatButton';
+import Loading from './Loading.jsx';
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -157,11 +158,17 @@ export default class WunderlistApi extends Component {
   }
 
   render() {
-    return (
-      <div ref="myRef">
-        <FlatButton disabled={this.state.disabled} label="Connect To Wunderlist" onTouchTap={this.example}/>
-        <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
-      </div>
-    );
+    if(this.props.tasks !== undefined) {
+      return (
+        <div ref="myRef">
+          <FlatButton disabled={this.state.disabled} label="Connect To Wunderlist" onTouchTap={this.example}/>
+          <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
+        </div>
+      );
+    } else {
+      return (
+        <Loading/>
+      );
+    }
   }
 }

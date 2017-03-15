@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import WunderlistApi from './WunderlistApi.jsx';
+import Loading from './Loading.jsx';
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -162,23 +163,29 @@ export default class IntegrationAuth extends Component {
   }
 
   render() {
-    return (
-      <MuiThemeProvider ref="myRef">
-        <Flexbox flexDirection="column">
-          <Tabs>
-            <Tab label="Trello">
-              <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
-              <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
-              <FlatButton label="Sync" onTouchTap={this.addToDatabase}/>
-            </Tab>
-            <Tab label="Wunderlist">
-              <div>
-                <WunderlistApi currentUser={this.props.currentUser} tasks={this.props.tasks}/>
-              </div>
-            </Tab>
-          </Tabs>
-        </Flexbox>
-      </MuiThemeProvider>
-    );
+    if (this.props.tasks !== undefined) {
+      return (
+        <MuiThemeProvider ref="myRef">
+          <Flexbox flexDirection="column">
+            <Tabs>
+              <Tab label="Trello">
+                <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
+                <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
+                <FlatButton label="Sync" onTouchTap={this.addToDatabase}/>
+              </Tab>
+              <Tab label="Wunderlist">
+                <div>
+                  <WunderlistApi currentUser={this.props.currentUser} tasks={this.props.tasks}/>
+                </div>
+              </Tab>
+            </Tabs>
+          </Flexbox>
+        </MuiThemeProvider>
+      );
+    } else {
+      return (
+        <Loading/>
+      );
+    }
   }
 }

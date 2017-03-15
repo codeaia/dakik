@@ -42,7 +42,7 @@ class App extends Component {
     			  		<div className='timer'>
                   <Timer currentUser={this.props.currentUser}/>
     			  		</div>
-    			  		<TaskView currentUser={this.props.currentUser} tasks={this.props.tasks}/>
+    			  		<TaskView currentUser={this.props.currentUser} tasks={this.props.tasks} length={this.props.length}/>
               </Flexbox>
     			</Flexbox>
     		);
@@ -97,17 +97,20 @@ App.propTypes = {
   currentUser: React.PropTypes.object,
   route: React.PropTypes.string,
   tasks: React.PropTypes.array,
+  length: React.PropTypes.number,
 };
 
 export default AppContainer = createContainer(() => {
   Meteor.subscribe('tasks');
   const currentUser = Meteor.user();
   const tasks = Tasks.find().fetch();
+  const length = Tasks.find().count();
   const route = Session.get('route');
 
   return {
     currentUser,
     route,
     tasks,
+    length,
   };
 }, App);
