@@ -1,5 +1,4 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
-
 import Flexbox from 'flexbox-react';
 import IconButton from 'material-ui/IconButton';
 import Loading from './Loading.jsx';
@@ -11,6 +10,7 @@ import {List} from 'material-ui/List';
 import TaskFrame from './TaskFrame.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactCSSTransition from 'react-addons-css-transition-group';
+import Snackbar from 'material-ui/Snackbar';
 import { Tasks } from '../../api/tasks.js';
 
 export default class TaskView extends Component {
@@ -19,6 +19,8 @@ export default class TaskView extends Component {
     super(props);
 
     this.state = {
+      snackbar: Session.get('TaskViewSnackBar') ? Session.get('TaskViewSnackBar') : false,
+      message: Session.get('TaskViewMessage') ? Session.get('TaskViewMessage') : "",
       hideCompleted: false,
       disabledPrev: true,
       disabledNext: false,
@@ -26,6 +28,7 @@ export default class TaskView extends Component {
       endNumber: 5
     };
 
+    this.closeSnackbar = this.closeSnackbar.bind(this);
     this.routeNewTask = this.routeNewTask.bind(this);
     this.renderTasks = this.renderTasks.bind(this);
     this.toggleHide = this.toggleHide.bind(this);
@@ -35,6 +38,12 @@ export default class TaskView extends Component {
     this.updateDisabledNext = this.updateDisabledNext.bind(this);
     this.updateEndNumber = this.updateEndNumber.bind(this);
     this.updateStartNumber = this.updateStartNumber.bind(this);
+  }
+
+  closeSnackbar(){
+    this.setState({
+      snackbar: false,
+    });
   }
 
   updateDisabledPrev(value) {
@@ -208,6 +217,12 @@ export default class TaskView extends Component {
 			  	        </ReactCSSTransition>
                 </List>
               </CardText>
+              <Snackbar
+                open={this.state.snackbar}
+                message={this.state.message}
+                autoHideDuration={4000}
+                onRequestClose={this.closeSnackbar}
+              />
             </Card>
           </Flexbox>
         </MuiThemeProvider>

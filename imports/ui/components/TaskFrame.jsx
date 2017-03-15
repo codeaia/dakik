@@ -94,7 +94,8 @@ export default class TaskFrame extends Component {
 
   closePopup2() {
   	this.setState({
-  	  popup2: false
+  	  popup2: false,
+      popup: true
   	});
   }
 
