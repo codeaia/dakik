@@ -229,6 +229,73 @@ html, body {
 	text-decoration: line-through;
 }
 
+/* TASK DETAILS*/
+
+.taskDetailsTitle{
+	color: var(--turk-light) !important;
+	font-size: 1em !important;
+}
+
+.taskDetailsContent > div{
+	background-color: var(--fallback) !important;
+}
+
+.taskDetailsBody p {
+	opacity: 1 !important;
+	color: var(--white) !important;
+}
+
+.taskDetailsContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 50% !important;
+}
+
+.taskDetailsContent .each{
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	align-items: stretch;;
+	justify-content: space-between;
+	margin: auto;
+	margin-bottom: .5em;
+	width: 75%;
+}
+
+.taskDetailsContent .taskName{
+	font-size: 3em;
+	margin-bottom: 1em;
+	text-align: center;
+	background-color: var(--fallback-dark) !important;
+
+}
+
+.taskDetailsContent .target{
+	padding: .5em;
+	padding-right: 2em;
+}
+
+.taskDetailsContent p.value {
+background-color:var(--fallback-dark);
+color: var(--turk)  !important;
+
+padding: .5em;
+}
+
+.taskDetailsActions {
+	display: flex !important;
+	flex-direction: row;
+	align-items: center !important ;
+	justify-content: center;
+}
+
+.taskDetailsActions .actionButton{
+	background-color: var(--fallback-light) !important;
+ margin: 1em !important;
+ color: var(--fallback) !important;
+}
+
 /* ---------------------   Tasks Page   -----------------------*/
 
 .taskList{
