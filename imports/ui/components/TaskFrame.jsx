@@ -218,7 +218,7 @@ export default class TaskFrame extends Component {
             onTouchTap = {
                 this.startPomo
             }
-            className = "actionButton" />
+            className = "actionButton start" />
         ];
 
         const actions2 = [ < FlatButton label = "CANCEL" primary = {
@@ -240,8 +240,8 @@ export default class TaskFrame extends Component {
 
         return (
             <MuiThemeProvider>
-                <div>
-                    <ListItem className={"taskListItem " + this.getStatus()} leftCheckbox={leftCheckbox} primaryText={this.props.task.taskName} rightIconButton={< IconButton iconClassName = "fa fa-wrench" style = {{padding: '-12px'}}onClick = {
+                <div className = "taskFrame">
+                    <ListItem className={"taskListItem " + this.getStatus()} leftCheckbox={leftCheckbox} primaryText={this.props.task.taskName} rightIconButton={< IconButton iconClassName = "fa fa-ellipsis-v" style = {{padding: '-12px'}}onClick = {
                         this.openPopup
                     }
                     tooltip = "Settings" />}/>
@@ -283,33 +283,61 @@ export default class TaskFrame extends Component {
                             <p className="value">{moment(this.props.task.dueDate).format("MMM Do YY")}</p>
                         </div>
                     </Dialog>
-                    <Dialog title="TASK EDIT" actions={actions2} modal={false} open={this.state.popup2} onRequestClose={this.closePopup2}>
-                        <CardText>
-                            <Flexbox flexDirection="column">
-                                <TextField id="edit-task-name" value={this.state.taskName} type="text" onChange={this.updateTaskName} floatingLabelText="Task Name"/>
-                                <SelectField floatingLabelText="Priority" value={this.state.taskPriority} onChange={this.updatePriority}>
-                                    <MenuItem value={0} primaryText="0 (No Priority)"/>
-                                    <MenuItem value={1} primaryText="1 (Urgent)"/>
-                                    <MenuItem value={2} primaryText="2 (Today)"/>
-                                    <MenuItem value={3} primaryText="3 (This Week)"/>
-                                    <MenuItem value={4} primaryText="4 (This Month)"/>
-                                    <MenuItem value={5} primaryText="5 (Any Time)"/>
-                                </SelectField>
-                                <SelectField floatingLabelText="Task Goal" value={this.state.taskGoal} onChange={this.updateTaskGoal}>
-                                    <MenuItem value={1} primaryText="1"/>
-                                    <MenuItem value={2} primaryText="2"/>
-                                    <MenuItem value={3} primaryText="3"/>
-                                    <MenuItem value={4} primaryText="4"/>
-                                    <MenuItem value={5} primaryText="5"/>
-                                    <MenuItem value={6} primaryText="6"/>
-                                    <MenuItem value={7} primaryText="7"/>
-                                    <MenuItem value={8} primaryText="8"/>
-                                    <MenuItem value={9} primaryText="9"/>
-                                    <MenuItem value={10} primaryText="10"/>
-                                </SelectField>
-                                <DatePicker hintText="Due Date" value={this.state.dueDate} onChange={this.updateDueDate}/>
-                            </Flexbox>
-                        </CardText>
+                    <Dialog
+						title="TASK EDIT"
+						actions={actions2}
+						modal={false}
+						open={this.state.popup2}
+						onRequestClose={this.closePopup2}
+						className="taskEditTitle"
+						titleClassName="taskEditTitle"
+						contentClassName="taskEditContent"
+						bodyClassName="taskEditBody"
+						actionsContainerClassName="taskEditActions"
+					>
+                        <TextField
+							id="edit-task-name"
+							value={this.state.taskName}
+							type="text" onChange={this.updateTaskName}
+							floatingLabelText="Task Name"
+							className = "taskName each"/>
+
+                        <SelectField
+							floatingLabelText="Priority"
+							value={this.state.taskPriority}
+							onChange={this.updatePriority}
+							className = "each">
+                                <MenuItem value={0} primaryText="0 (No Priority)"/>
+                                <MenuItem value={1} primaryText="1 (Urgent)"/>
+                                <MenuItem value={2} primaryText="2 (Today)"/>
+                                <MenuItem value={3} primaryText="3 (This Week)"/>
+                                <MenuItem value={4} primaryText="4 (This Month)"/>
+                                <MenuItem value={5} primaryText="5 (Any Time)"/>
+                        </SelectField>
+
+						<SelectField
+							floatingLabelText="Task Goal"
+							value={this.state.taskGoal}
+							onChange={this.updateTaskGoal}
+							className = "each">
+                            <MenuItem value={1} primaryText="1"/>
+                            <MenuItem value={2} primaryText="2"/>
+                            <MenuItem value={3} primaryText="3"/>
+                            <MenuItem value={4} primaryText="4"/>
+                            <MenuItem value={5} primaryText="5"/>
+                            <MenuItem value={6} primaryText="6"/>
+                            <MenuItem value={7} primaryText="7"/>
+                            <MenuItem value={8} primaryText="8"/>
+                            <MenuItem value={9} primaryText="9"/>
+                            <MenuItem value={10} primaryText="10"/>
+                        </SelectField>
+
+                        <DatePicker
+							hintText="Due Date"
+							value={this.state.dueDate}
+							onChange={this.updateDueDate}
+							className = "each"
+						/>
                     </Dialog>
                     <Snackbar open={this.state.snackbar} message={this.state.message} autoHideDuration={4000} onRequestClose={this.closeSnackbar}/>
                 </div>
