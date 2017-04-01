@@ -52,7 +52,7 @@ class App extends Component {
             <Nav/>
             <Flexbox flexDirection='column' className='taskNewContainer'>
               <Profile currentUser={this.props.currentUser}/>
-              <Statistics/>
+              <Statistics currentUser={this.props.currentUser}/>
             </Flexbox>
     		  </Flexbox>
     		);

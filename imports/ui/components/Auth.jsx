@@ -217,94 +217,92 @@ export default class Auth extends Component {
         }
       }
     }
-};
+  };
 
-render() {
-  return (
-    <div className="fullHeight">
-      <MuiThemeProvider>
-        <Flexbox className="auth">
-		<Card>
-			<CardHeader>
-		        <div className = "authLogo">
-		        	<img src="dakik_logo.svg" alt=""/>
-		        </div>
-		    </CardHeader>
-        	<Tabs>
-            <Tab label="Sign In">
-              <Card>
-                <CardText>
-                  <Flexbox flexDirection="column">
-                    <TextField
-                      name="signinUsername"
-                      type="text"
-                      onChange = {this.updateSigninUsername}
-                      floatingLabelText = "Username"
-                    />
-                    <TextField
-                      name="signinPassword"
-                      type="password"
-                      onChange = {this.updateSigninPassword}
-                      floatingLabelText = "Password"
-                      className = "textfield" />
-                  </Flexbox>
-                </CardText>
-                <CardActions>
-                  <RaisedButton label="Forgot Password ?" onClick={this.handleFPass} backgroundColor = "#FFFFFF" labelColor="#004d40"/>
-                  <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
-                </CardActions>
-              </Card>
-            </Tab>
-            <Tab label="Sign Up" >
-              <Card>
-                <CardText>
-                  <Flexbox className="textfields" flexDirection="column">
-                    <TextField
-                      name="signupUsername"
-                      type="text"
-                      onChange = {this.updateSignupUsername}
-                      floatingLabelText = "Username"
-                      className = "textfield"
-                    />
-                    <TextField
-                      name="signupEmail"
-                      type="text"
-                      onChange = {this.updateSignupEmail}
-                      floatingLabelText = "E-mail"
-                      className = "textfield"
-                    />
-                    <TextField
-                      name="signupPassword"
-                      type="password"
-                      onChange = {this.updateSignupPassword}
-                      floatingLabelText = "Password"
-                      className = "textfield"
-                    />
-                    <TextField
-                      name="signupPassword2"
-                      type="password"
-                      onChange = {this.updateSignupPassword2}
-                      floatingLabelText = "Password Again"
-                      className = "textfield"
-                    />
-                  </Flexbox>
-                </CardText>
-                <CardActions>
-                  <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
-                </CardActions>
-              </Card>
-            </Tab>
-          </Tabs>
-          <Snackbar
-            open={this.state.snackbar}
-            message={this.state.message}
-            autoHideDuration={4000}
-            onRequestClose={this.closeSnackbar}
-          />
-		  </Card>
-        </Flexbox>
-      </MuiThemeProvider>
-    </div>
+  render() {
+    return (
+      <div className="fullHeight">
+        <MuiThemeProvider>
+          <Flexbox className="auth">
+            <Card>
+              <CardHeader className = "authLogo">
+                <img src="dakik_logo.svg" alt=""/>
+              </CardHeader>
+              <Tabs>
+                <Tab label="Sign In">
+                  <Card>
+                    <CardText>
+                      <Flexbox flexDirection="column">
+                        <TextField
+                          name="signinUsername"
+                          type="text"
+                          onChange = {this.updateSigninUsername}
+                          floatingLabelText = "Username"
+                          />
+                        <TextField
+                          name="signinPassword"
+                          type="password"
+                          onChange = {this.updateSigninPassword}
+                          floatingLabelText = "Password"
+                          className = "textfield" />
+                      </Flexbox>
+                    </CardText>
+                    <CardActions>
+                      <RaisedButton label="Forgot Password ?" onClick={this.handleFPass} backgroundColor = "#FFFFFF" labelColor="#004d40"/>
+                      <RaisedButton label="Sign In" onClick={this.handleSignin} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
+                    </CardActions>
+                  </Card>
+                </Tab>
+                <Tab label="Sign Up" >
+                  <Card>
+                    <CardText>
+                      <Flexbox className="textfields" flexDirection="column">
+                        <TextField
+                          name="signupUsername"
+                          type="text"
+                          onChange = {this.updateSignupUsername}
+                          floatingLabelText = "Username"
+                          className = "textfield"
+                          />
+                        <TextField
+                          name="signupEmail"
+                          type="text"
+                          onChange = {this.updateSignupEmail}
+                          floatingLabelText = "E-mail"
+                          className = "textfield"
+                          />
+                        <TextField
+                          name="signupPassword"
+                          type="password"
+                          onChange = {this.updateSignupPassword}
+                          floatingLabelText = "Password"
+                          className = "textfield"
+                          />
+                        <TextField
+                          name="signupPassword2"
+                          type="password"
+                          onChange = {this.updateSignupPassword2}
+                          floatingLabelText = "Password Again"
+                          className = "textfield"
+                          />
+                      </Flexbox>
+                    </CardText>
+                    <CardActions>
+                      <RaisedButton label="Sign Up" onClick={this.handleSignup} backgroundColor = "#004D40" labelColor="#FFFFFF" fullWidth={true}/>
+                    </CardActions>
+                  </Card>
+                </Tab>
+              </Tabs>
+              <Snackbar
+                open={this.state.snackbar}
+                message={this.state.message}
+                autoHideDuration={4000}
+                onRequestClose={this.closeSnackbar}
+                />
+            </Card>
+          </Flexbox>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }

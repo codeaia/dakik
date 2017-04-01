@@ -102,8 +102,6 @@ export default class Timer extends Component {
           newProfile.pomoCount = 1;
         }
 
-        newProfile.startDisabled = false;
-
         Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
       }
     }
@@ -147,7 +145,6 @@ export default class Timer extends Component {
 
     const newProfile = this.props.currentUser.profile;
 
-    newProfile.startDisabled = false;
     newProfile.playing = false;
     newProfile.elapsedTime = 0;
     newProfile.updateTime = null;
@@ -171,7 +168,7 @@ export default class Timer extends Component {
           <Flexbox flexDirection="column">
             <Clock playing={this.state.playing} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
             <Flexbox justifyContent="center">
-              <FloatingActionButton disabled={!this.props.currentUser.profile.startDisabled} style={{marginRight: "1em"}} iconClassName={this.getIconName()} onClick={this.handlePause}/>
+              <FloatingActionButton style={{marginRight: "1em"}} iconClassName={this.getIconName()} onClick={this.handlePause} disabled={this.state.elapsedTime > 0 ? false : true}/>
               <FloatingActionButton disabled={!this.props.currentUser.profile.playing} iconClassName="fa fa-stop" onClick={this.handleStop}/>
             </Flexbox>
           </Flexbox>

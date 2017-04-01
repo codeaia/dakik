@@ -65,7 +65,8 @@ export default class WunderlistApi extends Component {
   }
 
   insertLists() {
-    const ownerId = this.props.currentUser._id;
+    var user = this.props.currentUser;
+    const ownerId = user._id;
     const checked = false;
     const taskPriority = 0;
     const totalPomos = 0;
@@ -75,6 +76,17 @@ export default class WunderlistApi extends Component {
     const createdAt = new Date();
     var equal = true;
     var allTasks = this.props.tasks;
+
+    var taskCount = 0;
+    var wunderlistTasksCount = 0;
+
+    if (user.profile.taskCount !== undefined) {
+      taskCount = user.profile.taskCount;
+    }
+
+    if (user.profile.wunderlistTasksCount !== undefined) {
+      wunderlistTasksCount = user.profile.wunderlistTasksCount;
+    }
 
     Meteor.call('fetchFromService2', function(err, respJson) {
       for(i=0; i<respJson.length; i++) {
@@ -95,6 +107,13 @@ export default class WunderlistApi extends Component {
                 dueDate,
                 createdAt,
               });
+
+              taskCount += 1;
+              wunderlistTasksCount += 1;
+              const newProfile = user.profile;
+              newProfile.taskCount = taskCount;
+              newProfile.wunderlistTasksCount = wunderlistTasksCount;
+              Meteor.users.update({_id: user._id},{$set: {profile: newProfile}});
 
               allTasks[0] = new Object;
               allTasks[0].taskName = taskName;
@@ -128,6 +147,14 @@ export default class WunderlistApi extends Component {
                 dueDate,
                 createdAt,
               });
+
+              taskCount += 1;
+              wunderlistTasksCount += 1;
+              const newProfile = user.profile;
+              newProfile.taskCount = taskCount;
+              newProfile.wunderlistTasksCount = wunderlistTasksCount;
+              Meteor.users.update({_id: user._id},{$set: {profile: newProfile}});
+
               allTasks[allTasks.length] = new Object;
               allTasks[allTasks.length-1].taskName = taskName;
               allTasks[allTasks.length-1].ownerId = ownerId;

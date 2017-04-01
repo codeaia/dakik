@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import * as V from 'victory';
 
 Meteor.startup(() => {
   injectTapEventPlugin();
