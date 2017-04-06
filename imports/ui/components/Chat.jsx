@@ -1,16 +1,11 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
-
-import ChatFrame from './ChatFrame.jsx';
-
-import { Chats } from '../../api/chats.js';
-
 import Flexbox from 'flexbox-react';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
-import List from 'material-ui/List';
+import {Card, CardActions, CardText} from 'material-ui/Card';
+import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 
 export default class Chat extends Component {
@@ -21,7 +16,6 @@ export default class Chat extends Component {
     this.state = {
       message: '',
     }
-
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
     this.renderMessages = this.renderMessages.bind(this);
@@ -51,7 +45,7 @@ export default class Chat extends Component {
 
   renderMessages(){
     return this.props.chats.map((chat) => (
-      <ChatFrame key={chat._id} chat={chat}/>
+      <ListItem primaryText={chat.message} secondaryText={chat.ownerName} />
     ));
   }
 
@@ -61,7 +55,6 @@ export default class Chat extends Component {
         <Card>
           <CardHeader
             title = "Support"
-            subtitle = "Write your problems, we will take care"
             />
           <CardText>
             <List>

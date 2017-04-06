@@ -1,8 +1,9 @@
-import React, { Component, constructor, State } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import CircularProgress from 'material-ui/CircularProgress';
+import React, { Component, constructor } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import Rsvg from 'react-inlinesvg';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import CircularProgress from 'material-ui/CircularProgress';
 
 export default class Clock extends Component {
   constructor(props) {
@@ -15,13 +16,11 @@ export default class Clock extends Component {
   }
 
   getMinutes(){
-    var minutes = 25 - this.props.elapsedTime / 60;
-    return parseInt(minutes);
+    return parseInt(25 - this.props.elapsedTime / 60);
   }
 
   getSeconds(){
-    var seconds = (1500 - this.props.elapsedTime) % 60;
-    return parseInt(seconds);
+    return parseInt((1500 - this.props.elapsedTime) % 60);
   }
 
   drawMinutes(){
@@ -48,17 +47,17 @@ export default class Clock extends Component {
         <div className="clock logo">
           <div className="circular">
             <CircularProgress
-              color="white"
+              color={this.props.color ? this.props.color : "#ffffff"}
               mode="determinate"
               value={100 - this.props.elapsedAngle}
               size={288}
               thickness={12}
             />
           </div>
-          <div className = "clockLogo">
-              <img src="dakik_logo.svg" alt=""/>
-            </div>
-          <div className="clockText">
+          <div className="clockLogo">
+            <img src="dakik_logo.svg" alt=""/>
+          </div>
+          <div className="clockText" style={{"color": this.props.color}}>
             {this.drawMinutes()}:{this.drawSeconds()}
           </div>
         </div>

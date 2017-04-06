@@ -1,26 +1,22 @@
 import React, { Component, PropTypes, constructor, State } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
-import { Session } from 'meteor/session'
+
+import Loading from './Loading.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
-import Loading from './Loading.jsx';
 import MenuItem from 'material-ui/MenuItem';
-import { Tasks } from '../../api/tasks.js';
 import DatePicker from 'material-ui/DatePicker';
-import Snackbar from 'material-ui/Snackbar';
 
 export default class TaskNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      snackbar: false,
-      message: '',
       taskName: '',
       taskPriority: 0,
       checked: false,
@@ -28,33 +24,12 @@ export default class TaskNew extends Component {
       dueDate: null,
     };
 
-    this.closeSnackbar = this.closeSnackbar.bind(this);
-    this.openSnackbar = this.openSnackbar.bind(this);
-    this.updateSnackbarText = this.updateSnackbarText.bind(this);
     this.cancelAdding = this.cancelAdding.bind(this);
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
-  }
-
-  updateSnackbarText(value){
-    this.setState({
-      message: value
-    });
-  }
-
-  openSnackbar(){
-    this.setState({
-      snackbar: true,
-    });
-  }
-
-  closeSnackbar(){
-    this.setState({
-      snackbar: false,
-    });
   }
 
   updateTaskGoal(event, index, value) {
@@ -82,61 +57,26 @@ export default class TaskNew extends Component {
   }
 
   addNewTask(event){
-    const taskName = this.state.taskName;
-    const taskPriority = this.state.taskPriority;
-    const ownerId = this.props.currentUser._id;
-    const checked = false;
-    const totalPomos = 0;
-    const taskGoal = this.state.taskGoal;
-    const integratedWith = "none";
-    const dueDate = this.state.dueDate;
+    Meteor.call(
+      'addTask',
+      this.state.taskName,
+      this.state.taskPriority,
+      this.state.taskGoal,
+      "none",
+      this.state.dueDate
+    );
 
-    if (taskName.toString().length == 0) {
-      this.updateSnackbarText("You can't leave Task Name field empty!");
-      this.openSnackbar();
-    } else if (dueDate == null) {
-      this.updateSnackbarText("You can't leave Due Date field empty!");
-      this.openSnackbar();
-    } else if(taskGoal.toString().length == 0) {
-      this.updateSnackbarText("You can't leave Task Goal field empty!");
-      this.openSnackbar();
-    } else {
-      Tasks.insert({
-        ownerId,
-        taskName,
-        taskPriority,
-        checked,
-        totalPomos,
-        taskGoal,
-        integratedWith,
-        dueDate,
-        createdAt: new Date(),
-      });
+    Session.set({
+      "snackbarMessage": "Task added",
+      "snackbar": true,
+      "route": "timer"
+    });
 
-      const newProfile = this.props.currentUser.profile;
-      if (newProfile.taskCount !== undefined) {
-        newProfile.taskCount++;
-      } else {
-        newProfile.taskCount = 1;
-      }
-
-      Meteor.users.update({_id: this.props.currentUser._id},{$set: {profile: newProfile}});
-
+    Meteor.setTimeout(function(){
       Session.set({
-        "TaskViewMessage": "Task added",
-        "TaskViewSnackBar": true
+        "snackbar": false
       });
-
-      Meteor.setTimeout(function(){
-        Session.set({
-          "TaskViewSnackBar": false
-        });
-      },4000);
-
-      Session.set({
-        "route": "timer"
-      });
-    }
+    },4000);
   }
 
   updateDueDate(event, date) {
@@ -197,12 +137,6 @@ export default class TaskNew extends Component {
               <RaisedButton label="Cancel" onClick={this.cancelAdding} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
               <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
             </CardActions>
-            <Snackbar
-              open={this.state.snackbar}
-              message={this.state.message}
-              autoHideDuration={4000}
-              onRequestClose={this.closeSnackbar}
-            />
           </Card>
         </Flexbox>
       </MuiThemeProvider>

@@ -10,6 +10,7 @@ Meteor.startup(() => {
     "route": "timer",
     "snackbarMessage": "error",
     "snackbar": false,
+    "skip": 0,
   });
 
   Accounts.onLogin(function() {

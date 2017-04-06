@@ -1,13 +1,15 @@
 import React, { Component, constructor, State } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
+
+import Loading from './Loading.jsx';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
-import Loading from './Loading.jsx';
 
-
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
 
@@ -43,32 +45,35 @@ export default class Profile extends Component {
   render() {
     const actions = [
       <FlatButton
-      label="Cancel"
-      primary={true}
-      onTouchTap={this.handleCloseLogout}
-      />,
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleCloseLogout}
+        />,
       <FlatButton
-      label="Log out"
-      primary={true}
-      onTouchTap={this.handleLogout}
-      />,
+        label="Log out"
+        primary={true}
+        onTouchTap={this.handleLogout}
+        />,
     ];
 
-    if (this.props.currentUser != undefined) {
+    if (this.props.user) {
       return (
         <MuiThemeProvider>
           <Card>
             <CardHeader
-              title={ this.props.currentUser ? this.props.currentUser.username : 'error'}
-              subtitle= { this.props.currentUser ? this.props.currentUser.emails[0].address : 'error'}
+              title={this.props.user.username}
+              subtitle= {this.props.user.emails[0].address}
               avatar="/jsa-128.jpg"
             />
-            <CardTitle title="İstatistiklerin"/>
+            <CardTitle title="Statistics"/>
             <CardText>
-              Tasks Created: {this.props.currentUser.profile.taskCount ? this.props.currentUser.profile.taskCount : 0}<br/>
-              Tasks Integrated With Trello: {this.props.currentUser.profile.trelloTasksCount ? this.props.currentUser.profile.trelloTasksCount : 0}<br/>
-              Tasks Integrated With Wunderlist: {this.props.currentUser.profile.wunderlistTasksCount ? this.props.currentUser.profile.wunderlistTasksCount : 0}<br/>
-              Finished Pomos: {this.props.currentUser.profile.pomoCount ? this.props.currentUser.profile.pomoCount : 0}<br/>
+              Tasks Created: {this.props.user.profile.statistics.taskCount}<br/>
+              Tasks Integrated With Trello: {this.props.user.profile.statistics.trelloTasksCount}<br/>
+              Tasks Integrated With Wunderlist: {this.props.user.profile.statistics.wunderlistTasksCount}<br/>
+              Completed Tasks: {this.props.user.profile.statistics.taskCount - this.props.user.profile.statistics.incompleteTasks}<br/>
+              Incomplete Tasks: {this.props.user.profile.statistics.incompleteTasks}<br/>
+              Finished Pomos: {this.props.user.profile.statistics.completedPomos}<br/>
+              Estimated Pomos: {this.props.user.profile.statistics.estimatedPomos}<br/>
             </CardText>
             <CardActions>
               <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
@@ -86,3 +91,10 @@ export default class Profile extends Component {
     }
   }
 }
+
+export default ProfileContainer = createContainer(() => {
+  const user = Meteor.users.findOne(Meteor.userId(), {profile: 1, username: 1, emails: 1});
+  return{
+    user,
+  };
+}, Profile);
