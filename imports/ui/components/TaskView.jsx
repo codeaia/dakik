@@ -84,30 +84,41 @@ class TaskView extends Component {
             <Card className="taskListCard">
               <CardText>
                 <Subheader className="subheader">
-                  #TagNameHere
-                  <RaisedButton label="Prev" disabled={Session.get('skip') === 0 ? true : false} onClick={this.prevButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
-                  <RaisedButton label="Next" disabled={this.props.length != 6 ? true : false} onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
                   <Toggle label="Hide completed" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide} className="toggleChecked"/>
                 </Subheader>
-                <List className="taskList">
-                  <ReactCSSTransition
-                    transitionName = "taskFrameLoad"
-                    transitionEnterTimeout = {600}
-                    transitionLeaveTimeout = {400}
-                  >
-                    <div className="taskFrame">
-                      <ListItem
-                        className="addTaskItem"
-                        onClick={this.routeNewTask}>
-                        <IconButton
-                          iconClassName="fa fa-plus"
-                          tooltip="New Task"
-                        />
-                      </ListItem>
-                    </div>
-                    {this.renderTasks()}
-                  </ReactCSSTransition>
-                </List>
+                <Flexbox alignItems="center">
+                  <IconButton
+                    iconClassName="fa fa-angle-left"
+                    disabled={Session.get('skip') === 0 ? true : false}
+                    tooltip="New Task"
+                    onClick={this.prevButton}
+                  />
+                  <List className="taskList">
+                    <ReactCSSTransition
+                      transitionName = "taskFrameLoad"
+                      transitionEnterTimeout = {600}
+                      transitionLeaveTimeout = {400}
+                    >
+                      <div className="taskFrame">
+                        <ListItem
+                          className="addTaskItem"
+                          onClick={this.routeNewTask}>
+                          <IconButton
+                            iconClassName="fa fa-plus"
+                            tooltip="New Task"
+                          />
+                        </ListItem>
+                      </div>
+                      {this.renderTasks()}
+                    </ReactCSSTransition>
+                  </List>
+                  <IconButton
+                    iconClassName="fa fa-angle-right"
+                    tooltip="New Task"
+                    disabled={this.props.length != 6 ? true : false}
+                    onClick={this.nextButton}
+                  />
+                </Flexbox>
               </CardText>
             </Card>
           </Flexbox>

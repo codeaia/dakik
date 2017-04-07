@@ -210,14 +210,11 @@ export default class TaskFrame extends Component {
       <IconButton
         label="CANCEL"
         iconClassName="cancel fa fa-times-circle"
-
-        primary={true}
         onTouchTap={this.closePopup2}
       />,
       <IconButton
         label="SAVE"
         iconClassName="ok fa fa-check"
-        primary={true}
         onTouchTap={this.editNewDetails}
       />,
     ];
@@ -294,7 +291,7 @@ export default class TaskFrame extends Component {
             modal={false}
             open={this.state.popup2}
             onRequestClose={this.closePopup2}
-            className="taskEditTitle"
+            className="taskEditPop"
             titleClassName="taskEditTitle"
             contentClassName="taskEditContent"
             bodyClassName="taskEditBody"

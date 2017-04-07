@@ -355,14 +355,14 @@ html, body {
 /* TASK Edit*/
 .taskEditPop{
 	padding:0px !important;
-	top:-50px!important;
+	top: -50px !important;
 }
 
 .taskEditTitle{
 	color: var(--fallback-light) !important;
 	font-size: 1em !important;
 	padding-bottom: 0!important;
-	padding-top: 1em!important;
+	padding-top: 0.5em!important;
 }
 
 .taskEditContent > div{
