@@ -130,13 +130,6 @@ html, body {
 	height: 100%;
 }
 
-circle{
-	box-shadow: -5px -5px 5px #888;
--webkit-box-shadow: -5px -5px 5px #888 !important;
-
-
-}
-
 .timerActionButtonContainer{
 	display: flex !important;
 	width: 8% !important;
