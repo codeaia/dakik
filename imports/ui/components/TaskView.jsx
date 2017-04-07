@@ -13,7 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import Toggle from 'material-ui/Toggle';
 import Subheader from 'material-ui/Subheader';
 import {Card, CardText} from 'material-ui/Card';
-import {List} from 'material-ui/List';
+import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class TaskView extends Component {
@@ -85,7 +85,6 @@ class TaskView extends Component {
               <CardText>
                 <Subheader className="subheader">
                   #TagNameHere
-                  <IconButton iconClassName="fa fa-plus-square-o" style={{padding: '-12px'}} onClick={this.routeNewTask} tooltip="New Task"/>
                   <RaisedButton label="Prev" disabled={Session.get('skip') === 0 ? true : false} onClick={this.prevButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
                   <RaisedButton label="Next" disabled={this.props.length != 6 ? true : false} onClick={this.nextButton} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
                   <Toggle label="Hide completed" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide} className="toggleChecked"/>
@@ -94,8 +93,19 @@ class TaskView extends Component {
                   <ReactCSSTransition
                     transitionName = "taskFrameLoad"
                     transitionEnterTimeout = {600}
-                    transitionLeaveTimeout = {400}>
-                      {this.renderTasks()}
+                    transitionLeaveTimeout = {400}
+                  >
+                    <div className="taskFrame">
+                      <ListItem
+                        className="addTaskItem"
+                        onClick={this.routeNewTask}>
+                        <IconButton
+                          iconClassName="fa fa-plus"
+                          tooltip="New Task"
+                        />
+                      </ListItem>
+                    </div>
+                    {this.renderTasks()}
                   </ReactCSSTransition>
                 </List>
               </CardText>

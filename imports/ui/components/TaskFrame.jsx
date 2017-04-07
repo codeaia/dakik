@@ -186,19 +186,19 @@ export default class TaskFrame extends Component {
   render() {
     const actions = [
       <IconButton
-        iconClassName="fa fa-trash-o"
+        iconClassName="delete fa fa-trash-o"
         tooltip="DELETE"
         onClick={this.deleteTask}
         disabled={Meteor.user().profile.playing || Meteor.user().profile.elapsedTime > 0 ? true : false}
       />,
       <IconButton
-        iconClassName="fa fa-pencil-square-o"
+        iconClassName="edit fa fa-pencil-square-o"
         tooltip="EDIT"
         onClick={this.openEditPopup}
         disabled={Meteor.user().profile.playing || Meteor.user().profile.elapsedTime > 0 ? true : false}
       />,
       <IconButton
-        iconClassName="fa fa-play"
+        iconClassName="start fa fa-play"
         tooltip="START"
         onClick={this.startPomo}
         className = "actionButton start"
@@ -207,13 +207,16 @@ export default class TaskFrame extends Component {
     ];
 
     const actions2 = [
-      <FlatButton
+      <IconButton
         label="CANCEL"
+        iconClassName="cancel fa fa-times-circle"
+
         primary={true}
         onTouchTap={this.closePopup2}
       />,
-      <FlatButton
+      <IconButton
         label="SAVE"
+        iconClassName="ok fa fa-check"
         primary={true}
         onTouchTap={this.editNewDetails}
       />,
@@ -237,9 +240,9 @@ export default class TaskFrame extends Component {
 
     return (
       <MuiThemeProvider>
-        <div className = "taskFrame">
+        <div className="taskFrame">
           <ListItem
-            className= {"taskListItem " + this.getStatus()}
+            className={"taskListItem " + this.getStatus()}
             leftCheckbox={leftCheckbox}
             primaryText={this.props.task.taskName}
             rightIconButton={

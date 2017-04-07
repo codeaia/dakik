@@ -19,6 +19,8 @@
 	--kahve-dark:#381F00;
 	--kahve-light:#BFA17A;
 
+	--green:rgba(0, 200, 0,1);
+
 	/*
 	--main-darker:#004226;
 	--main-dark:#004D40;
@@ -209,12 +211,34 @@ html, body {
 	flex-direction: row;
 	align-items: flex-end;
 }
+
+.addTaskItem{
+	background-color: rgba(15, 177, 191, 0.55);
+	border-radius: .25em;
+}
+
+.addTaskItem div div{
+	display: flex;
+	align-content: center;
+	padding: 0px !important;
+	justify-content: center;
+}
+
+.addTaskItem span{
+	color: var(--turk-dark) !important;
+	opacity:1;
+}
+
+.addTaskItem:hover {
+	background-color: rgba(31, 237, 255, 0.40);
+}
+
 .taskListItem{
 	background-color: rgba(15, 177, 191, 0.55);
 	margin: auto;
 	border-radius: .25em;
-
 }
+
 .taskListItem:hover {
 	background-color: rgba(31, 237, 255, 0.40);
 }
@@ -225,6 +249,11 @@ html, body {
 }
 
 /* TASK DETAILS*/
+
+.taskDetails{
+	padding:0px !important;
+	top:-50px!important;
+}
 
 .taskDetailsTitle{
 	color: var(--turk-light) !important;
@@ -240,11 +269,6 @@ html, body {
 	max-height: none!important;
 	height: 80% !important;
 	padding-bottom: 0px!important;
-}
-
-.taskDetails{
-	padding:0px !important;
-	top:-50px!important;
 }
 
 .taskDetailsBody p {
@@ -311,36 +335,54 @@ html, body {
 .taskDetailsActions span{
 	color: var(--turk) !important;
 }
-
-.taskDetailsActions button:hover{
-	color: var(--fallback-dark) !important;
+.taskDetailsActions button span{
+	opacity: .5;
 }
 
-.taskDetailsActions button:disabled {
-	opacity: .2 !important;
+
+.taskDetailsActions button:hover span{
+	opacity: 1
 }
 
-.taskDetailsActions button.start{
-	color: var(--fallback) !important;
+.taskDetailsActions button:disabled span{
+	color: var(--fallback-light) !important;
+}
+
+.taskDetailsActions button.start span{
+	color: var(--green) !important;
 }
 
 /* TASK Edit*/
+.taskEditPop{
+	padding:0px !important;
+	top:-50px!important;
+}
 
 .taskEditTitle{
 	color: var(--fallback-light) !important;
 	font-size: 1em !important;
+	padding-bottom: 0!important;
+	padding-top: 1em!important;
 }
 
 .taskEditContent > div{
 	background-color: var(--fallback) !important;
+	width: 100%;
 }
 .taskEditBody{
 	display: flex !important;
 	flex-direction: column!important;
 	align-items: center;
+	max-height: none!important;
+	height: 80% !important;
+	padding-bottom: 0px!important;
 }
-.taskEditBody div {
+.taskEditBody  div {
 	color: var(--white) !important;
+}
+
+.taskEditBody .each{
+	width: 85% !important;
 }
 
 .taskEditContent {
@@ -348,18 +390,17 @@ html, body {
 	flex-direction: column!important;
 	justify-content: center;
 	align-items: center;
-	width: 100% !important;}
+	width: 85% !important;}
 
 	.taskEditContent input{
-		margin-bottom: .5em;
 		color: var(--white) !important;
-		width: 85%;
 	}
 
 	.taskEditContent .each label{
 		color: var(--fallback-light) !important;
 		width: 85%;
 	}
+
 	.taskEditContent input:focus  {
 		color: var(--turk) !important;
 	}
@@ -368,19 +409,30 @@ html, body {
 		display: flex !important;
 		flex-direction: row;
 		align-items: center !important ;
-		justify-content: center;
+		justify-content: space-around;;
 		border-radius: 1px;
+		margin: auto;
+		width: 50% !important;
 	}
 
-	.taskEditActions button{
-		background-color: var(--turk) !important;
-		margin: 1em !important;
-		color: var(--fallback) !important;
+	.taskEditActions > button{
+		opacity: .5;
 	}
 
 	.taskEditActions button:hover{
-		color: var(--fallback-dark) !important;
-		background-color: var(--turk-light) !important;
+		opacity: 1;
+	}
+
+	.taskEditActions span{
+		color: var(--fallback-light) !important;
+	}
+
+	.taskEditActions span.ok{
+		color: var(--green) !important;
+	}
+
+	.taskEditActions span.cancel{
+		color: red !important;
 	}
 
 	/*Task List*/

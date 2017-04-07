@@ -51,7 +51,7 @@ export default class Clock extends Component {
               mode="determinate"
               value={100 - this.props.elapsedAngle}
               size={288}
-              thickness={12}
+              thickness={6}
             />
           </div>
           <div className="clockLogo">

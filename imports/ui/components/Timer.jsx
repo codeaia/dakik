@@ -19,9 +19,9 @@ export default class Timer extends Component {
       playing: true,
       elapsedTime: 0,
       elapsedAngle: 0,
-      r: 255,
-      g: 0,
-      b: 175,
+      r: 0,
+      g: 125,
+      b: 225,
     }
 
     this.getIconName = this.getIconName.bind(this);
@@ -148,7 +148,10 @@ export default class Timer extends Component {
     this.setState({
       playing: false,
       elapsedTime: 0,
-      elapsedAngle: 0
+      elapsedAngle: 0,
+      r: 0,
+      g: 125,
+      b: 225,
     });
 
     const newProfile = Meteor.user().profile;
