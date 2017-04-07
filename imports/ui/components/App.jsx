@@ -26,9 +26,7 @@ class App extends Component {
     			<Flexbox flexDirection='column'>
     				<Nav/>
             <Flexbox flexDirection='column' className='timerContainer'>
-    			  	<div className='timer'>
                 <Timer />
-    			  	</div>
     			  	<TaskViewContainer />
             </Flexbox>
     			</Flexbox>

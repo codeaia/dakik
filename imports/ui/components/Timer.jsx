@@ -4,7 +4,7 @@ import ReactCSSTransition from 'react-addons-css-transition-group';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import IconButton from 'material-ui/IconButton';
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -178,10 +178,22 @@ export default class Timer extends Component {
         <MuiThemeProvider>
           <Flexbox flexDirection="column">
             <Clock color={"rgb(" + this.state.r + ", " + this.state.g + ", " + this.state.b + ")"} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
-            <Flexbox justifyContent="center">
-              <FloatingActionButton style={{marginRight: "1em"}} iconClassName={this.getIconName()} onClick={this.handlePause} disabled={this.state.elapsedTime > 0 ? false : true}/>
-              <FloatingActionButton disabled={!this.state.playing} iconClassName="fa fa-stop" onClick={this.handleStop}/>
-            </Flexbox>
+            <div className="timerActionButtonContainer">
+				<IconButton
+					className="timerActionButton play"
+					iconClassName={this.getIconName()}
+					disabled={this.state.elapsedTime > 0 ? false : true}
+					tooltip="Play/Pause"
+					onClick={this.handlePause}
+				/>
+				<IconButton
+					className = "timerActionButton stop"
+					iconClassName="fa fa-stop"
+					disabled={!this.state.playing}
+					tooltip="Play/Pause"
+					onClick={this.handleStop}
+				/>
+            </div>
           </Flexbox>
         </MuiThemeProvider>
       );

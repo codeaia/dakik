@@ -69,15 +69,6 @@ html, body {
 	margin-bottom: 22px;
 }
 
-.timer {
-	margin-bottom: 2em !important;
-}
-
-.timerContainer {
-	width: 100%;
-	margin-top: 4em !important;
-}
-
 .taskNewContainer {
 	align-items: center;
 	width: 100%;
@@ -139,8 +130,21 @@ html, body {
 	height: 100%;
 }
 
-.timerContainers {
-	margin-bottom: 2em;
+circle{
+	box-shadow: -5px -5px 5px #888;
+-webkit-box-shadow: -5px -5px 5px #888 !important;
+
+
+}
+
+.timerActionButtonContainer{
+	display: flex !important;
+	width: 8% !important;
+	margin: auto;
+	justify-content: space-between!important;
+}
+
+.timerActionButton{
 }
 
 .clock {
@@ -187,6 +191,39 @@ html, body {
 .taskFrame:hover{
 
 }
+
+
+/*Task Progress */
+.taskProgress{
+	width: 100%;
+	height: 5px;
+	border: 0 none;
+	background: var(--turk);
+border-radius: 10px;
+}
+
+.taskProgress::-moz-progress-bar{
+	background: #FFF;
+ 	box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .taskProgress {
+    height: 2px;
+  }
+}
+
+.taskProgress::-webkit-progress-bar {
+    background: transparent;
+}
+.taskProgress::-webkit-progress-value {
+    height: 2px;
+
+  background:var(--red-light);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
+}
+
+
 
 .taskFrameTop{
 	display: flex;

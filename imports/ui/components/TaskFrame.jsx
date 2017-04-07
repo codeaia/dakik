@@ -238,6 +238,7 @@ export default class TaskFrame extends Component {
     return (
       <MuiThemeProvider>
         <div className="taskFrame">
+		  <progress className = "taskProgress" max = "101" value = {(this.props.task.totalPomos/this.props.task.taskGoal)*100+1}></progress>
           <ListItem
             className={"taskListItem " + this.getStatus()}
             leftCheckbox={leftCheckbox}
