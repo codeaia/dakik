@@ -58,6 +58,17 @@ html, body {
 	height: 100%;
 }
 
+.paragraph{
+	margin: 20px;
+	display: inline-block;
+	padding: 0.5em;
+}
+
+.about_header{
+	font-size: 22px;
+	margin-bottom: 22px;
+}
+
 .timer {
 	margin-bottom: 2em !important;
 }

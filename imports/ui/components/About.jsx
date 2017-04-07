@@ -1,24 +1,7 @@
 import React, { Component, constructor} from 'react';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import {List, ListItem} from 'material-ui/List';
-
-const styles = {
-  headline: {
-    fontSize: 24,
-    marginBottom: 12,
-    fontWeight: 400,
-    backgroundColor: '#FFFFFF',
-  },
-  background: {
-    backgroundColor: '#FFFFFF',
-    paddingTop: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    paddingLeft: 16,
-  },
-};
+import Paper from 'material-ui/Paper';
 
 export default class About extends Component {
   constructor(props) {
@@ -28,70 +11,51 @@ export default class About extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Flexbox flexDirection="column">
-          <Tabs>
-            <Tab label="Aim">
-              <div style={styles.background}>
-                <List>
-                  <ListItem primaryText="Pomo App is a free, cross-platform time-management application."/>
-                </List>
-              </div>
-            </Tab>
-            <Tab label="Features">
-              <div style={styles.background}>
-                <List>
-                  <ListItem primaryText="A countdown Timer which can be paused at wish, can play even when you are not online."/>
-                  <ListItem primaryText="Adding listing, editing, checking and deleting tasks."/>
-                  <ListItem primaryText="Connection to trello account and ability to use tables."/>
-                </List>
-              </div>
-            </Tab>
-            <Tab label="Team">
-              <div style={styles.background}>
-                <List>
-                  <ListItem key={5} primaryText="Abdullah Öğük" secondaryText="UI Designer"/>
-                  <ListItem key={1} primaryText="Ahmet Kaşif" secondaryText="Developer"/>
-                  <ListItem key={2} primaryText="İbrahim Konuk" secondaryText="Artist"/>
-                  <ListItem key={4} primaryText="Hilmi Araz" secondaryText="Integrator"/>
-                  <ListItem key={3} primaryText="Uğur Kafalı" secondaryText="Integrator"/>
-                </List>
-              </div>
-            </Tab>
-            <Tab label="Patch Notes">
-              <div style={styles.background}>
-                <List>
-                  <ListItem style={styles.headline} primaryText="Patch 0.9.0"/>
-                  <ListItem
-                    primaryText="What's New: "
-                    nestedItems={[
-                      <ListItem key={1} primaryText="Basic validation rules are added to signin and signup functions."/>,
-                      <ListItem key={2} primaryText="Checking tasks is now possible."/>,
-                    ]}
-                  />
-                  <ListItem
-                    primaryText="Changes: "
-                    nestedItems={[
-                      <ListItem key={1} primaryText="Clock size adjusted."/>,
-                      <ListItem key={2} primaryText="About page patch notes are updated."/>,
-                    ]}
-                  />
-                  <ListItem
-                    primaryText="Fixes: "
-                    nestedItems={[
-                      <ListItem key={1} primaryText="Several unused code is deleted and performance seems to be getting much better."/>,
-                    ]}
-                  />
-                </List>
-              </div>
-            </Tab>
-            <Tab label="Known Issues">
-              <div style={styles.background}>
-                <List>
-                  <ListItem primaryText="Countdown Timer play pause button, if clicked too much, can play the timer much quicker. Workaround is to press pause, wait a second, press play just after."/>
-                </List>
-              </div>
-            </Tab>
-          </Tabs>
+        <Flexbox justifyContent="center" flexDirection="column">
+            <Paper className="paragraph" zDepth={2}>
+              <h3 className="about_header">AIM</h3>
+              <p>-Our aim is to ease time-management of our users.</p>
+            </Paper>
+            <Paper className="paragraph" zDepth={2}>
+              <h3 className="about_header">FEATURES</h3>
+              <p>
+                -First feature of our application is to provide in-app todo-list in which users can create, update, delete their tasks in application.<br />
+                -Second feature of our application is cross platform meaning that users can access our application from web, mobile, and desktop.<br />
+                -Third feature is in-app timer to let users manage tasks within certain time periods.<br />
+                -Fourth feature is to integrate similar task management applications such as trello and wunderlist.
+              </p>
+            </Paper>
+            <Paper className="paragraph" zDepth={2}>
+              <h3 className="about_header">TEAM</h3>
+              <p>
+                <a href="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" target="_blank">Abdullah ÖĞÜK - UI Designer</a><br />
+                <a href="http://i.imgur.com/sMQoX48.gif" target="_blank">Ahmet KAŞİF - Developer</a><br />
+                <a href="https://media.giphy.com/media/CovFciJgWyxUs/giphy.gif" target="_blank">İbrahim KONUK - Artist</a><br />
+                <a href="https://media.giphy.com/media/lXiRG1vwLewnehlxS/giphy.gif" target="_blank">Hilmi ARAZ - Integrator</a><br />
+                <a href="https://media.giphy.com/media/SKUhuXbT0OjwA/giphy.gif" target="_blank">Uğur KAFALI - Integrator</a>
+              </p>
+            </Paper>
+            <Paper className="paragraph" zDepth={2}>
+              <h3 className="about_header">PATCH NOTES</h3>
+              <p>
+                Whats New<br />
+                -All 3 statistical graphs have been implemented.<br />
+                -Loading component's animation updated.<br />
+                Changes<br />
+                -ChatFrame deleted.<br />
+                -Recursive timer function is updated to work every 200ms in order to handle pause-unpause bug.<br />
+                Fixes<br />
+                -Chat component re-implemented.<br />
+                -Clock and integration components simplified.<br />
+                -Syntax fixes.
+              </p>
+              </Paper>
+              <Paper className="paragraph" zDepth={2}>
+                <h3 className="about_header">ISSUES</h3>
+                <p>
+                  -If you start the task and exit from application and than if you open it afterwards task finihes, application crashes
+                </p>
+              </Paper>
         </Flexbox>
       </MuiThemeProvider>
     );
