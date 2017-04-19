@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
+import React, { Component, constructor, State } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import Flexbox from 'flexbox-react';
@@ -7,7 +7,7 @@ import { Chats } from '../../api/chats.js';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -47,7 +47,7 @@ class Chat extends Component {
 	}
 
 	renderMessages(){
-		return this.props.chats.map((chat) => (
+		return this.props.messages.map((chat) => (
 			<ListItem primaryText={chat.message} secondaryText={chat.ownerName} />
 		));
 	}
