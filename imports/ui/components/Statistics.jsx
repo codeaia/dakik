@@ -27,6 +27,7 @@ class Statistics extends Component {
   render() {
     return(
       <VictoryChart
+		className = "chart chart1"
         domainPadding={20}
         theme={VictoryTheme.material}
         width={1000}

@@ -57,7 +57,7 @@ class Profile extends Component {
     if (this.props.user) {
       return (
         <MuiThemeProvider>
-          <Flexbox flexDirection="column" className="container">
+          <Flexbox flexDirection="column" className="container profile">
             <Card>
               <CardHeader
                 title={this.props.user.username}

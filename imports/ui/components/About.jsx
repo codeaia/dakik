@@ -23,7 +23,7 @@ export default class About extends Component {
     return (
       <div className = "about">
         <MuiThemeProvider>
-          <Paper className="aboutCard" zDepth={3}>
+          <Segment className="aboutCard" zDepth={3}>
             <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
             <Grid className="about-semantic">
               <Grid.Column width={4}>
@@ -130,7 +130,7 @@ export default class About extends Component {
                 : ""}
               </Grid.Column>
             </Grid>
-          </Paper>
+          </Segment>
         </MuiThemeProvider>
       </div>
     )
