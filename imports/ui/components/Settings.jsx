@@ -1,4 +1,6 @@
 import React, { Component, constructor, State } from 'react';
+import TrelloApi from './TrelloApi.jsx';
+import WunderlistApi from './WunderlistApi.jsx';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -7,7 +9,10 @@ export default class Settings extends Component {
 
   render() {
     return (
-      <h1>Coming soon..</h1>
+      <div>
+        <TrelloApi />
+        <WunderlistApi />
+      </div>
     );
   }
 }

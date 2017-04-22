@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Tasks } from '../imports/api/tasks.js';
+import { Pomos } from '../imports/api/pomos.js';
+import { Stats } from '../imports/api/stats.js';
 
 token = "";
 

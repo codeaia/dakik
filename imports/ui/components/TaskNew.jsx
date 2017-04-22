@@ -1,6 +1,7 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
+import React, { Component, constructor, State } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+import { Link } from 'react-router-dom';
 
 import Loading from './Loading.jsx';
 
@@ -24,7 +25,6 @@ export default class TaskNew extends Component {
       dueDate: null,
     };
 
-    this.cancelAdding = this.cancelAdding.bind(this);
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
@@ -50,12 +50,6 @@ export default class TaskNew extends Component {
     });
   }
 
-  cancelAdding(){
-    Session.set({
-      "route": "timer"
-    });
-  }
-
   addNewTask(event){
     Meteor.call(
       'addTask',
@@ -65,18 +59,6 @@ export default class TaskNew extends Component {
       "none",
       this.state.dueDate
     );
-
-    Session.set({
-      "snackbarMessage": "Task added",
-      "snackbar": true,
-      "route": "timer"
-    });
-
-    Meteor.setTimeout(function(){
-      Session.set({
-        "snackbar": false
-      });
-    },4000);
   }
 
   updateDueDate(event, date) {
@@ -134,8 +116,12 @@ export default class TaskNew extends Component {
               </Flexbox>
             </CardText>
             <CardActions>
-              <RaisedButton label="Cancel" onClick={this.cancelAdding} backgroundColor = "#FFFFFF" labelColor="#004D40"/>
-              <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
+              <Link to="/timer">
+                <RaisedButton label="Cancel" backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+              </Link>
+              <Link to="/timer">
+                <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
+              </Link>
             </CardActions>
           </Card>
         </Flexbox>

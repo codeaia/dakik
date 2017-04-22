@@ -1,6 +1,9 @@
 import React, { Component, constructor, PropTypes} from 'react';
-import FlatButton from 'material-ui/FlatButton';
+
 import { Tasks } from '../../api/tasks.js';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FlatButton from 'material-ui/FlatButton';
 
 export default class WunderlistApi extends Component {
   constructor(props) {
@@ -84,13 +87,6 @@ export default class WunderlistApi extends Component {
               "wunderlist",
               null,
             );
-
-            taskCount += 1;
-            wunderlistTasksCount += 1;
-            const newProfile = Meteor.user().profile;
-            newProfile.taskCount = taskCount;
-            newProfile.wunderlistTasksCount = wunderlistTasksCount;
-            Meteor.users.update(Meteor.userId(),{$set: {profile: newProfile}});
           }
         });
       }
@@ -110,10 +106,12 @@ export default class WunderlistApi extends Component {
 
   render() {
     return (
-      <div ref="myRef">
-        <FlatButton disabled={this.state.disabled} label="Connect To Wunderlist" onTouchTap={this.example}/>
-        <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
-      </div>
+      <MuiThemeProvider ref="myRef">
+        <div>
+          <FlatButton disabled={this.state.disabled} label="Connect To Wunderlist" onTouchTap={this.example}/>
+          <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

@@ -1,39 +1,24 @@
-import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import React from 'react';
+import { render } from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import * as V from 'victory';
+
+import App from '../imports/ui/components/App.jsx';
 
 Meteor.startup(() => {
   injectTapEventPlugin();
 
   Session.set({
-    "route": "timer",
-    "snackbarMessage": "error",
-    "snackbar": false,
     "skip": 0,
   });
 
+  render(<App />, document.getElementById('render-target'));
+
   Accounts.onLogin(function() {
-    Session.set({
-      "snackbarMessage": "Logged In",
-      "snackbar": true
-    });
-    Meteor.setTimeout(function(){
-      Session.set({
-        "snackbar": false
-      });
-    },4000);
+    console.log('Signed In');
   });
 
   Accounts.onLogout(function() {
-    Session.set({
-      "snackbarMessage": "Logged Out",
-      "snackbar": true
-    });
-    Meteor.setTimeout(function(){
-      Session.set({
-        "snackbar": false
-      });
-    },4000);
+    console.log('Signed Out');
   });
 });

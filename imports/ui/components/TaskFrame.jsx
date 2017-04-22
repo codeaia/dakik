@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react';
 var moment = require('moment');
 
 import { Tasks } from '../../api/tasks.js';
+import { Pomos } from '../../api/pomos.js';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
@@ -31,15 +32,13 @@ export default class TaskFrame extends Component {
 
       taskName: this.props.task.taskName,
       taskPriority: this.props.task.taskPriority,
-      taskGoal: this.props.task.taskGoal,
+      pomoGoal: this.props.task.pomoGoal,
       dueDate: this.props.task.dueDate,
     }
 
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
     this.updateSnackbarText = this.updateSnackbarText.bind(this);
-    this.toggleChecked = this.toggleChecked.bind(this);
-    this.getStatus = this.getStatus.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.openEditTask = this.openEditTask.bind(this);
     this.closePopup = this.closePopup.bind(this);
@@ -50,7 +49,7 @@ export default class TaskFrame extends Component {
 
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
-    this.updateTaskGoal = this.updateTaskGoal.bind(this);
+    this.updatePomoGoal = this.updatePomoGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
     this.startPomo = this.startPomo.bind(this);
   }
@@ -59,6 +58,14 @@ export default class TaskFrame extends Component {
     this.setState({
       checked: this.props.task.checked,
     });
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (this.props.task.checked !== nextProps.task.checked) {
+      this.setState({
+        checked: nextProps.task.checked,
+      });
+    }
   }
 
   updateSnackbarText(value){
@@ -109,9 +116,9 @@ export default class TaskFrame extends Component {
     });
   }
 
-  updateTaskGoal(event, value) {
+  updatePomoGoal(event, value) {
     this.setState({
-      taskGoal: value
+      pomoGoal: value
     });
   }
 
@@ -124,21 +131,32 @@ export default class TaskFrame extends Component {
   startPomo(){
     if (!Meteor.user().profile.playing) {
       if (!this.props.task.checked) {
-        var tempProfile = Meteor.user().profile;
-        tempProfile.playing = true;
-        tempProfile.elapsedTime = 0;
-        tempProfile.updateTime = (new Date()).valueOf();
-        tempProfile.currentTaskId = this.props.task._id;
-        Meteor.users.update(Meteor.userId(),{$set: {profile: tempProfile}});
+        Meteor.users.update(Meteor.userId(),{$set: {
+          "profile.playing": true,
+          "profile.elapsedTime": 1480,
+          "profile.updateTime": (new Date()).valueOf(),
+          "profile.currentTaskId": this.props.task._id,
+        }});
         this.closePopup();
       }
     }
   }
 
   deleteTask(){
-    if(this.props.length === 1) {
+    if(Session.get('skip') > 0 && this.props.length === 1) {
       Session.set('skip', Session.get('skip') - 5);
     }
+    var task = Tasks.findOne(this.props.task._id);
+    Meteor.subscribe('pomos', task._id);
+    var pomos = Pomos.find(this.props.task._id).fetch();
+    pomos.map((pomo) => {
+      if (task.checked) {
+        Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, -1);
+      } else {
+        Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, 0);
+      }
+    });
+
     Meteor.call('deleteTask', this.props.task._id);
     this.setState({
       popup: false,
@@ -147,7 +165,7 @@ export default class TaskFrame extends Component {
   }
 
   editNewDetails() {
-    Meteor.call('editTask', this.props.task._id, this.state.taskName, this.state.taskPriority, this.state.taskGoal, this.state.dueDate);
+    Meteor.call('editTask', this.props.task._id, this.state.taskName, this.state.taskPriority, this.state.pomoGoal, this.state.dueDate);
     this.closePopup2();
   }
 
@@ -157,7 +175,7 @@ export default class TaskFrame extends Component {
       popup2: true,
       taskName: this.props.task.taskName,
       taskPriority: this.props.task.taskPriority,
-      taskGoal: this.props.task.taskGoal,
+      pomoGoal: this.props.task.pomoGoal,
       dueDate: this.props.task.dueDate,
     });
   }
@@ -167,20 +185,6 @@ export default class TaskFrame extends Component {
       popup: false,
       popupEdit: true
     });
-  }
-
-  toggleChecked() {
-    Meteor.call('checkTask', this.props.task._id, !this.state.checked);
-    this.setState({
-      checked: !this.state.checked
-    });
-  }
-
-  getStatus(){
-    if (this.state.checked) {
-      return 'checked';
-    }
-    return '';
   }
 
   render() {
@@ -228,20 +232,12 @@ export default class TaskFrame extends Component {
       />
     );
 
-    const leftCheckbox = (
-      <Checkbox
-        checked={this.state.checked}
-        onCheck={this.toggleChecked}
-      />
-    );
-
     return (
       <MuiThemeProvider>
         <div className="taskFrame">
-		  <progress className = "taskProgress" max = "101" value = {(this.props.task.totalPomos/this.props.task.taskGoal)*100+1}></progress>
+		      <progress className = "taskProgress" max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
           <ListItem
-            className={"taskListItem " + this.getStatus()}
-            leftCheckbox={leftCheckbox}
+            className={this.props.task.checked ? "checked taskListItem" : "taskListItem"}
             primaryText={this.props.task.taskName}
             rightIconButton={
               <IconButton
@@ -273,12 +269,12 @@ export default class TaskFrame extends Component {
 
             <div className="pomoTime each">
               <p className="target">Pomotime:</p>
-              <p className="value">{this.props.task.totalPomos}</p>
+              <p className="value">{this.props.task.pomoCount}</p>
             </div>
 
             <div className="estPomos each">
               <p className="target">Estimated Pomos:</p>
-              <p className="value">{this.props.task.taskGoal}</p>
+              <p className="value">{this.props.task.pomoGoal}</p>
             </div>
 
             <div className="due each">
@@ -319,8 +315,8 @@ export default class TaskFrame extends Component {
             </SelectField>
             <SelectField
               floatingLabelText="Task Goal"
-              value={this.state.taskGoal}
-              onChange={this.updateTaskGoal}
+              value={this.state.pomoGoal}
+              onChange={this.updatePomoGoal}
               className="each"
             >
               <MenuItem value={1} primaryText="1"/>

@@ -1,7 +1,8 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
+import React, { Component, constructor, State } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
+import { Link } from 'react-router-dom';
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -24,7 +25,6 @@ class TaskView extends Component {
       hideCompleted: false,
     };
 
-    this.routeNewTask = this.routeNewTask.bind(this);
     this.renderTasks = this.renderTasks.bind(this);
     this.toggleHide = this.toggleHide.bind(this);
     this.prevButton = this.prevButton.bind(this);
@@ -45,12 +45,6 @@ class TaskView extends Component {
         hideCompleted: nextProps.currentUser.profile.hideCompleted,
       });
     }
-  }
-
-  routeNewTask(){
-    Session.set({
-      "route": "taskNew"
-    });
   }
 
   renderTasks(){
@@ -77,58 +71,49 @@ class TaskView extends Component {
   }
 
   render() {
-    if (this.props.tasks && Meteor.user()) {
-      return (
-        <MuiThemeProvider>
-          <Flexbox>
-            <Card className="taskListCard">
-              <CardText>
-                <Subheader className="subheader">
-                  <Toggle label="Hide completed" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide} className="toggleChecked"/>
-                </Subheader>
-                <Flexbox alignItems="center">
-                  <IconButton
-                    iconClassName="fa fa-angle-left"
-                    disabled={Session.get('skip') === 0 ? true : false}
-                    tooltip="New Task"
-                    onClick={this.prevButton}
-                  />
-                  <List className="taskList">
-                    <ReactCSSTransition
-                      transitionName = "taskFrameLoad"
-                      transitionEnterTimeout = {600}
-                      transitionLeaveTimeout = {400}
-                    >
-                      <div className="taskFrame">
-                        <ListItem
-                          className="addTaskItem"
-                          onClick={this.routeNewTask}>
-                          <IconButton
-                            iconClassName="fa fa-plus"
-                            tooltip="New Task"
-                          />
-                        </ListItem>
-                      </div>
-                      {this.renderTasks()}
-                    </ReactCSSTransition>
-                  </List>
-                  <IconButton
-                    iconClassName="fa fa-angle-right"
-                    tooltip="New Task"
-                    disabled={this.props.length != 6 ? true : false}
-                    onClick={this.nextButton}
-                  />
-                </Flexbox>
-              </CardText>
-            </Card>
-          </Flexbox>
-        </MuiThemeProvider>
-      );
-    } else {
-      return (
-        <Loading/>
-      );
-    }
+    return (
+      <MuiThemeProvider>
+        <Flexbox>
+          <Card className="taskListCard">
+            <CardText>
+              <Subheader className="subheader">
+                <Toggle label="Hide completed" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide} className="toggleChecked"/>
+              </Subheader>
+              <Flexbox alignItems="center">
+                <IconButton
+                  iconClassName="fa fa-angle-left"
+                  disabled={Session.get('skip') === 0 ? true : false}
+                  tooltip="Previous List"
+                  onClick={this.prevButton}
+                />
+                <List className="taskList">
+                  <ReactCSSTransition
+                    transitionName = "taskFrameLoad"
+                    transitionEnterTimeout = {600}
+                    transitionLeaveTimeout = {400}
+                  >
+                    <div className="newTaskButton">
+                      <Link to="/taskNew">
+                        <div>
+                          <IconButton iconClassName="fa fa-plus" tooltip="New Task"/>
+                        </div>
+                      </Link>
+                    </div>
+                    {this.renderTasks()}
+                  </ReactCSSTransition>
+                </List>
+                <IconButton
+                  iconClassName="fa fa-angle-right"
+                  tooltip="Next List"
+                  disabled={this.props.length !== 6 ? true : false}
+                  onClick={this.nextButton}
+                />
+              </Flexbox>
+            </CardText>
+          </Card>
+        </Flexbox>
+      </MuiThemeProvider>
+    );
   }
 }
 
@@ -137,7 +122,7 @@ export default TaskViewContainer = createContainer(() => {
 
   Meteor.subscribe('tasks', skip);
   var length = Tasks.find().count();
-  var tasks = Tasks.find({}, {limit: 5}).fetch();
+  var tasks = Tasks.find({}, {limit: 5, sort: { createdAt: -1 }}).fetch();
 
   return {
     length,

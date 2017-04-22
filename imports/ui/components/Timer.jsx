@@ -1,27 +1,31 @@
 import React, { Component, constructor, State } from 'react';
 import Flexbox from 'flexbox-react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
 
 import { Tasks } from '../../api/tasks.js';
+import { Pomos } from '../../api/pomos.js';
+import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
 import Clock from './Clock.jsx';
+import TaskViewContainer from './TaskView.jsx';
 
-export default class Timer extends Component {
+class Timer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      playing: true,
+      playing: false,
       elapsedTime: 0,
       elapsedAngle: 0,
       r: 0,
       g: 125,
-      b: 225,
+      b: 255,
     }
 
     this.getIconName = this.getIconName.bind(this);
@@ -66,32 +70,33 @@ export default class Timer extends Component {
 
   componentDidMount(){
     var date = new Date();
-
-    if (Meteor.user().profile.playing) {
-      var timeDiff = (date.valueOf() - Meteor.user().profile.updateTime) / 1000;
-    }else{
-      var timeDiff = 0;
-    }
-
-    if ((timeDiff + Meteor.user().profile.elapsedTime) < 1500) {
-      this.setState({
-        playing: Meteor.user().profile.playing,
-        elapsedTime: Meteor.user().profile.elapsedTime + timeDiff,
-        elapsedAngle: Meteor.user().profile.elapsedTime / 15,
-      });
-    } else {
-      // TODO: veri henüz gelmediginden, metod taskı bulamıyor, işlem yarıda kesiliyor.
-      Meteor.call('finishTask', Meteor.user().profile.currentTaskId);
-      this.handleStop();
-    }
-
-    if (this.state.playing) {
-      this.timer = setTimeout(() => this.progress(), 100);
+    var timeDiff = 0;
+    if (Meteor.user()) {
+      if (Meteor.user().profile.playing) {
+        var timeDiff = (date.valueOf() - Meteor.user().profile.updateTime) / 1000;
+      }
+      if ((timeDiff + Meteor.user().profile.elapsedTime) < 1500) {
+        this.setState({
+          playing: Meteor.user().profile.playing,
+          elapsedTime: Meteor.user().profile.elapsedTime + timeDiff,
+          elapsedAngle: Meteor.user().profile.elapsedTime / 15,
+        });
+        this.timer = setTimeout(() => this.progress(), 100);
+      } else {
+        if (this.props.dailyStat) {
+          Meteor.call('updateDate', 1, 0);
+        } else {
+          Meteor.call('newDate');
+        }
+        Meteor.call('finishTask');
+        Meteor.call('addPomo');
+        this.handleStop();
+      }
     }
   }
 
   componentWillReceiveProps(nextProps){
-    if(Meteor.user().profile.playing && !this.state.playing){
+    if(nextProps.user !== this.props.user && nextProps.user.profile.playing){
       this.setState({
         playing: true,
         elapsedTime: Meteor.user().profile.elapsedTime,
@@ -125,7 +130,13 @@ export default class Timer extends Component {
         });
         this.timer = setTimeout(() => this.progress(), 100);
       } else if(this.state.elapsedTime >= 1500){
-        Meteor.call('finishTask', Meteor.user().profile.currentTaskId);
+        if (this.props.dailyStat) {
+          Meteor.call('updateDate', 1, 0);
+        } else {
+          Meteor.call('newDate');
+        }
+        Meteor.call('finishTask');
+        Meteor.call('addPomo');
         this.handleStop();
       }
     }
@@ -151,17 +162,15 @@ export default class Timer extends Component {
       elapsedAngle: 0,
       r: 0,
       g: 125,
-      b: 225,
+      b: 255,
     });
 
-    const newProfile = Meteor.user().profile;
-
-    newProfile.playing = false;
-    newProfile.elapsedTime = 0;
-    newProfile.updateTime = null;
-    newProfile.currentTaskId = null;
-
-    Meteor.users.update(Meteor.userId(), {$set: {profile: newProfile}});
+    Meteor.users.update(Meteor.userId(), {$set: {
+      "profile.playing": false,
+      "profile.elapsedTime": 0,
+      "profile.updateTime": 0,
+      "profile.currentTaskId": null,
+    }});
   }
 
   getIconName(){
@@ -173,34 +182,40 @@ export default class Timer extends Component {
   }
 
   render() {
-    if (Meteor.user()) {
-      return (
-        <MuiThemeProvider>
-          <Flexbox flexDirection="column">
-            <Clock color={"rgb(" + this.state.r + ", " + this.state.g + ", " + this.state.b + ")"} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
-            <div className="timerActionButtonContainer">
-				<IconButton
-					className="timerActionButton play"
-					iconClassName={this.getIconName()}
-					disabled={this.state.elapsedTime > 0 ? false : true}
-					tooltip="Play/Pause"
-					onClick={this.handlePause}
-				/>
-				<IconButton
-					className = "timerActionButton stop"
-					iconClassName="fa fa-stop"
-					disabled={!this.state.playing}
-					tooltip="Play/Pause"
-					onClick={this.handleStop}
-				/>
-            </div>
-          </Flexbox>
-        </MuiThemeProvider>
-      );
-    } else {
-      return (
-        <Loading/>
-      );
-    }
+    return (
+      <MuiThemeProvider>
+        <Flexbox flexDirection="column">
+          <Clock color={"rgb(" + this.state.r + ", " + this.state.g + ", " + this.state.b + ")"} elapsedTime={this.state.elapsedTime} elapsedAngle={this.state.elapsedAngle} />
+          <div className="timerActionButtonContainer">
+            <IconButton
+              className="margin-right play"
+              iconClassName={this.getIconName()}
+              disabled={this.state.elapsedTime > 0 ? false : true}
+              tooltip="Play/Pause"
+              onClick={this.handlePause}
+            />
+            <IconButton
+              className = "margin-left stop"
+              iconClassName="fa fa-stop"
+              disabled={!this.state.playing}
+              tooltip="Play/Pause"
+              onClick={this.handleStop}
+            />
+          </div>
+          <TaskViewContainer />
+        </Flexbox>
+      </MuiThemeProvider>
+    );
   }
 }
+
+export default TimerContainer = createContainer(() => {
+  Meteor.subscribe('dailyStat');
+  const dailyStat = Stats.findOne();
+  const user = Meteor.user();
+
+  return {
+    user,
+    dailyStat,
+  };
+}, Timer);

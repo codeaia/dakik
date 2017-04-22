@@ -1,88 +1,52 @@
-import React, { Component, constructor, State } from 'react';
-import Flexbox from 'flexbox-react';
-import { createContainer } from 'meteor/react-meteor-data';
+import React, {Component, constructor, State} from 'react';
+import { Router, Route, Switch, Redirect, withRouter } from 'react-router';
+import createHistory from 'history/createBrowserHistory';
 
-import Timer from './Timer.jsx';
-import TaskViewContainer from './TaskView.jsx';
+import TimerContainer from './Timer.jsx';
 import StatisticsContainer from './Statistics.jsx';
 import Settings from './Settings.jsx';
 import About from './About.jsx';
-import Loading from './Loading.jsx';
 import TaskNew from './TaskNew.jsx';
-import IntegrationAuth from './IntegrationAuth.jsx';
 import Profile from './Profile.jsx';
 import Nav from './Nav.jsx';
-import Chat from './Chat.jsx';
+import Auth from './Auth.jsx';
 
-class App extends Component {
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    Meteor.userId() ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/auth',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+);
+
+
+export default class App extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-  	if (Meteor.user()) {
-  	  if (this.props.route === 'timer') {
-    		return (
-    			<Flexbox flexDirection='column'>
-    				<Nav/>
-            <Flexbox flexDirection='column' className='timerContainer'>
-                <Timer />
-    			  	<TaskViewContainer />
-            </Flexbox>
-    			</Flexbox>
-    		);
-  	  } else if(this.props.route === 'statistics') {
-    		return (
-    		  <Flexbox flexDirection='column'>
-            <Nav />
-            <Flexbox flexDirection='column' className='taskNewContainer'>
-              <Profile />
-              <StatisticsContainer />
-            </Flexbox>
-    		  </Flexbox>
-    		);
-  	  } else if(this.props.route === 'settings'){
-    		return (
-    		  <Flexbox flexDirection='column'>
-            <Nav />
-            <Flexbox flexDirection='column' className='taskNewContainer'>
-              <IntegrationAuth />
-              <Settings />
-            </Flexbox>
-    		  </Flexbox>
-    		);
-  	  } else if(this.props.route === 'taskNew'){
-    		return (
-    		  <Flexbox flexDirection='column'>
-            <Nav />
-            <Flexbox flexDirection='column' className='taskNewContainer'>
-              <TaskNew />
-            </Flexbox>
-    		  </Flexbox>
-    		);
-  	  } else if(this.props.route === 'about'){
-    		return (
-    		  <Flexbox flexDirection='column'>
-            <Nav />
-            <Flexbox flexDirection='column' className='taskNewContainer'>
-              <About />
-            </Flexbox>
-    		  </Flexbox>
-    		);
-  	  }
-  	} else {
-    	return (
-        <Loading/>
-    	);
-  	}
+    return (
+      <Router history={ createHistory() }>
+        <div className="fullHeight">
+          <Nav/>
+          <div className="container fullHeight">
+            <Switch>
+              <PrivateRoute path="/timer" component={TimerContainer} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/settings" component={Settings} />
+              <PrivateRoute path="/about" component={About} />
+              <PrivateRoute path="/taskNew" component={TaskNew} />
+              <Route name="auth" path="/auth" component={Auth} />
+            </Switch>
+          </div>
+        </div>
+      </Router>
+    );
   }
 }
-
-export default AppContainer = createContainer(() => {
-  const user = Meteor.user();
-  const route = Session.get('route');
-
-  return {
-    route,
-  };
-}, App);

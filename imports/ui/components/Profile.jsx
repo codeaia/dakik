@@ -1,7 +1,11 @@
 import React, { Component, constructor, State } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import Flexbox from 'flexbox-react';
+
+import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
+import StatisticsContainer from './Statistics.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
@@ -32,14 +36,8 @@ class Profile extends Component {
   }
 
   handleLogout(){
-    Meteor.logout(function(err){
-      if(err) {
-        this.updateSnackbarText('Logout Failed!');
-        this.openSnackbar();
-      } else {
-        FlowRouter.go('/auth');
-      }
-    });
+    Meteor.logout();
+    this.props.history.push('/auth');
   }
 
   render() {
@@ -59,29 +57,25 @@ class Profile extends Component {
     if (this.props.user) {
       return (
         <MuiThemeProvider>
-          <Card>
-            <CardHeader
-              title={this.props.user.username}
-              subtitle= {this.props.user.emails[0].address}
-              avatar="/jsa-128.jpg"
-            />
-            <CardTitle title="Statistics"/>
-            <CardText>
-              Tasks Created: {this.props.user.profile.statistics.taskCount}<br/>
-              Tasks Integrated With Trello: {this.props.user.profile.statistics.trelloTasksCount}<br/>
-              Tasks Integrated With Wunderlist: {this.props.user.profile.statistics.wunderlistTasksCount}<br/>
-              Completed Tasks: {this.props.user.profile.statistics.taskCount - this.props.user.profile.statistics.incompleteTasks}<br/>
-              Incomplete Tasks: {this.props.user.profile.statistics.incompleteTasks}<br/>
-              Finished Pomos: {this.props.user.profile.statistics.completedPomos}<br/>
-              Estimated Pomos: {this.props.user.profile.statistics.estimatedPomos}<br/>
-            </CardText>
-            <CardActions>
-              <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
-            </CardActions>
-          <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
-            Are you sure ?
-          </Dialog>
-          </Card>
+          <Flexbox flexDirection="column" className="container">
+            <Card>
+              <CardHeader
+                title={this.props.user.username}
+                subtitle= {this.props.user.emails[0].address}
+                avatar="/jsa-128.jpg">
+                <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
+              </CardHeader>
+              <CardTitle title="Statistics"/>
+              <CardText>
+                Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
+                Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
+                <StatisticsContainer />
+              </CardText>
+            <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
+              Are you sure ?
+            </Dialog>
+            </Card>
+          </Flexbox>
         </MuiThemeProvider>
       );
     } else {
@@ -93,8 +87,11 @@ class Profile extends Component {
 }
 
 export default ProfileContainer = createContainer(() => {
+  Meteor.subscribe('dailyStat');
   const user = Meteor.users.findOne(Meteor.userId(), {profile: 1, username: 1, emails: 1});
+  const dailyStat = Stats.findOne();
   return{
     user,
+    dailyStat,
   };
 }, Profile);

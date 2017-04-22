@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, constructor, State } from 'react';
+import React, { Component, constructor, State } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import WunderlistApi from './WunderlistApi.jsx';
 import { Tasks } from '../../api/tasks.js';
 
-export default class IntegrationAuth extends Component {
+export default class TrelloApi extends Component {
   constructor(props) {
     super(props);
 
@@ -102,20 +102,11 @@ export default class IntegrationAuth extends Component {
   render() {
     return (
       <MuiThemeProvider ref="myRef">
-        <Flexbox flexDirection="column">
-          <Tabs>
-            <Tab label="Trello">
-              <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
-              <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
-              <FlatButton label="Sync" onTouchTap={this.addToDatabase}/>
-            </Tab>
-            <Tab label="Wunderlist">
-              <div>
-                <WunderlistApi />
-              </div>
-            </Tab>
-          </Tabs>
-        </Flexbox>
+        <div>
+          <FlatButton disabled={this.state.disabled} className="connect" label="Connect to Trello" onTouchTap={this.connectToTrello}/>
+          <FlatButton disabled={this.state.disabled2} className="exit" label="Disconnect from Trello" onTouchTap={this.exitFromTrello}/>
+          <FlatButton label="Sync" onTouchTap={this.addToDatabase}/>
+        </div>
       </MuiThemeProvider>
     );
   }
