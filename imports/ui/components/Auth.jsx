@@ -79,7 +79,7 @@ export default class Auth extends Component {
       return false;
     } else {
       Meteor.loginWithPassword(this.state.signinUsername, this.state.signinPassword, (error, data) => {
-        this.props.history.push('/timer');
+        this.props.history.push('/');
       });
     }
   }
@@ -111,7 +111,7 @@ export default class Auth extends Component {
             updateTime: 0,
           }
         }, (error, data) => {
-          this.props.history.push('/timer');
+          this.props.history.push('/');
         });
       }
     }

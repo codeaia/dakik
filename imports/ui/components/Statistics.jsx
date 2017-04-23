@@ -1,6 +1,6 @@
 import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { VictoryLine, VictoryTheme, VictoryChart, VictoryAxis, VictoryStack, VictoryZoomContainer, VictoryScatter } from 'victory';
+import { VictoryLine, VictoryTheme, VictoryChart, VictoryAxis, VictoryLabel, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer, VictoryZoomContainer, VictoryScatter } from 'victory';
 
 import { Stats } from '../../api/stats.js';
 
@@ -27,32 +27,25 @@ class Statistics extends Component {
   render() {
     return(
       <VictoryChart
-		className = "chart chart1"
-        domainPadding={20}
+		    className="chart chart1"
         theme={VictoryTheme.material}
+        domainPadding={1}
         width={1000}
         height={350}
-        scale={{x: "time"}}
-        containerComponent={
-          <VictoryZoomContainer responsive={false}
-            dimension="x"
-            zoomDomain={this.state.zoomDomain}
-            onDomainChange={this.handleZoom.bind(this)}
-          />
-        }>
-        <VictoryAxis
-          crossAxis={false}
-          tickValues={this.props.dates}
-          tickFormat={(x) => {return x;}}
-        />
-        <VictoryAxis
-          dependentAxis
-          tickFormat={(x) => (`${x}`)}
-        />
-        <VictoryLine data={this.props.pomoGraph} x="key" y="value" />
-        <VictoryScatter data={this.props.pomoGraph} x="key" y="value" />
-        <VictoryLine data={this.props.taskGraph} x="key" y="value" style={{data: {stroke: "tomato"}}}/>
-        <VictoryScatter data={this.props.taskGraph} x="key" y="value" style={{data: {stroke: "tomato"}}}/>
+        containerComponent={<VictoryVoronoiContainer/>}
+      >
+        <VictoryLabel x={650} y={40} text={"Finished Pomo Count"} />
+        <VictoryLabel x={800} y={40} text={"Finished Task Count"} />
+        <VictoryAxis />
+        <VictoryAxis dependentAxis={true}/>
+        <VictoryGroup colorScale={["teal", "red"]} data={this.props.pomoGraph}>
+          <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
+          <VictoryScatter labelComponent={<VictoryTooltip/>} />
+        </VictoryGroup>
+        <VictoryGroup colorScale={["brown", "red"]} data={this.props.taskGraph}>
+          <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
+          <VictoryScatter labelComponent={<VictoryTooltip/>} />
+        </VictoryGroup>
       </VictoryChart>
     );
   }
@@ -60,39 +53,50 @@ class Statistics extends Component {
 
 export default StatisticsContainer = createContainer(() => {
   Meteor.subscribe('stats');
-  var user = Meteor.user();
   var stats = Stats.find().fetch();
   var pomoGraph = [];
   var taskGraph = [];
-  var dates = [];
-  var today = new Date();
-  var tempDate = today.getDate() + "/" + (today.getMonth() + 1);
 
   for (var i = 0; i < 30; i++) {
-    dates[29 - i] = tempDate;
-    pomoGraph.push({
-      date: i,
-      value: 0
-    });
-    taskGraph.push({
-      date: i,
-      value: 0
-    });
+    var d = new Date();
+    d.setDate(d.getDate() - i);
+    if (d.getDate() < 10) {
+      pomoGraph.push({
+        x: "0" + d.getDate() + "/" + (d.getMonth() + 1),
+        y: 0,
+        label: 0
+      });
+      taskGraph.push({
+        x: "0" + d.getDate() + "/" + (d.getMonth() + 1),
+        y: 0,
+        label: 0
+      });
+    } else {
+      pomoGraph.push({
+        x: d.getDate() + "/" + (d.getMonth() + 1),
+        y: 0,
+        label: 0
+      });
+      taskGraph.push({
+        x: d.getDate() + "/" + (d.getMonth() + 1),
+        y: 0,
+        label: 0
+      });
+    }
+
   }
 
   if (stats[0] !== undefined) {
     for (var i = 0; i < stats.length; i++) {
-      pomoGraph[i].date = stats[i].date;
-      taskGraph[i].date = stats[i].date;
-      pomoGraph[i].value = stats[i].finishedPomoCount;
-      taskGraph[i].value = stats[i].finishedTaskCount;
+      pomoGraph[i].y = stats[i].finishedPomoCount;
+      pomoGraph[i].label = stats[i].finishedPomoCount + " Pomos finished at " + pomoGraph[i].x;
+      taskGraph[i].y = stats[i].finishedTaskCount;
+      taskGraph[i].label = stats[i].finishedTaskCount + " Tasks finished at " + taskGraph[i].x;
     }
   }
 
   return{
-    user,
     pomoGraph,
     taskGraph,
-    dates,
   };
 }, Statistics);

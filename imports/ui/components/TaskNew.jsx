@@ -32,7 +32,7 @@ export default class TaskNew extends Component {
     this.updateDueDate = this.updateDueDate.bind(this);
   }
 
-  updateTaskGoal(event, index, value) {
+  updateTaskGoal(event, value) {
     this.setState({
       taskGoal: value
     });
@@ -44,7 +44,7 @@ export default class TaskNew extends Component {
     });
   }
 
-  updatePriority(event, index, value){
+  updatePriority(event, value){
     this.setState({
       taskPriority: value
     });
@@ -116,11 +116,11 @@ export default class TaskNew extends Component {
               </Flexbox>
             </CardText>
             <CardActions>
-              <Link to="/timer">
-                <RaisedButton label="Cancel" backgroundColor = "#FFFFFF" labelColor="#004D40"/>
+              <Link to="/">
+                <RaisedButton label="Cancel" backgroundColor="#FFFFFF" labelColor="#004D40"/>
               </Link>
-              <Link to="/timer">
-                <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor = "#004D40" labelColor="#FFFFFF"/>
+              <Link to="/">
+                <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor="#004D40" labelColor="#FFFFFF"/>
               </Link>
             </CardActions>
           </Card>
