@@ -9,6 +9,8 @@ import StatisticsContainer from './Statistics.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import { Image, Header, Segment, Label, Icon } from 'semantic-ui-react';
+
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
@@ -58,14 +60,18 @@ class Profile extends Component {
       return (
         <MuiThemeProvider>
           <Flexbox flexDirection="column" className="container profile">
-            <Card>
-              <CardHeader
-                title={this.props.user.username}
-                subtitle= {this.props.user.emails[0].address}
-                avatar="/jsa-128.jpg">
-                <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
-              </CardHeader>
-              <CardTitle title="Statistics"/>
+            <Segment>
+				<div className = "profileTop">
+				<Header as='h4' image>
+			        <Image src='/jsa-128.jpg' shape='circular' size='big' />
+			        <Header.Content>
+			            {this.props.user.username}
+			            <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>
+			        </Header.Content>
+		      	</Header>
+              <IconButton iconClassName="fa fa-sign-out" style={{padding: '-12px'}} tooltip="Log out" onClick={this.handleOpenLogout}/>
+			</div>
+			<h2>Statistics</h2>
               <CardText>
                 Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
                 Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
@@ -74,7 +80,7 @@ class Profile extends Component {
             <Dialog actions={actions} modal={false} open={this.state.openLogout} onRequestClose={this.handleCloseLogout}>
               Are you sure ?
             </Dialog>
-            </Card>
+            </Segment>
           </Flexbox>
         </MuiThemeProvider>
       );

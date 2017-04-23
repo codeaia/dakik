@@ -70,21 +70,25 @@ export default class TaskNew extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Flexbox className="auth">
-          <Card>
-            <CardText>
+        <Flexbox className="taskNewContainer">
+          <Card className="taskNewCard">
+			<h3 className = "taskNewHeader">Add a new task...</h3>
+            <CardText className="taskNewCardText">
               <Flexbox flexDirection="column">
                 <TextField
                   value={this.state.taskName}
                   type="text"
                   onChange={this.updateTaskName}
                   floatingLabelText="Task Name"
-                  />
+				  className = "taskName each"
+				  id="add-task-name"
+                />
                 <SelectField
                   floatingLabelText="Priority"
                   value={this.state.taskPriority}
                   onChange={this.updatePriority}
-                  >
+				  className="each"
+				>
                   <MenuItem value={0} primaryText="0 (No Priority)" />
                   <MenuItem value={1} primaryText="1 (Urgent)" />
                   <MenuItem value={2} primaryText="2 (Today)" />
@@ -96,7 +100,8 @@ export default class TaskNew extends Component {
                   floatingLabelText="Task Goal"
                   value={this.state.taskGoal}
                   onChange={this.updateTaskGoal}
-                  >
+				  className="each"
+ 				>
                   <MenuItem value={1} primaryText="1" />
                   <MenuItem value={2} primaryText="2" />
                   <MenuItem value={3} primaryText="3" />
@@ -108,19 +113,20 @@ export default class TaskNew extends Component {
                   <MenuItem value={9} primaryText="9" />
                   <MenuItem value={10} primaryText="10" />
                 </SelectField>
-                  <DatePicker
+                <DatePicker
                     hintText="Due Date"
                     value={this.state.dueDate}
                     onChange={this.updateDueDate}
-                    />
+					className="each"
+				/>
               </Flexbox>
             </CardText>
-            <CardActions>
+            <CardActions className="taskNewActions">
               <Link to="/">
-                <RaisedButton label="Cancel" backgroundColor="#FFFFFF" labelColor="#004D40"/>
+                <RaisedButton className="cancel" label="Cancel"/>
               </Link>
               <Link to="/">
-                <RaisedButton label="Add Task" onClick={this.addNewTask} backgroundColor="#004D40" labelColor="#FFFFFF"/>
+                <RaisedButton className="ok" label="Add Task" onClick={this.addNewTask}/>
               </Link>
             </CardActions>
           </Card>

@@ -62,6 +62,7 @@ html, body, #react-root, .render-target {
 	margin-right: 10px!important;
 }
 
+/***************************** ABOUT **********************************************************/
 .paragraph{
 	margin: 20px;
 	display: inline-block;
@@ -113,23 +114,35 @@ html, body, #react-root, .render-target {
 	margin-bottom: 22px;
 }
 
-/*********  Profile *********/
+/*****************************  PROFILE ****************************************/
+.container {
+	align-items: center;
+	margin-top: 2em !important;
+	position: relative;
+	top: 10%;
+}
+
 .profile{
 	width: 80%;
 	margin: auto;
+	position: static;
+}
+
+.profileTop{
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	padding-top: 1em;
 }
 
 .chart{
 	width: 90%;
 }
 
-.container {
-	align-items: center;
-	margin-top: 2em !important;
-position: relative;
-top: 15%;
-}
 
+
+
+/************************* NAVBAR *******************************************/
 .navContainer {
 	z-index: 10;
 	top:0;
@@ -162,7 +175,7 @@ top: 15%;
 	border-top: 3px var(--turk) solid !important;
 }
 
-.menuBG .selected.navButton *{
+.menuBG .selected.navButton span.fa{
 	color: var(--red) !important;
 	opacity: 1;
 }
@@ -174,8 +187,7 @@ top: 15%;
 }
 
 .menuBG button:hover{
-	/*background-color: var(--turk-light) !important;*/
-	color: var(--turk-light) !important;
+	background-color: rgba(162, 159, 159, 0.1) !important;
 }
 
 .menuBG .selected.navButton {
@@ -189,7 +201,7 @@ top: 15%;
 	height: 100%;
 }
 
-/******** Timer **************/
+/******************************* TIMER *********************************************/
 
 .timerActionButtonContainer{
 	display: flex !important;
@@ -230,7 +242,7 @@ transform: translate(0,-50%);
 	text-align: center;
 }
 
-/********** Task Frame *******/
+/************************* TASK FRAME *******************************************/
 
 .newTaskButton{
 	display: flex;
@@ -349,7 +361,7 @@ transform: translate(0,-50%);
 	background-color: var(--white);
 }
 
-/* TASK DETAILS*/
+/****************** TASK DETAILS  *************************/
 
 .taskDetails{
 	padding:0px !important;
@@ -397,7 +409,7 @@ transform: translate(0,-50%);
 }
 
 .taskDetailsContent .taskName{
-	font-size: 1em;
+	font-size: 2em;
 	margin: auto;
 	margin-bottom: 0.75em;
 	border-radius: .2em;
@@ -409,7 +421,7 @@ transform: translate(0,-50%);
 }
 
 .taskDetailsContent .target{
-	padding: .5em;
+	margin: .5em;
 	padding-right: 2em;
 }
 
@@ -453,7 +465,7 @@ transform: translate(0,-50%);
 	color: var(--green) !important;
 }
 
-/* TASK Edit*/
+/************************ TASK Edit **********************/
 .taskEditPop{
 	padding:0px !important;
 	top: -50px !important;
@@ -537,7 +549,76 @@ transform: translate(0,-50%);
 	color: red !important;
 }
 
-/*Task List*/
+/************************  NEW TASK *********************************************/
+.taskNewContainer{
+	margin: auto;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%,0);
+}
+
+.taskNewCard{
+	background-color: var(--fallback) !important;
+}
+
+.taskNewHeader{
+	color: var(--green);
+	width: 100%;
+margin: 0;
+padding-top: 1em;
+padding-left: 1em;
+}
+
+.taskNewCardText{
+	padding-top: 0px !important;
+}
+
+.taskNewCardText input{
+	color: var(--white) !important;
+	padding-top: 0px !important;
+}
+
+.taskNewCardText .each label{
+	color: var(--fallback-light) !important;
+	width: 85%;
+}
+
+.taskNewCardText input:focus  {
+	color: var(--turk) !important;
+}
+.taskNewCardText .each > div > div > div, .each > div > div{
+	color: var(--white) !important;
+}
+
+
+.taskNewActions {
+	display: flex !important;
+	flex-direction: row;
+	align-items: stretch !important ;
+	justify-content: space-around;
+	border-radius: 1px;
+	margin: auto;
+	width: 95% !important;
+	margin-bottom: .5em;
+}
+
+.taskNewActions button{
+	background: var(--fallback-light) !important;
+	border-radius: 0px !important;
+}
+
+.taskNewActions button:hover{
+	background: var(--turk-light) !important;
+}
+
+.taskNewActions span{
+	color: var(--fallback-dark) !important;
+}
+
+
+
+
+/************************  TASK LIST *********************************************/
 .taskListCard{
 	background-color: var(--turk-light) !important;
 	margin: auto;
@@ -582,7 +663,6 @@ transform: translate(0,-50%);
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
 }
 
 .authLogo  {
@@ -611,7 +691,7 @@ transform: translate(0,-50%);
 	top: 50%;
 }
 
-/* Animations */
+/* ************************  Animations ****************************************/
 /* Taskframe Animation*/
 
 .taskFrameLoad-enter{
