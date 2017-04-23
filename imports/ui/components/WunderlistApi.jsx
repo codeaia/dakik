@@ -1,4 +1,4 @@
-import React, { Component, constructor, PropTypes} from 'react';
+import React, { Component, constructor } from 'react';
 
 import { Tasks } from '../../api/tasks.js';
 

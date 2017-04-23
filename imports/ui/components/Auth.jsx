@@ -1,4 +1,4 @@
-import React, {Component, constructor, State} from 'react';
+import React, { Component, constructor } from 'react';
 import { Session } from 'meteor/session';
 
 import Flexbox from 'flexbox-react';

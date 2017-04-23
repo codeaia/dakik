@@ -1,4 +1,4 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, constructor } from 'react';
 import TrelloApi from './TrelloApi.jsx';
 import WunderlistApi from './WunderlistApi.jsx';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';

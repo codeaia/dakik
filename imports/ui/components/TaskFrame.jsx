@@ -1,4 +1,4 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, constructor } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import Flexbox from 'flexbox-react';
 var moment = require('moment');

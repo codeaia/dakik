@@ -1,4 +1,4 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { VictoryLine, VictoryTheme, VictoryChart, VictoryAxis, VictoryStack, VictoryZoomContainer, VictoryScatter } from 'victory';
 

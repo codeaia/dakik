@@ -1,4 +1,4 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component, constructor } from 'react';
 import Flexbox from 'flexbox-react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -46,7 +46,7 @@ export default class Nav extends Component {
             <Link to="/profile">
               <IconButton className={this.getIcon("statistics")} iconClassName="fa fa-user-circle" style={{padding: '-12px'}} tooltip="Profile" onClick={() => this.setIcon("statistics")}/>
             </Link>
-            <Link to="/timer">
+            <Link to="/">
               <IconButton className={this.getIcon("timer")}  iconClassName="fa fa-home" style={{padding: '-12px'}} tooltip="Home" onClick={() => this.setIcon("timer")}/>
             </Link>
             <Link to="/settings">
