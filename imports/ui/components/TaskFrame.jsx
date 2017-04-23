@@ -133,7 +133,7 @@ export default class TaskFrame extends Component {
       if (!this.props.task.checked) {
         Meteor.users.update(Meteor.userId(),{$set: {
           "profile.playing": true,
-          "profile.elapsedTime": 1480,
+          "profile.elapsedTime": 0,
           "profile.updateTime": (new Date()).valueOf(),
           "profile.currentTaskId": this.props.task._id,
         }});
