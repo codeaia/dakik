@@ -2,6 +2,7 @@ import React, { Component, constructor } from 'react';
 import TrelloApi from './TrelloApi.jsx';
 import WunderlistApi from './WunderlistApi.jsx';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -19,7 +20,6 @@ export default class Settings extends Component {
   render() {
     return (
       <Segment className = "settingsCont">
-		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
 		<Grid className="about-semantic">
 		  <Grid.Column width={4}>
 			<Menu pointing secondary vertical>

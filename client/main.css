@@ -126,9 +126,15 @@ html, body, #react-root, .render-target {
 .container {
 	align-items: center;
 	margin-top: 2em !important;
+position: relative;
+top: 15%;
 }
 
 .navContainer {
+	z-index: 10;
+	top:0;
+	background: rgba(255, 255, 255,.9);
+	position: fixed;
 	width: 100% !important;
 	display: flex;
 	flex-direction: column;
@@ -147,13 +153,18 @@ html, body, #react-root, .render-target {
 }
 
 .menuBG button * {
-	color: var(--turk-dark) !important;
+	color: var(--turk) !important;
 	opacity:1;
 }
 
 .menuBG button{
-	color: var(--turk-dark) !important;
+	color: var(--turk) !important;
 	border-top: 3px var(--turk) solid !important;
+}
+
+.menuBG .selected.navButton *{
+	color: var(--red) !important;
+	opacity: 1;
 }
 
 .menuBG {
@@ -168,12 +179,7 @@ html, body, #react-root, .render-target {
 }
 
 .menuBG .selected.navButton {
-	border-top: 3px var(--fallback) solid !important;
-}
-
-.menuBG .selected.navButton *{
-	color: var(--fallback) !important;
-	opacity: 1;
+	border-top: 3px var(--red) solid !important;
 }
 
 .chatBox{
@@ -183,15 +189,17 @@ html, body, #react-root, .render-target {
 	height: 100%;
 }
 
+/******** Timer **************/
+
 .timerActionButtonContainer{
 	display: flex !important;
 	justify-content: center!important;
 }
 
 .clock {
-	font-size: 5em;
-	font-weight: 300;
-	font-family: 'Lato';
+	font-size: 5em!important;;
+	font-weight: 300!important;;
+	font-family: 'Lato'!important;;
 	width: 100%;
 	text-align: center;
 	color: var(--white);
@@ -202,14 +210,18 @@ html, body, #react-root, .render-target {
 
 .clockLogo{
 	align-self: center;
-	width: 1.5em;
-	margin-top: -3.7em;
-	margin-bottom: 2.9em;
+	width: 1.5em !important;
+	position: absolute;
+	top:25%;
+transform: translate(0,-50%);
 }
 
 .clockText{
-	margin-top: -3em;
-	margin-bottom: 1.5em;
+align-self: center;
+position: absolute;
+top: 50%;
+transform: translate(0,-50%);
+
 }
 
 .circular {
@@ -218,7 +230,7 @@ html, body, #react-root, .render-target {
 	text-align: center;
 }
 
-/*Task Frame  */
+/********** Task Frame *******/
 
 .newTaskButton{
 	display: flex;

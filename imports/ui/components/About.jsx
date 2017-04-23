@@ -1,5 +1,6 @@
 import React, { Component, constructor} from 'react';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 
 export default class About extends Component {
   constructor(props) {
@@ -20,7 +21,6 @@ export default class About extends Component {
     return (
       <div className="about">
         <Segment className="aboutCard">
-          <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
           <Grid className="about-semantic">
             <Grid.Column width={4}>
               <Menu pointing secondary vertical>

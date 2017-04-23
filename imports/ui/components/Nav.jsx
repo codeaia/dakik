@@ -43,12 +43,12 @@ export default class Nav extends Component {
       <MuiThemeProvider>
         <div className="navContainer">
           <div className='menuBG'>
-            <Link to="/profile">
-              <IconButton className={this.getIcon("statistics")} iconClassName="fa fa-user-circle" style={{padding: '-12px'}} tooltip="Profile" onClick={() => this.setIcon("statistics")}/>
-            </Link>
             <Link to="/">
-              <IconButton className={this.getIcon("timer")}  iconClassName="fa fa-home" style={{padding: '-12px'}} tooltip="Home" onClick={() => this.setIcon("timer")}/>
+              <IconButton className={this.getIcon("timer")}  iconClassName="fa fa-clock-o" style={{padding: '-12px'}} tooltip="Home" onClick={() => this.setIcon("timer")}/>
             </Link>
+			<Link to="/profile">
+			  <IconButton className={this.getIcon("statistics")} iconClassName="fa fa-user-circle" style={{padding: '-12px'}} tooltip="Profile" onClick={() => this.setIcon("statistics")}/>
+			</Link>
             <Link to="/settings">
               <IconButton className={this.getIcon("settings")} iconClassName="fa fa-cog" style={{padding: '-12px'}} tooltip="Settings" onClick={() => this.setIcon("settings")}/>
             </Link>
