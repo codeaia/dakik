@@ -1,63 +1,50 @@
-import React, { Component, constructor } from 'react';
-import Flexbox from 'flexbox-react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
-import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import Menu from 'material-ui/Menu';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Icon, Menu } from 'semantic-ui-react'
+
 
 export default class Nav extends Component {
   constructor(props) {
   	super(props);
 
   	this.state = {
-  	  topBorder: Session.get("route")
+		activeItem: 'timer'
   	}
-
-    this.setIcon = this.setIcon.bind(this);
-  	this.getIcon = this.getIcon.bind(this);
+	this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  setIcon(value){
-  	this.setState({
-  	  topBorder: value
-  	});
-  }
-
-  getIcon(value){
-    if(this.state.topBorder === value){
-  	  return "selected navButton";
-  	} else{
-  	  return "button";
-  	}
+  handleItemClick(e, { name }){
+	this.setState({ activeItem: name });
   }
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div className="navContainer">
-          <div className='menuBG'>
-            <Link to="/">
-              <IconButton className={this.getIcon("timer")}  iconClassName="fa fa-clock-o" style={{padding: '-12px'}} tooltip="Home" onClick={() => this.setIcon("timer")}/>
-            </Link>
-			<Link to="/profile">
-			  <IconButton className={this.getIcon("statistics")} iconClassName="fa fa-user-circle" style={{padding: '-12px'}} tooltip="Profile" onClick={() => this.setIcon("statistics")}/>
+		<Menu icon='labeled' compact className = "navContainer">
+			<Link to="/">
+		        <Menu.Item className = "navButton" name='timer' active={this.state.activeItem === 'timer'} onClick={this.handleItemClick}>
+		          <Icon as="span" className='fa fa-clock-o' />
+		        </Menu.Item>
 			</Link>
-            <Link to="/settings">
-              <IconButton className={this.getIcon("settings")} iconClassName="fa fa-cog" style={{padding: '-12px'}} tooltip="Settings" onClick={() => this.setIcon("settings")}/>
-            </Link>
-            <Link to="/about">
-            <IconButton className={this.getIcon("about")}  iconClassName="fa fa-info-circle" style={{padding: '-12px'}} tooltip="About" onClick={() => this.setIcon("about")}/>
-            </Link>
-          </div>
-        </div>
-      </MuiThemeProvider>
+
+ 			<Link to="/profile">
+		        <Menu.Item className = "navButton" name='statistics' active={this.state.activeItem === 'statistics'} onClick={this.handleItemClick}>
+		          <Icon as="span" className='fa fa-user-circle' />
+		        </Menu.Item>
+			</Link>
+
+ 			<Link to="/settings">
+		        <Menu.Item className = "navButton" name='settings' active={this.state.activeItem === 'settings'} onClick={this.handleItemClick}>
+		          <Icon as="span" className='fa fa-cog' />
+		        </Menu.Item>
+			</Link>
+
+
+ 			<Link to="/about">
+				<Menu.Item className = "navButton" name='about' active={this.state.activeItem === 'about'} onClick={this.handleItemClick}>
+			  	<Icon as="span" className='fa fa-info-circle' />
+			    </Menu.Item>
+			</Link>
+		</Menu>
     );
   }
 }

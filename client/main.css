@@ -145,53 +145,49 @@ html, body, #react-root, .render-target {
 /************************* NAVBAR *******************************************/
 .navContainer {
 	z-index: 10;
-	top:0;
-	background: rgba(255, 255, 255,.9);
+	background: rgba(255, 255, 255,.9)!important;
 	position: fixed;
+	top:0;
 	width: 100% !important;
+
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-}
+	border-radius: 0 !important;
 
-.menuBG {
-	display: inline-flex !important;
-	align-self: center;
-	-webkit-align-items: center;
-	align-items: center;
-	-webkit-justify-content: center;
-	justify-content: center;
-	width: 100%;
-}
-
-.menuBG button * {
-	color: var(--turk) !important;
-	opacity:1;
-}
-
-.menuBG button{
-	color: var(--turk) !important;
-	border-top: 3px var(--turk) solid !important;
-}
-
-.menuBG .selected.navButton span.fa{
-	color: var(--red) !important;
-	opacity: 1;
-}
-
-.menuBG {
 	animation: topSlideIn linear .7s !important;
 	animation-iteration-count: 1 !important;
 	transform-origin: 50% 50% !important;
 }
 
-.menuBG button:hover{
+.navContainer .navButton * {
+	color: var(--turk) !important;
+}
+
+.navContainer .navButton{
+	border-top: 3px var(--turk) solid !important;
+	border-radius: 0 !important;
+}
+
+.navContainer .active.navButton *{
+	color: var(--red) !important;
+}
+
+.navContainer .active.navButton {
+	border-top: 3px var(--red) solid !important;
 	background-color: rgba(162, 159, 159, 0.1) !important;
 }
 
-.menuBG .selected.navButton {
-	border-top: 3px var(--red) solid !important;
+/* >>>>  https://semantic-ui.com/modules/transition.html */
+.navContainer .navButton:active span
+{
+	animation: pulse linear .3s !important;
+	animation-iteration-count: infinite;
+}
+
+.navContainer .navButton:hover{
+	background-color: rgba(162, 159, 159, 0.1) !important;
 }
 
 .chatBox{
