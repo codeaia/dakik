@@ -31,13 +31,13 @@ export default class Settings extends Component {
 		  <Grid.Column stretched width={12}>
 			{this.state.activeItem === "trello" ?
 			<Segment className = "sementicSegment">
-				<TrelloApi />
+				<TrelloApi history={this.props.history} />
 			</Segment>
 			: ""}
 
 			{this.state.activeItem === "wunderlist" ?
 			<Segment className = "sementicSegment">
-				<WunderlistApi />
+				<WunderlistApi history={this.props.history} />
 			</Segment>
 			: ""}
 		</Grid.Column>
