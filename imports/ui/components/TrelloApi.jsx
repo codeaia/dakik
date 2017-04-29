@@ -15,8 +15,16 @@ class TrelloApi extends Component {
     this.login = this.login.bind(this);
     this.getInfo = this.getInfo.bind(this);
 
-    this.state = {
-      disabled: false
+    if(Meteor.user() !== undefined) {
+      this.state = {
+        disabled: true,
+        value: "Connected"
+      }
+    } else {
+      this.state = {
+        disabled: false,
+        value: "Connect To Trello"
+      }
     }
 
     url = parse(window.location.href, true).query;
@@ -44,7 +52,8 @@ class TrelloApi extends Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.currentUser.profile.accessToken !== undefined) {
       this.setState({
-        disabled: true
+        disabled: true,
+        value: "Connected"
       });
     }
   }
@@ -66,7 +75,7 @@ class TrelloApi extends Component {
     return (
       <MuiThemeProvider ref="myRef">
         <div>
-          <FlatButton disabled={this.state.disabled} className="ConnectToTrello" label="Connect To Trello" onTouchTap={this.login}/>
+          <FlatButton disabled={this.state.disabled} className="ConnectToTrello" label={this.state.value} onTouchTap={this.login}/>
           <FlatButton className="SYNC" label="SYNC" onTouchTap={this.getInfo}/>
         </div>
       </MuiThemeProvider>
