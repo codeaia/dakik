@@ -63,7 +63,7 @@ export default class WunderlistApi extends Component {
     return (
       <MuiThemeProvider ref="myRef">
         <div>
-          <FlatButton label="Connect To Wunderlist" onTouchTap={this.goToWunderlist}/>
+          <FlatButton disabled={Meteor.user() && Meteor.user().profile.wunderlistToken!==undefined ? true : false} label="Connect To Wunderlist" onTouchTap={this.goToWunderlist}/>
           <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
         </div>
       </MuiThemeProvider>

@@ -1,5 +1,5 @@
 import React, { Component, constructor } from 'react';
-import TrelloApi from './TrelloApi.jsx';
+import TrelloApiContainer from './TrelloApi.jsx';
 import WunderlistApi from './WunderlistApi.jsx';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
@@ -31,7 +31,7 @@ export default class Settings extends Component {
 		  <Grid.Column stretched width={12}>
 			{this.state.activeItem === "trello" ?
 			<Segment className = "sementicSegment">
-				<TrelloApi history={this.props.history} />
+				<TrelloApiContainer history={this.props.history} />
 			</Segment>
 			: ""}
 

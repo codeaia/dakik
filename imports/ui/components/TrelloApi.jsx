@@ -8,12 +8,16 @@ import WunderlistApi from './WunderlistApi.jsx';
 import { Tasks } from '../../api/tasks.js';
 parse = require('url-parse');
 
-export default class TrelloApi extends Component {
+class TrelloApi extends Component {
   constructor(props) {
     super(props);
 
     this.login = this.login.bind(this);
     this.getInfo = this.getInfo.bind(this);
+
+    this.state = {
+      disabled: false
+    }
 
     url = parse(window.location.href, true).query;
     if(location.search !== "" && !_.isEmpty(url.oauth_token)) {
@@ -33,8 +37,16 @@ export default class TrelloApi extends Component {
       temp.token = result[0];
       temp.tokenSecret = result[1];
       Meteor.users.update(Meteor.userId(),{$set: {profile: temp}});
-      window.location.href="https://trello.com/1/OAuthAuthorizeToken?oauth_token=" + result[0] + "&name=Project";
+      window.location.href="https://trello.com/1/OAuthAuthorizeToken?oauth_token=" + result[0] + "&name=Dakik&expiration=never&scope=read,write";
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.currentUser.profile.accessToken !== undefined) {
+      this.setState({
+        disabled: true
+      });
+    }
   }
 
   getInfo() {
@@ -54,10 +66,20 @@ export default class TrelloApi extends Component {
     return (
       <MuiThemeProvider ref="myRef">
         <div>
-          <FlatButton className="ConnectToTrello" label="Connect To Trello" onTouchTap={this.login}/>
-          <FlatButton className="getInfo" label="Get Info" onTouchTap={this.getInfo}/>
+          <FlatButton disabled={this.state.disabled} className="ConnectToTrello" label="Connect To Trello" onTouchTap={this.login}/>
+          <FlatButton className="SYNC" label="SYNC" onTouchTap={this.getInfo}/>
         </div>
       </MuiThemeProvider>
     );
   }
 }
+
+export default TrelloApiContainer = createContainer(() => {
+
+  Meteor.subscribe('tasks');
+  var currentUser = Meteor.user();
+
+  return {
+    currentUser,
+  };
+}, TrelloApi);
