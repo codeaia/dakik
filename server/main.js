@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Tasks } from '../imports/api/tasks.js';
 import { Pomos } from '../imports/api/pomos.js';
 import { Stats } from '../imports/api/stats.js';
+import { Accounts } from 'meteor/accounts-base';
 
 Fiber = Npm.require('fibers');
 Future = Npm.require('fibers/future');
@@ -17,6 +18,12 @@ oauth = new OAuth(
   "HMAC-SHA1");
 
   Meteor.methods({
+    changeUsername: function(id, username) {
+      Accounts.setUsername(id, username);
+    },
+    addEmail: function(id, email) {
+      Accounts.addEmail(id, email);
+    },
     fetchFromService: function(code) {
       var url = "https://www.wunderlist.com/oauth/access_token";
       var jsonObject = {"client_id": "bcddc2947c80dd050a3f",
