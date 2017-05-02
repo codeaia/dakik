@@ -9,11 +9,14 @@
 	--red-dark:#3D0008;
 	--red-light:#F7C0C8;
 
-	--turk:#41DCEA;
-	--turk-dark:#00484F;
-	--turk-light:#A5F7FF;
+	--turk:#32e3f4;
+  --turk-dark:#05535b;
+  --turk-light:#7ae8f2;
 
 	--white:#FDFFFC;
+	--white-dark:#e7ebe6;
+	--white-darker:#dbdbdb;
+
 
 	--kahve:#8C5710;
 	--kahve-dark:#381F00;
@@ -33,6 +36,10 @@
 	--white: #e1e8f0;
 	--red: #e62739;
 	--dark: #242728;
+
+--turk:#41DCEA;
+--turk-dark:#00484F;
+--turk-light:#A5F7FF;
 	*/
 }
 
@@ -69,12 +76,17 @@ html, body, #react-root, .render-target {
 	padding: 0.5em;
 }
 
-.about ,.settingsCont{
+.settingsCont{
   width: 80% !important;
 	margin: auto !important;
 	-webkit-box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
 	-moz-box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
 	box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
+}
+
+.about{
+  width: 80% !important;
+	margin-left: 10% !important;
 }
 
 .about-semantic{
@@ -137,7 +149,7 @@ html, body, #react-root, .render-target {
 /************************* NAVBAR *******************************************/
 .navContainer {
 	z-index: 10;
-	background: rgba(255, 255, 255,.9)!important;
+	background: rgba(255, 255, 255,1)!important;
 	position: fixed;
 	top:0;
 	width: 100% !important;
@@ -147,10 +159,6 @@ html, body, #react-root, .render-target {
 	align-items: center;
 	justify-content: center;
 	border-radius: 0 !important;
-
-	animation: topSlideIn linear .7s !important;
-	animation-iteration-count: 1 !important;
-	transform-origin: 50% 50% !important;
 }
 
 .navContainer .navButton * {
@@ -247,10 +255,6 @@ transform: translate(0,-50%);
 	align-items: stretch;
 }
 
-.taskFrame:hover{
-
-}
-
 /*Task Progress */
 .taskProgress{
 	width: 100%;
@@ -272,68 +276,16 @@ transform: translate(0,-50%);
 }
 
 .taskProgress::-webkit-progress-bar {
-    background: transparent;
+    background: var(--red-light);
 }
 .taskProgress::-webkit-progress-value {
   height: 2px;
-  background:var(--red-light);
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
+  background: var(--red);
 }
 
-.taskFrameTop{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-}
-
-.taskFrameTop.taskName {
-	font-family: 'Raleway', sans-serif;
-	font-size: 3em;
-	font-weight: 400;
-	margin-left: 1em;
-	padding-right: 0;
-	margin-right: 0px;
-}
-
-.taskFrameTop .totalPomos{
-	font-family: 'Raleway', sans-serif;
-	font-size: 1.2em;
-	color: rgba(255, 255, 255,1);
-	font-weight: 800;
-	background-color: rgba(0, 0, 0,.5);
-	margin-bottom: 0px;
-	margin-top: -2.8%;
-	align-self: flex-start;
-}
-
-.taskFrameBottom{
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-}
-
-.addTaskItem{
-	background-color: rgba(15, 177, 191, 0.55);
-	border-radius: .25em;
-}
-
-.addTaskItem div div{
-	display: flex;
-	align-content: center;
-	padding: 0px !important;
-	justify-content: center;
-}
-
-.addTaskItem span{
-	color: var(--turk-dark) !important;
-	opacity:1;
-}
-
-.addTaskItem:hover {
-	background-color: rgba(31, 237, 255, 0.40);
+.taskProgress.checked::-webkit-progress-value {
+  height: 2px;
+  background: var(--green);
 }
 
 .taskListItem{
@@ -355,36 +307,31 @@ transform: translate(0,-50%);
 
 .taskDetails{
 	padding:0px !important;
-	top:-50px!important;
+	background-color: var(--white-dark) !important;
+	animation: pulse .2s cubic-bezier(.165, .84, .44, 1) !important;
 }
+
 
 .taskDetailsTitle{
-	color: var(--turk-light) !important;
+	color: var(--red) !important;
 	font-size: 1em !important;
+	background-color: var(--white-dark) !important;
 }
 
-.taskDetailsContent > div{
-	background-color: var(--fallback) !important;
+.taskDetailsContent{
+	background-color: var(--white-dark) !important;
 	width: 100%;
-}
-
-.taskDetailsBody{
-	max-height: none!important;
-	height: 80% !important;
-	padding-bottom: 0px!important;
-}
-
-.taskDetailsBody p {
-	opacity: 1 !important;
-	color: var(--white) !important;
-}
-
-.taskDetailsContent {
+  margin: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 85% !important;
+	width: 95% !important;
+}
+
+.taskDetailsContent p {
+	opacity: 1 !important;
+	color: var(--fallback-dark) !important;
 }
 
 .taskDetailsContent .each{
@@ -404,7 +351,8 @@ transform: translate(0,-50%);
 	margin-bottom: 0.75em;
 	border-radius: .2em;
 	text-align: center;
-	background-color: var(--fallback-dark) !important;
+  color:var(--turk-dark) !important;
+	background-color: var(--white-darker) !important;
 	width: 85%;
 	padding-bottom: .15em;
 	padding-top: .15em;
@@ -413,11 +361,13 @@ transform: translate(0,-50%);
 .taskDetailsContent .target{
 	margin: .5em;
 	padding-right: 2em;
+  color:var(--turk-dark) !important;
+
 }
 
 .taskDetailsContent p.value {
-	background-color:var(--fallback-dark);
-	color: var(--turk)  !important;
+	color:var(--turk-dark) !important;
+	background-color: var(--white-darker) !important;
 	border-radius: .2em;
 	padding: .5em;
 }
@@ -427,7 +377,7 @@ transform: translate(0,-50%);
 	flex-direction: row;
 	align-items: center !important ;
 	justify-content: center;
-	background-color: var(--fallback);
+	background-color: var(--white-dark);
 }
 
 .taskDetailsActions button{
@@ -436,68 +386,53 @@ transform: translate(0,-50%);
 }
 
 .taskDetailsActions span{
-	color: var(--turk) !important;
+	color: var(--fallback) !important;
 }
 .taskDetailsActions button span{
-	opacity: .5;
+	opacity: .8;
 }
-
 
 .taskDetailsActions button:hover span{
 	opacity: 1
-}
-
-.taskDetailsActions button:disabled span{
-	color: var(--fallback-light) !important;
 }
 
 .taskDetailsActions button.start span{
 	color: var(--green) !important;
 }
 
+.taskDetailsActions button:disabled span{
+	color: var(--fallback-light) !important;
+}
+
 /************************ TASK Edit **********************/
-.taskEditPop{
-	padding:0px !important;
-	top: -50px !important;
+.taskEdit{
+  background-color: var(--white-dark) !important;
+	animation: pulse .2s cubic-bezier(.165, .84, .44, 1) !important;
 }
 
 .taskEditTitle{
-	color: var(--fallback-light) !important;
-	font-size: 1em !important;
-	padding-bottom: 0!important;
-	padding-top: 0.5em!important;
+color: var(--red) !important;
+font-size: 1em !important;
+background-color: var(--white-dark) !important;
 }
 
-.taskEditContent > div{
-	background-color: var(--fallback) !important;
-	width: 100%;
-}
-.taskEditBody{
-	display: flex !important;
-	flex-direction: column!important;
-	align-items: center;
-	max-height: none!important;
-	height: 80% !important;
-	padding-bottom: 0px!important;
-}
-.taskEditBody  div {
-	color: var(--white) !important;
+.taskEditContent{
+	background-color: var(--white-dark) !important;
+display: flex !important;
+flex-direction: column!important;
+align-items: center;
+max-height: none!important;
+height: 80% !important;
+padding-bottom: 0px!important;
 }
 
-.taskEditBody .each{
-	width: 85% !important;
-}
-
-.taskEditContent {
-	display: flex !important;
-	flex-direction: column!important;
-	justify-content: center;
-	align-items: center;
-	width: 85% !important;
+.taskEditContent  div {
+	color: var(--fallback-dark) !important;
+  width: 85% !important;
 }
 
 .taskEditContent input{
-	color: var(--white) !important;
+	color: var(--fallback-dark) !important;
 }
 
 .taskEditContent .each label{
@@ -513,30 +448,32 @@ transform: translate(0,-50%);
 	display: flex !important;
 	flex-direction: row;
 	align-items: center !important ;
-	justify-content: space-around;;
-	border-radius: 1px;
-	margin: auto;
-	width: 50% !important;
+	justify-content: center;
+	background-color: var(--white-dark);
 }
 
-.taskEditActions > button{
-	opacity: .5;
-}
-
-.taskEditActions button:hover{
-	opacity: 1;
+.taskEditActions button{
+	margin: 0px 25px 0px 25px !important;
+	color: var(--fallback) !important;
 }
 
 .taskEditActions span{
-	color: var(--fallback-light) !important;
+	color: var(--fallback) !important;
+}
+.taskEditActions span{
+	opacity: .8;
+}
+
+.taskEditActions button:hover span{
+	opacity: 1
+}
+
+.taskEditActions span.cancel{
+	color: var(--red) !important;
 }
 
 .taskEditActions span.ok{
 	color: var(--green) !important;
-}
-
-.taskEditActions span.cancel{
-	color: red !important;
 }
 
 /************************  NEW TASK *********************************************/
@@ -604,9 +541,6 @@ padding-left: 1em;
 .taskNewActions span{
 	color: var(--fallback-dark) !important;
 }
-
-
-
 
 /************************  TASK LIST *********************************************/
 .taskListCard{

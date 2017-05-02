@@ -16,6 +16,7 @@ import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import DatePicker from 'material-ui/DatePicker';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
 export default class TaskFrame extends Component {
   constructor(props) {
@@ -24,9 +25,8 @@ export default class TaskFrame extends Component {
     this.state = {
       message: 'error',
       checked: false,
-      popup: false,
-      popupEdit: false,
-      popup2: false,
+      open: false,
+      open2: false,
 
       taskName: this.props.task.taskName,
       taskPriority: this.props.task.taskPriority,
@@ -34,19 +34,19 @@ export default class TaskFrame extends Component {
       dueDate: this.props.task.dueDate,
     }
 
-    this.openPopup = this.openPopup.bind(this);
-    this.openEditTask = this.openEditTask.bind(this);
-    this.closePopup = this.closePopup.bind(this);
-    this.closePopup2 = this.closePopup2.bind(this);
-    this.openEditPopup = this.openEditPopup.bind(this);
+    this.openTaskDetails = this.openTaskDetails.bind(this);
+    this.openTaskEdit = this.openTaskEdit.bind(this);
+    this.closeTaskDetails = this.closeTaskDetails.bind(this);
+    this.closeTaskEdit = this.closeTaskEdit.bind(this);
     this.editNewDetails = this.editNewDetails.bind(this);
+
     this.deleteTask = this.deleteTask.bind(this);
+    this.startPomo = this.startPomo.bind(this);
 
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.updatePomoGoal = this.updatePomoGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
-    this.startPomo = this.startPomo.bind(this);
   }
 
   componentDidMount(){
@@ -61,24 +61,6 @@ export default class TaskFrame extends Component {
         checked: nextProps.task.checked,
       });
     }
-  }
-
-  openPopup(){
-    this.setState({
-      popup: true
-    });
-  }
-
-  closePopup() {
-    this.setState({
-      popup: false
-    });
-  }
-
-  closePopup2() {
-    this.setState({
-      popup2: false
-    });
   }
 
   updateTaskName(event, value){
@@ -113,7 +95,7 @@ export default class TaskFrame extends Component {
           "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
           "profile.currentTaskId": this.props.task._id,
         }});
-        this.closePopup();
+        this.closeTaskDetails();
       }
     }
   }
@@ -135,20 +117,20 @@ export default class TaskFrame extends Component {
 
     Meteor.call('deleteTask', this.props.task._id);
     this.setState({
-      popup: false,
-      popup2: false
+      open: false,
+      open2: false
     });
   }
 
   editNewDetails() {
     Meteor.call('editTask', this.props.task._id, this.state.taskName, this.state.taskPriority, this.state.pomoGoal, this.state.dueDate);
-    this.closePopup2();
+    this.closeTaskEdit();
   }
 
-  openEditPopup() {
+  openTaskEdit() {
     this.setState({
-      popup: false,
-      popup2: true,
+      open: true,
+      open2: true,
       taskName: this.props.task.taskName,
       taskPriority: this.props.task.taskPriority,
       pomoGoal: this.props.task.pomoGoal,
@@ -156,14 +138,42 @@ export default class TaskFrame extends Component {
     });
   }
 
-  openEditTask(){
+  closeTaskEdit() {
     this.setState({
-      popup: false,
-      popupEdit: true
+      open: true,
+      open2: false
+    });
+  }
+
+  openTaskDetails(){
+    this.setState({
+      open: true,
+      open2: false
+    });
+  }
+
+  closeTaskDetails() {
+    this.setState({
+      open: false,
+      open2:false
     });
   }
 
   render() {
+    const actions2 = [
+        <IconButton
+            label="CANCEL"
+            iconClassName="cancel fa fa-times-circle"
+            onTouchTap={this.closeTaskEdit}
+        />,
+        <IconButton
+            label="SAVE"
+            iconClassName="ok fa fa-check"
+            onTouchTap={this.editNewDetails}
+        />,
+    ];
+
+
     const actions = [
       <IconButton
         iconClassName="delete fa fa-trash-o"
@@ -171,105 +181,16 @@ export default class TaskFrame extends Component {
         onClick={this.deleteTask}
         disabled={Meteor.user().profile.playing || Meteor.user().profile.elapsedTime > 0 ? true : false}
       />,
-      <IconButton
-        iconClassName="edit fa fa-pencil-square-o"
-        tooltip="EDIT"
-        onClick={this.openEditPopup}
-        disabled={Meteor.user().profile.playing || Meteor.user().profile.elapsedTime > 0 ? true : false}
-      />,
-      <IconButton
-        iconClassName="start fa fa-play"
-        tooltip="START"
-        onClick={this.startPomo}
-        className = "actionButton start"
-        disabled={Meteor.user().profile.playing || this.props.task.checked || Meteor.user().profile.elapsedTime > 0 ? true : false}
-      />
-    ];
-
-    const actions2 = [
-      <IconButton
-        label="CANCEL"
-        iconClassName="cancel fa fa-times-circle"
-        onTouchTap={this.closePopup2}
-      />,
-      <IconButton
-        label="SAVE"
-        iconClassName="ok fa fa-check"
-        onTouchTap={this.editNewDetails}
-      />,
-    ];
-
-    const iconButtonElement = (
-      <IconButton
-        touch={true}
-        tooltip="Options"
-        tooltipPosition="bottom-left"
-        iconClassName="fa fa-ellipsis-v"
-      />
-    );
-
-    return (
-      <MuiThemeProvider>
-        <div className="taskFrame">
-		      <progress className = "taskProgress" max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
-          <ListItem
-            className={this.props.task.checked ? "checked taskListItem" : "taskListItem"}
-            primaryText={Meteor.user().profile.currentTaskId === this.props.task._id ? this.props.task.taskName + " (Playing)" : this.props.task.taskName }
-            rightIconButton={
-              <IconButton
-                iconClassName="fa fa-ellipsis-v"
-                style={{padding: '-12px'}}
-                onClick={this.openPopup}
-                tooltip="Settings"
-              />
-            }
-          />
-          <Dialog
-            title="TASK DETAILS"
-            actions={actions}
-            modal={false}
-            open={this.state.popup}
-            onRequestClose={this.closePopup}
-            className = "taskDetails"
-            titleClassName="taskDetailsTitle"
-            contentClassName="taskDetailsContent"
-            bodyClassName="taskDetailsBody"
-            actionsContainerClassName="taskDetailsActions"
-          >
-            <p className="taskName">{this.props.task.taskName}</p>
-
-            <div className="priority each">
-              <p className="target">Priority:</p>
-              <p className="value">{this.props.task.taskPriority}</p>
-            </div>
-
-            <div className="pomoTime each">
-              <p className="target">Pomotime:</p>
-              <p className="value">{this.props.task.pomoCount}</p>
-            </div>
-
-            <div className="estPomos each">
-              <p className="target">Estimated Pomos:</p>
-              <p className="value">{this.props.task.pomoGoal}</p>
-            </div>
-
-            <div className="due each">
-              <p className="target">Due Date:</p>
-              <p className="value">{moment(this.props.task.dueDate).format("MMM Do YY")}</p>
-            </div>
-          </Dialog>
-          <Dialog
-            title="TASK EDIT"
-            actions={actions2}
-            modal={false}
-            open={this.state.popup2}
-            onRequestClose={this.closePopup2}
-            className="taskEditPop"
-            titleClassName="taskEditTitle"
-            contentClassName="taskEditContent"
-            bodyClassName="taskEditBody"
-            actionsContainerClassName="taskEditActions"
-          >
+      <Modal
+        className = "taskEdit"
+        size="small"
+        dimmer={true}
+        open={this.state.open2}
+        onOpen={this.openTaskEdit}
+        onClose={this.closeTaskEdit}
+      >
+        <Modal.Header className = "taskEditTitle">Edit Task</Modal.Header>
+        <Modal.Content className = "taskEditContent">
             <TextField
               id="edit-task-name"
               value={this.state.taskName}
@@ -277,6 +198,7 @@ export default class TaskFrame extends Component {
               floatingLabelText="Task Name"
               className = "taskName each"
             />
+
             <SelectField
               floatingLabelText="Priority"
               value={this.state.taskPriority}
@@ -289,6 +211,7 @@ export default class TaskFrame extends Component {
               <MenuItem value={4} primaryText="4 (This Month)"/>
               <MenuItem value={5} primaryText="5 (Any Time)"/>
             </SelectField>
+
             <SelectField
               floatingLabelText="Task Goal"
               value={this.state.pomoGoal}
@@ -307,14 +230,78 @@ export default class TaskFrame extends Component {
               <MenuItem value={10} primaryText="10"/>
             </SelectField>
             <DatePicker
-              hintText="Due Date"
+              floatingLabelText="Due Date"
               value={this.state.dueDate}
               onChange={this.updateDueDate}
               className = "each"
             />
-          </Dialog>
+        </Modal.Content>
+        <div className = "taskEditActions">{actions2}</div>
+      </Modal>,
+      <IconButton
+          iconClassName="edit fa fa-pencil-square-o"
+          tooltip="EDIT"
+          onClick={this.openTaskEdit}
+      />,
+      <IconButton
+          iconClassName="start fa fa-play"
+          tooltip="START"
+          onClick={this.startPomo}
+          className = "actionButton start"
+          disabled={Meteor.user().profile.playing || this.props.task.checked || Meteor.user().profile.elapsedTime > 0 ? true : false}
+      />
+    ];
+
+
+    return(
+        <div className="taskFrame">
+            <progress className = {((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101  ?"taskProgress checked": "taskProgress" } max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
+            <ListItem
+                className={this.props.task.checked ? "checked taskListItem" : "taskListItem"}
+                primaryText={Meteor.user().profile.currentTaskId === this.props.task._id ? this.props.task.taskName + " (Playing)" : this.props.task.taskName }
+                rightIconButton={
+                    <IconButton
+                        iconClassName="fa fa-ellipsis-v"
+                        style={{padding: '-12px'}}
+                        onClick={this.openTaskDetails}
+                        tooltip="Settings"/>}
+            />
+
+            <Modal
+                open={this.state.open}
+                onOpen={this.openTaskDetails}
+                onClose={this.closeTaskDetails}
+                as="div"
+                className = "taskDetails"
+                size = "small">
+
+                <Modal.Header className = "taskDetailsTitle">Task Details</Modal.Header>
+                    <Modal.Content className="taskDetailsContent" list>
+                        <p className="taskName">{this.props.task.taskName}</p>
+
+                        <div className="priority each">
+                            <p className="target">Priority:</p>
+                            <p className="value">{this.props.task.taskPriority}</p>
+                        </div>
+
+                        <div className="pomoTime each">
+                            <p className="target">Pomotime:</p>
+                            <p className="value">{this.props.task.pomoCount}</p>
+                        </div>
+
+                        <div className="estPomos each">
+                            <p className="target">Estimated Pomos:</p>
+                            <p className="value">{this.props.task.pomoGoal}</p>
+                        </div>
+
+                        <div className="due each">
+                            <p className="target">Due Date:</p>
+                            <p className="value">{moment(this.props.task.dueDate).format("MMM Do YY")}</p>
+                        </div>
+                    </Modal.Content>
+                    <div className = "taskDetailsActions">{actions}</div>
+                </Modal>
         </div>
-      </MuiThemeProvider>
-    );
+    )
   }
 }
