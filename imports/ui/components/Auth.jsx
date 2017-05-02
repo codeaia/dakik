@@ -1,4 +1,4 @@
-import React, { Component, constructor } from 'react';
+import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 
 import Flexbox from 'flexbox-react';
@@ -79,6 +79,7 @@ export default class Auth extends Component {
       return false;
     } else {
       Meteor.loginWithPassword(this.state.signinUsername, this.state.signinPassword, (error, data) => {
+        Meteor.logoutOtherClients();
         this.props.history.push('/');
       });
     }
@@ -107,8 +108,8 @@ export default class Auth extends Component {
           profile: {
             hideCompleted: false,
             playing: false,
-            elapsedTime: 0,
-            updateTime: 0,
+            timerDue: null,
+            currentTaskId: null,
           }
         }, (error, data) => {
           this.props.history.push('/');

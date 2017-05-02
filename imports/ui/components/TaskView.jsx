@@ -63,11 +63,9 @@ class TaskView extends Component {
     this.setState({
       hideCompleted: !this.state.hideCompleted,
     });
-
-    var newProfile = Meteor.user().profile;
-    newProfile.hideCompleted = !Meteor.user().profile.hideCompleted;
-
-    Meteor.users.update(Meteor.userId(),{$set: {profile: newProfile}});
+    Meteor.users.update(Meteor.userId(),{$set: {
+      "profile.hideCompleted": !Meteor.user().profile.hideCompleted,
+    }});
   }
 
   render() {

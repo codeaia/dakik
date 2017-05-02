@@ -116,31 +116,23 @@ html, body, #react-root, .render-target {
 
 /*****************************  PROFILE ****************************************/
 .container {
-	align-items: center;
-	margin-top: 2em !important;
 	position: relative;
-	top: 10%;
+	top: 15%;
 }
 
 .profile{
-	width: 80%;
-	margin: auto;
-	position: static;
+	margin-left: 10% !important;
+	width: 80% !important;
 }
 
 .profileTop{
 	display: flex;
-	align-items: stretch;
 	justify-content: space-between;
-	padding-top: 1em;
 }
 
-.chart{
-	width: 90%;
+.logout{
+  height: 3em;
 }
-
-
-
 
 /************************* NAVBAR *******************************************/
 .navContainer {
@@ -199,9 +191,11 @@ html, body, #react-root, .render-target {
 
 /******************************* TIMER *********************************************/
 
-.timerActionButtonContainer{
+.stop{
 	display: flex !important;
-	justify-content: center!important;
+	align-self: center!important;
+	position: absolute;
+	top: -6em;
 }
 
 .clock {

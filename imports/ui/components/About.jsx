@@ -1,6 +1,5 @@
-import React, { Component, constructor} from 'react';
+import React, { Component } from 'react';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css';
 
 export default class About extends Component {
   constructor(props) {
@@ -51,12 +50,6 @@ export default class About extends Component {
                     <Label.Detail as="a" href="https://github.com/ahmetkasif" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://twitter.com/ksfahmet" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
-                  <Label as='div' color='yellow' image>
-                    İbrahim KONUK
-                    <Label.Detail>Artist</Label.Detail>
-                    <Label.Detail as="a" href="https://github.com/iknk" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
-                    <Label.Detail as="a" href="https://twitter.com/ibrahimk0nuk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
-                  </Label>
                   <Label as='div' color='green' image>
                     Hilmi ARAZ
                     <Label.Detail>Integration Developer</Label.Detail>
@@ -66,6 +59,12 @@ export default class About extends Component {
                     Uğur KAFALI
                     <Label.Detail>Integration Developer</Label.Detail>
                     <Label.Detail as="a" href="https://github.com/raguer100" target="_blank"><span className = "fa fa-github"> </span><br /></Label.Detail>
+                  </Label>
+                  <Label as='div' color='yellow' image>
+                    İbrahim KONUK
+                    <Label.Detail>Artist</Label.Detail>
+                    <Label.Detail as="a" href="https://github.com/iknk" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
+                    <Label.Detail as="a" href="https://twitter.com/ibrahimk0nuk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
                 </div>
               </Segment>
@@ -80,21 +79,19 @@ export default class About extends Component {
               : ""}
               {this.state.activeItem === "notes" ?
               <Segment>
-                <h3 className="about_header">LTP 1.5.0</h3>
+                <h3 className="about_header">1.6.0</h3>
                 <p>
                   What's New:<br/>
-                  - Meteor is updated to 1.4.4.1<br/><br/>
+                  - animate.css support is added.<br/><br/>
+                  - Total Pomo and Task count statistics are added.
+                  - Task text is now indicating currently processed task.
                   Adjustments:<br/>
-                  - Two new collections namely 'pomos' and 'stats' are added.<br/>
-                  - React router has been implemented as our new routing mechanism.<br/>
-                  - About page got a visual rehaul.<br/>
-                  - Users can no longer manually check tasks, instead they should match the task goal.<br/>
-                  - Snackbars and authentication input checking is cancelled.<br/>
-                  - IntegrationAuth is renamed to TrelloApi.<br/>
-                  - WunderlistApi is no longer a child of TrelloApi.<br/><br/>
-                  Fixes:<br/>
-                  - Pagination bug is resolved which was causing wrong tasks to be rendered.<br/>
-                  - Timer animation is working once again.<br/>
+                  - Patch notes updated.<br/>
+                  - Timing and cross-platform functionalities got a rehaul.
+                    From now on, only the dueTime will be kept and all calculations will be done according to that.<br/>
+                  - When logged in on a secondary client as a user, your other logged in pages will be logged out.<br/>
+                  - Profile page adjusted to use semantic-ui.<br/>
+                  - NPM Package versions has been reverted back.<br/>
                   - Several optimizations has been applied to our code base.<br/>
                 </p>
               </Segment>

@@ -1,4 +1,4 @@
-import React, { Component, constructor } from 'react';
+import React, { Component } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import Rsvg from 'react-inlinesvg';
 
@@ -16,11 +16,11 @@ export default class Clock extends Component {
   }
 
   getMinutes(){
-    return parseInt(25 - this.props.elapsedTime / 60);
+    return parseInt(this.props.remainingTime / 60);
   }
 
   getSeconds(){
-    return parseInt((1500 - this.props.elapsedTime) % 60);
+    return parseInt(this.props.remainingTime % 60);
   }
 
   drawMinutes(){
@@ -49,7 +49,7 @@ export default class Clock extends Component {
             <CircularProgress
               color={this.props.color ? this.props.color : "#ffffff"}
               mode="determinate"
-              value={100 - this.props.elapsedAngle}
+              value={this.props.remainingAngle}
               size={288}
               thickness={6}
             />

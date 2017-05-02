@@ -1,4 +1,4 @@
-import React, { Component, constructor } from 'react';
+import React, { Component } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import Flexbox from 'flexbox-react';
 var moment = require('moment');
@@ -10,7 +10,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
-import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
@@ -23,7 +22,6 @@ export default class TaskFrame extends Component {
     super(props);
 
     this.state = {
-      snackbar: false,
       message: 'error',
       checked: false,
       popup: false,
@@ -36,9 +34,6 @@ export default class TaskFrame extends Component {
       dueDate: this.props.task.dueDate,
     }
 
-    this.openSnackbar = this.openSnackbar.bind(this);
-    this.closeSnackbar = this.closeSnackbar.bind(this);
-    this.updateSnackbarText = this.updateSnackbarText.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.openEditTask = this.openEditTask.bind(this);
     this.closePopup = this.closePopup.bind(this);
@@ -66,24 +61,6 @@ export default class TaskFrame extends Component {
         checked: nextProps.task.checked,
       });
     }
-  }
-
-  updateSnackbarText(value){
-    this.setState({
-      message: value
-    });
-  }
-
-  openSnackbar(){
-    this.setState({
-      snackbar: true,
-    });
-  }
-
-  closeSnackbar(){
-    this.setState({
-      snackbar: false,
-    });
   }
 
   openPopup(){
@@ -133,8 +110,7 @@ export default class TaskFrame extends Component {
       if (!this.props.task.checked) {
         Meteor.users.update(Meteor.userId(),{$set: {
           "profile.playing": true,
-          "profile.elapsedTime": 0,
-          "profile.updateTime": (new Date()).valueOf(),
+          "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
           "profile.currentTaskId": this.props.task._id,
         }});
         this.closePopup();
@@ -238,7 +214,7 @@ export default class TaskFrame extends Component {
 		      <progress className = "taskProgress" max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
           <ListItem
             className={this.props.task.checked ? "checked taskListItem" : "taskListItem"}
-            primaryText={this.props.task.taskName}
+            primaryText={Meteor.user().profile.currentTaskId === this.props.task._id ? this.props.task.taskName + " (Playing)" : this.props.task.taskName }
             rightIconButton={
               <IconButton
                 iconClassName="fa fa-ellipsis-v"
@@ -335,12 +311,6 @@ export default class TaskFrame extends Component {
               value={this.state.dueDate}
               onChange={this.updateDueDate}
               className = "each"
-            />
-            <Snackbar
-              open={this.state.snackbar}
-              message={this.state.message}
-              autoHideDuration={4000}
-              onRequestClose={this.closeSnackbar}
             />
           </Dialog>
         </div>

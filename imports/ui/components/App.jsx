@@ -1,6 +1,7 @@
-import React, {Component, constructor} from 'react';
+import React, {Component } from 'react';
 import { Router, Route, Switch, Redirect, withRouter } from 'react-router';
 import createHistory from 'history/createBrowserHistory';
+import 'semantic-ui-css/semantic.min.css';
 
 import TimerContainer from './Timer.jsx';
 import StatisticsContainer from './Statistics.jsx';

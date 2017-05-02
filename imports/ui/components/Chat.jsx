@@ -1,4 +1,4 @@
-import React, { Component, constructor } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import Flexbox from 'flexbox-react';
