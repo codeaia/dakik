@@ -33,8 +33,8 @@ export default class About extends Component {
               {this.state.activeItem === "about" ?
               <Segment className="sementicSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik App 1.5.3</h3>
-                <div> Copyright © 2017 <a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
+                <h3>Dakik App 1.6.0</h3>
+                <div> Copyright © May 2017 <a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
                     Abdullah ÖĞÜK
