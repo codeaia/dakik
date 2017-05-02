@@ -33,7 +33,7 @@ export default class About extends Component {
               {this.state.activeItem === "about" ?
               <Segment className="sementicSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik App 1.6.0</h3>
+                <h3>Dakik 1.6.0</h3>
                 <div> Copyright © May 2017 <a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
@@ -73,7 +73,14 @@ export default class About extends Component {
               <Segment>
                 <h3 className="about_header">FEATURES</h3>
                 <p>
-                  Our aim is to ease time-management of our users. Main feature of our application is to provide in-app todo-list in which users can create, update, delete their tasks in application. Secondarily our application is cross platform meaning that users can access our application from web, mobile, and desktop. Third one is in-app timer to let users manage tasks within certain time periods. Our fourth feature is to integrate similar task management applications such as trello and wunderlist. Last feature of our application is to provide visual statistics of our users actions like the percentage of completed tasks etc. Implementation and technology wise, we preferred to use javascript and corresponding technologies such as MeteorJs as our core framework to build on, React for our front-end and Victory for our graph visualizations along with MaterialUI css toolkit to speed up our development process.
+                  Our aim is to ease time-management of our users.<br/><br/>
+                  <b>Features</b>:<br/>
+                  1) Providing in-app todo-list in which users can create, update, delete their tasks in one application.<br/>
+                  2) In-app timer to let users manage their tasks within the same application.<br/>
+                  3) Independent of platform; meaning that users can access our application from web, mobile, and desktop.<br/>
+                  4) Integration of similar task management applications such as <b>trello</b> and <b>wunderlist</b>.<br/>
+                  5) Providing visual statistics of our users actions like the percentage of completed tasks etc.<br/><br/>
+                  Implementation and technology wise, we preferred to use <b>javascript</b> and corresponding technologies such as <b>MeteorJs</b> as our core framework to build on, <b>React</b> for our front-end and <b>Victory</b> for our graph visualizations along with <b>semantic-ui</b> css toolkit to speed up our development process.
                 </p>
               </Segment>
               : ""}
@@ -82,13 +89,12 @@ export default class About extends Component {
                 <h3 className="about_header">1.6.0</h3>
                 <p>
                   What's New:<br/>
-                  - animate.css support is added.<br/><br/>
-                  - Total Pomo and Task count statistics are added.
-                  - Task text is now indicating currently processed task.
+                  - animate.css support is added.<br/>
+                  - Total Pomo and Task count statistics are added.<br/>
+                  - Task text is now indicating currently processed task.<br/><br/>
                   Adjustments:<br/>
                   - Patch notes updated.<br/>
-                  - Timing and cross-platform functionalities got a rehaul.
-                    From now on, only the dueTime will be kept and all calculations will be done according to that.<br/>
+                  - Timing and cross-platform functionalities got a rehaul. From now on, only the dueTime will be kept and all calculations will be done according to that.<br/>
                   - When logged in on a secondary client as a user, your other logged in pages will be logged out.<br/>
                   - Profile page adjusted to use semantic-ui.<br/>
                   - NPM Package versions has been reverted back.<br/>
