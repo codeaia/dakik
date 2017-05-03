@@ -11,6 +11,7 @@ import { Pomos } from '../../api/pomos.js';
 import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
+import Nav from './Nav.jsx';
 import Clock from './Clock.jsx';
 import TaskViewContainer from './TaskView.jsx';
 
@@ -141,12 +142,12 @@ class Timer extends Component {
     if (this.props.user) {
       return (
         <Flexbox flexDirection="column">
+          <Nav history={this.props.history} location={this.props.location} />
           <Clock color={"rgb(" + this.state.r + ", " + this.state.g + ", " + this.state.b + ")"} remainingTime={this.state.rTime} remainingAngle={this.state.rAngle} />
           <Button
             icon={<Icon as='span' className='fa fa-stop' />}
             content='Stop'
             labelPosition='left'
-            basic
             color='red'
             disabled={this.props.user.playing ? true : false}
             className="stop animated fadeIn"

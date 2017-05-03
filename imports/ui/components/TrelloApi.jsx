@@ -1,12 +1,10 @@
-import React, { Component, constructor, State } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import FlatButton from 'material-ui/FlatButton';
+import parse from 'url-parse';
+import { Button, Icon } from 'semantic-ui-react';
+
 import WunderlistApi from './WunderlistApi.jsx';
 import { Tasks } from '../../api/tasks.js';
-parse = require('url-parse');
 
 class TrelloApi extends Component {
   constructor(props) {
@@ -30,10 +28,10 @@ class TrelloApi extends Component {
     url = parse(window.location.href, true).query;
     if(location.search !== "" && !_.isEmpty(url.oauth_token)) {
       Meteor.call("takeTrelloOauthToken", url, (error, result) => {
-        var temp = Meteor.user().profile;
-        temp.accessToken = result[0];
-        temp.accessTokenSecret = result[1];
-        Meteor.users.update(Meteor.userId(),{$set: {profile: temp}});
+        Meteor.users.update(Meteor.userId(),{$set: {
+          "profile.accessToken": result[0],
+          "profile.accessTokenSecret": result[1]
+        }});
         this.props.history.push('/settings');
       });
     }
@@ -41,10 +39,10 @@ class TrelloApi extends Component {
 
   login() {
     Meteor.call("takeTrelloToken", function(error, result) {
-      var temp = Meteor.user().profile;
-      temp.token = result[0];
-      temp.tokenSecret = result[1];
-      Meteor.users.update(Meteor.userId(),{$set: {profile: temp}});
+      Meteor.users.update(Meteor.userId(),{$set: {
+        "profile.token": result[0],
+        "profile.tokenSecret": result[1]
+      }});
       window.location.href="https://trello.com/1/OAuthAuthorizeToken?oauth_token=" + result[0] + "&name=Dakik&expiration=never&scope=read,write";
     });
   }
@@ -63,7 +61,6 @@ class TrelloApi extends Component {
       for(i=0; i<result.length; i++) {
         Meteor.call("getInfo", result[i], function(error, result) {
           for(i=0; i<result.length; i++) {
-            console.log(result[i].name);
             Meteor.call('addTask', result[i].name, 0, 1, 'trello', new Date());
           }
         });
@@ -73,22 +70,31 @@ class TrelloApi extends Component {
 
   render() {
     return (
-      <MuiThemeProvider ref="myRef">
-        <div>
-          <FlatButton disabled={this.state.disabled} className="ConnectToTrello" label={this.state.value} onTouchTap={this.login}/>
-          <FlatButton className="SYNC" label="SYNC" onTouchTap={this.getInfo}/>
-        </div>
-      </MuiThemeProvider>
+      <div ref="myRef">
+        <Button
+          disabled={this.state.disabled}
+          content={this.state.value}
+          color='teal'
+          icon={<Icon link as="span" className='fa fa-sign-in'/>}
+          labelPosition='left'
+          className="animated fadeIn"
+          onClick={this.login}
+        />
+        <Button
+          content='Sync'
+          color='green'
+          icon={<Icon link as="span" className='fa fa-exchange'/>}
+          labelPosition='left'
+          className="animated fadeIn"
+          onClick={this.getInfo}
+        />
+      </div>
     );
   }
 }
 
 export default TrelloApiContainer = createContainer(() => {
-
-  Meteor.subscribe('tasks');
-  var currentUser = Meteor.user();
-
   return {
-    currentUser,
+    currentUser: Meteor.user(),
   };
 }, TrelloApi);

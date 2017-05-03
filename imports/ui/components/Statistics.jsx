@@ -10,18 +10,6 @@ import Flexbox from 'flexbox-react';
 class Statistics extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
-    this.handleZoom = this.handleZoom.bind(this);
-    this.handleBrush = this.handleBrush.bind(this);
-  }
-
-  handleZoom(domain) {
-    this.setState({selectedDomain: domain});
-  }
-
-  handleBrush(domain) {
-    this.setState({zoomDomain: domain});
   }
 
   render() {

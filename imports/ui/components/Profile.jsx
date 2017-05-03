@@ -6,6 +6,7 @@ import { Image, Header, Segment, Label, Icon, Card, Form, Input, Button, Menu } 
 import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
+import Nav from './Nav.jsx';
 import StatisticsContainer from './Statistics.jsx';
 
 class Profile extends Component {
@@ -101,51 +102,63 @@ class Profile extends Component {
   render() {
     if (this.props.user) {
       return (
-        <Card className="profile">
-          <Card.Content header={
-            <div className="profileTop">
-              <Header as='h4' image>
-                <Image src='/jsa-128.jpg' shape='circular' size='big' />
-                <Header.Content>
-                  {this.props.user.username}
-                  <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>
-                </Header.Content>
-              </Header>
-              <Button
-                icon={<Icon link as="span" className='fa fa-sign-out'/>}
-                content='Logout'
-                labelPosition='left'
-                basic
-                color='red'
-                className="logout animated fadeIn"
-                onClick={this.handleLogout}
-              />
-            </div>
-          } />
-          <Form>
-            <Form.Group widths='equal'>
-              <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
-              <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
-              <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
-              <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
-              <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
-            </Form.Group>
-          </Form>
-          <Card.Content description={
-            <div>
-              <h4>Today's Stats</h4>
-              Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
-              Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
-              <StatisticsContainer />
-            </div>
-          }/>
-        </Card>
+        <div>
+          <Nav history={this.props.history} location={this.props.location} />
+          <Card className="profile">
+            <Card.Content header={
+              <div className="profileTop">
+                <Header as='h4' image>
+                  <Image src='/jsa-128.jpg' shape='circular' size='big' />
+                  <Header.Content>
+                    {this.props.user.username}
+                    <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>
+                  </Header.Content>
+                </Header>
+                <div>
+                  <Button
+                    icon={<Icon link as="span" className='fa fa-cog'/>}
+                    content='Settings'
+                    labelPosition='left'
+                    color='teal'
+                    className="animated fadeIn"
+                    onClick={() => this.props.history.push('/settings')}
+                  />
+                  <Button
+                    icon={<Icon link as="span" className='fa fa-sign-out'/>}
+                    content='Logout'
+                    labelPosition='left'
+                    color='red'
+                    className="animated fadeIn"
+                    onClick={this.handleLogout}
+                  />
+                </div>
+              </div>
+            } />
+            <Form>
+              <Form.Group widths='equal'>
+                <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
+                <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
+                <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
+              </Form.Group>
+              <Form.Group widths='equal'>
+                <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
+                <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
+              </Form.Group>
+              <Form.Group widths='equal'>
+                <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
+                <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
+              </Form.Group>
+            </Form>
+            <Card.Content description={
+              <div>
+                <h4>Today's Stats</h4>
+                Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
+                Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
+                <StatisticsContainer />
+              </div>
+            }/>
+          </Card>
+        </div>
       );
     } else {
       return (

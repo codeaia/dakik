@@ -1,10 +1,10 @@
 import React, { Component, constructor } from 'react';
+import parse from 'url-parse';
+import { Button, Icon } from 'semantic-ui-react';
 
 import { Tasks } from '../../api/tasks.js';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FlatButton from 'material-ui/FlatButton';
-parse = require('url-parse');
+import Loading from './Loading.jsx';
 
 export default class WunderlistApi extends Component {
   constructor(props) {
@@ -45,9 +45,9 @@ export default class WunderlistApi extends Component {
               'addTask',
               respJsonTask[x].title,
               0,
-              0,
+              1,
               "wunderlist",
-              null,
+              new Date(),
             );
           }
         });
@@ -60,13 +60,49 @@ export default class WunderlistApi extends Component {
   }
 
   render() {
-    return (
-      <MuiThemeProvider ref="myRef">
-        <div>
-          <FlatButton disabled={Meteor.user().profile.wunderlistToken !== undefined ? true : false} label={Meteor.user().profile.wunderlistToken !== undefined ? "Connected" : "Connect To Wunderlist"} onTouchTap={this.goToWunderlist}/>
-          <FlatButton label="SYNC" onTouchTap={this.insertLists}/>
+    if (Meteor.user()) {
+      return (
+        <div ref="myRef">
+          <Button
+            disabled={Meteor.user().profile.wunderlistToken !== undefined ? true : false}
+            content={Meteor.user().profile.wunderlistToken !== undefined ? "Connected" : "Connect To Wunderlist"}
+            color='teal'
+            icon={<Icon link as="span" className='fa fa-cog'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.goToWunderlist}
+          />
+          <Button
+            content='Sync'
+            color='green'
+            icon={<Icon link as="span" className='fa fa-exchange'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.insertLists}
+          />
         </div>
-      </MuiThemeProvider>
-    );
+      );
+    } else {
+      return (
+        <div ref="myRef">
+          <Button
+            content='Connect To Wunderlist'
+            color='teal'
+            icon={<Icon link as="span" className='fa fa-sign-in'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.goToWunderlist}
+          />
+          <Button
+            content='Sync'
+            color='green'
+            icon={<Icon link as="span" className='fa fa-exchange'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.insertLists}
+          />
+        </div>
+      );
+    }
   }
 }

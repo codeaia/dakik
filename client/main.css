@@ -142,10 +142,6 @@ html, body, #react-root, .render-target {
 	justify-content: space-between;
 }
 
-.logout{
-  height: 3em;
-}
-
 /************************* NAVBAR *******************************************/
 .navContainer {
 	z-index: 10;
