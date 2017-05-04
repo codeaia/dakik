@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import parse from 'url-parse';
 import { Button, Icon } from 'semantic-ui-react';
+import Loading from './Loading.jsx';
 
 import WunderlistApi from './WunderlistApi.jsx';
 import { Tasks } from '../../api/tasks.js';
@@ -13,18 +14,6 @@ class TrelloApi extends Component {
     this.login = this.login.bind(this);
     this.getInfo = this.getInfo.bind(this);
 
-    if(Meteor.user() !== undefined) {
-      this.state = {
-        disabled: true,
-        value: "Connected"
-      }
-    } else {
-      this.state = {
-        disabled: false,
-        value: "Connect To Trello"
-      }
-    }
-
     url = parse(window.location.href, true).query;
     if(location.search !== "" && !_.isEmpty(url.oauth_token)) {
       Meteor.call("takeTrelloOauthToken", url, (error, result) => {
@@ -32,7 +21,7 @@ class TrelloApi extends Component {
           "profile.accessToken": result[0],
           "profile.accessTokenSecret": result[1]
         }});
-        this.props.history.push('/settings');
+        this.props.history.push('/settings/trello');
       });
     }
   }
@@ -45,15 +34,6 @@ class TrelloApi extends Component {
       }});
       window.location.href="https://trello.com/1/OAuthAuthorizeToken?oauth_token=" + result[0] + "&name=Dakik&expiration=never&scope=read,write";
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.currentUser.profile.accessToken !== undefined) {
-      this.setState({
-        disabled: true,
-        value: "Connected"
-      });
-    }
   }
 
   getInfo() {
@@ -69,27 +49,34 @@ class TrelloApi extends Component {
   }
 
   render() {
-    return (
-      <div ref="myRef">
-        <Button
-          disabled={this.state.disabled}
-          content={this.state.value}
-          color='teal'
-          icon={<Icon link as="span" className='fa fa-sign-in'/>}
-          labelPosition='left'
-          className="animated fadeIn"
-          onClick={this.login}
-        />
-        <Button
-          content='Sync'
-          color='green'
-          icon={<Icon link as="span" className='fa fa-exchange'/>}
-          labelPosition='left'
-          className="animated fadeIn"
-          onClick={this.getInfo}
-        />
-      </div>
-    );
+    if (this.props.currentUser) {
+      return (
+        <div ref="myRef">
+          <Button
+            disabled={this.props.currentUser.profile.accessToken ? true : false}
+            content={this.props.currentUser.profile.accessToken ? "Connected" : "Connect To Trello"}
+            color='teal'
+            icon={<Icon link as="span" className='fa fa-sign-in'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.login}
+          />
+          <Button
+            content='Sync'
+            disabled={this.props.currentUser.profile.accessToken ? false : true}
+            color='green'
+            icon={<Icon link as="span" className='fa fa-exchange'/>}
+            labelPosition='left'
+            className="animated fadeIn"
+            onClick={this.getInfo}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <Loading />
+      );
+    }
   }
 }
 

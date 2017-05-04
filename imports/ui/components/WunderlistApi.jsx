@@ -1,4 +1,5 @@
 import React, { Component, constructor } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import parse from 'url-parse';
 import { Button, Icon } from 'semantic-ui-react';
 
@@ -6,7 +7,7 @@ import { Tasks } from '../../api/tasks.js';
 
 import Loading from './Loading.jsx';
 
-export default class WunderlistApi extends Component {
+class WunderlistApi extends Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +21,7 @@ export default class WunderlistApi extends Component {
           window.alert("Error: " + err.reason);
           console.log("error occured on receiving data on server. ", err );
         } else {
-          this.props.history.push('/settings');
+          this.props.history.push('/settings/wunderlist');
         }
       });
     }
@@ -56,16 +57,16 @@ export default class WunderlistApi extends Component {
   }
 
   goToWunderlist() {
-    window.location.href = "https://www.wunderlist.com/oauth/authorize?client_id=bcddc2947c80dd050a3f&redirect_uri=http://localhost:3000/settings&state=RANDOM";
+    window.location.href = "https://www.wunderlist.com/oauth/authorize?client_id=bcddc2947c80dd050a3f&redirect_uri=http://localhost:3000/settings/wunderlist&state=RANDOM";
   }
 
   render() {
-    if (Meteor.user()) {
+    if (this.props.currentUser) {
       return (
         <div ref="myRef">
           <Button
-            disabled={Meteor.user().profile.wunderlistToken !== undefined ? true : false}
-            content={Meteor.user().profile.wunderlistToken !== undefined ? "Connected" : "Connect To Wunderlist"}
+            disabled={this.props.currentUser.profile.wunderlistToken !== undefined ? true : false}
+            content={this.props.currentUser.profile.wunderlistToken !== undefined ? "Connected" : "Connect To Wunderlist"}
             color='teal'
             icon={<Icon link as="span" className='fa fa-cog'/>}
             labelPosition='left'
@@ -74,6 +75,7 @@ export default class WunderlistApi extends Component {
           />
           <Button
             content='Sync'
+            disabled={this.props.currentUser.profile.wunderlistToken !== undefined ? false : true}
             color='green'
             icon={<Icon link as="span" className='fa fa-exchange'/>}
             labelPosition='left'
@@ -84,25 +86,14 @@ export default class WunderlistApi extends Component {
       );
     } else {
       return (
-        <div ref="myRef">
-          <Button
-            content='Connect To Wunderlist'
-            color='teal'
-            icon={<Icon link as="span" className='fa fa-sign-in'/>}
-            labelPosition='left'
-            className="animated fadeIn"
-            onClick={this.goToWunderlist}
-          />
-          <Button
-            content='Sync'
-            color='green'
-            icon={<Icon link as="span" className='fa fa-exchange'/>}
-            labelPosition='left'
-            className="animated fadeIn"
-            onClick={this.insertLists}
-          />
-        </div>
+        <Loading />
       );
     }
   }
 }
+
+export default WunderlistApiContainer = createContainer(() => {
+  return {
+    currentUser: Meteor.user(),
+  };
+}, WunderlistApi);

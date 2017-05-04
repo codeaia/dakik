@@ -3,7 +3,7 @@ import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
 
 import Nav from './Nav.jsx';
 import TrelloApiContainer from './TrelloApi.jsx';
-import WunderlistApi from './WunderlistApi.jsx';
+import WunderlistApiContainer from './WunderlistApi.jsx';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export default class Settings extends Component {
         			: ""}
         			{this.props.location.pathname === "/settings/wunderlist" ?
         			<Segment className = "sementicSegment">
-        				<WunderlistApi history={this.props.history} />
+        				<WunderlistApiContainer history={this.props.history} />
         			</Segment>
         			: ""}
         		</Grid.Column>
