@@ -6,16 +6,6 @@ import Nav from './Nav.jsx';
 export default class About extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      activeItem: 'about'
-    }
-
-    this.handleItemClick = this.handleItemClick.bind(this);
-  }
-
-  handleItemClick(event, { name }){
-    this.setState({ activeItem: name });
   }
 
   render() {
@@ -26,14 +16,14 @@ export default class About extends Component {
           <Grid className="about-semantic">
             <Grid.Column width={4}>
               <Menu pointing secondary vertical>
-                <Menu.Item name='about' active={this.state.activeItem === 'about'} onClick={this.handleItemClick}>About</Menu.Item>
-                <Menu.Item name='features' active={this.state.activeItem === 'features'} onClick={this.handleItemClick}>Features</Menu.Item>
-                <Menu.Item name='notes' active={this.state.activeItem === 'notes'} onClick={this.handleItemClick}>Changelog</Menu.Item>
-                <Menu.Item name='Licenses' active={this.state.activeItem === 'Licenses'} onClick={this.handleItemClick} ></Menu.Item>
+                <Menu.Item name='about' active={this.props.location.pathname === "/about" ? true : false} onClick={() => this.props.history.push('/about')}>About</Menu.Item>
+                <Menu.Item name='features' active={this.props.location.pathname === "/about/features" ? true : false} onClick={() => this.props.history.push('/about/features')}>Features</Menu.Item>
+                <Menu.Item name='notes' active={this.props.location.pathname === "/about/changelog" ? true : false} onClick={() => this.props.history.push('/about/changelog')}>Changelog</Menu.Item>
+                <Menu.Item name='Licenses' active={this.props.location.pathname === "/about/licence" ? true : false} onClick={() => this.props.history.push('/about/licence')}></Menu.Item>
               </Menu>
             </Grid.Column>
             <Grid.Column stretched width={12}>
-              {this.state.activeItem === "about" ?
+              {this.props.location.pathname === "/about" ?
               <Segment className="sementicSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
                 <h3>Dakik 1.6.2</h3>
@@ -72,7 +62,7 @@ export default class About extends Component {
                 </div>
               </Segment>
               : ""}
-              {this.state.activeItem === "features" ?
+              {this.props.location.pathname === "/about/features" ?
               <Segment>
                 <h3 className="about_header">FEATURES</h3>
                 <p>
@@ -87,7 +77,7 @@ export default class About extends Component {
                 </p>
               </Segment>
               : ""}
-              {this.state.activeItem === "notes" ?
+              {this.props.location.pathname === "/about/changelog" ?
               <Segment>
                 <h3 className="about_header">1.6.0</h3>
                 <p>
@@ -105,7 +95,7 @@ export default class About extends Component {
                 </p>
               </Segment>
               : ""}
-              {this.state.activeItem === "Licenses" ?
+              {this.props.location.pathname === "/about/licence" ?
               <Segment>
                 <h3>MIT License</h3><br/>
 

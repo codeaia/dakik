@@ -52,10 +52,13 @@ export default class App extends Component {
             <Switch>
               <PrivateRoute path="/" exact component={TimerContainer}/>
               <PrivateRoute path="/profile" component={Profile} />
-              <PrivateRoute path="/settings" component={Settings} />
+              <PrivateRoute path="/settings/account" component={Settings} />
               <PrivateRoute path="/settings/trello" component={Settings} />
               <PrivateRoute path="/settings/wunderlist" component={Settings} />
               <PrivateRoute path="/about" component={About} />
+              <PrivateRoute path="/about/features" component={About} />
+              <PrivateRoute path="/about/changelog" component={About} />
+              <PrivateRoute path="/about/licence" component={About} />
               <PrivateRoute path="/taskNew" component={TaskNew} />
               <AuthRoute path="/auth" component={Auth} />
               <PrivateRoute component={NotFound} />

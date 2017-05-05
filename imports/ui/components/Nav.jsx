@@ -20,11 +20,11 @@ export default class Nav extends Component {
   		      <Icon as="span" className='fa fa-user-circle' />
   		    </Menu.Item>
   			</Link>
-   			<Link to="/settings">
+   			<Link to="/settings/account">
   		    <Menu.Item as="div"
             className="navButton"
             name='settings'
-            active={this.props.location.pathname === '/settings' ||
+            active={this.props.location.pathname === '/settings/account' ||
             this.props.location.pathname === '/settings/trello' ||
             this.props.location.pathname === '/settings/wunderlist'
             ? true : false}>
