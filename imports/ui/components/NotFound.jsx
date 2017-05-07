@@ -12,7 +12,7 @@ export default class NotFound extends Component {
 
   render() {
     return (
-      <div className="newTaskButton">
+      <div className="loading">
         <h3 className="circular">Route '{this.props.location.pathname}' is not defined.</h3>
         <Button
           icon={<Icon link as="span" className='fa fa-exclamation-triangle'/>}

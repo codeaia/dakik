@@ -13,49 +13,44 @@ export default class About extends Component {
       <div>
         <Nav history={this.props.history} location={this.props.location} />
         <Segment className="about">
-          <Grid className="about-semantic">
-            <Grid.Column width={4}>
+          <Grid className="aboutGrid">
+            <Grid.Column className="aboutTab" width={4}>
               <Menu pointing secondary vertical>
-                <Menu.Item name='about' active={this.props.location.pathname === "/about" ? true : false} onClick={() => this.props.history.push('/about')}>About</Menu.Item>
-                <Menu.Item name='features' active={this.props.location.pathname === "/about/features" ? true : false} onClick={() => this.props.history.push('/about/features')}>Features</Menu.Item>
-                <Menu.Item name='notes' active={this.props.location.pathname === "/about/changelog" ? true : false} onClick={() => this.props.history.push('/about/changelog')}>Changelog</Menu.Item>
-                <Menu.Item name='Licenses' active={this.props.location.pathname === "/about/licence" ? true : false} onClick={() => this.props.history.push('/about/licence')}></Menu.Item>
+                <Menu.Item active={this.props.location.pathname === "/about" ? true : false} onClick={() => this.props.history.push('/about')}>About</Menu.Item>
+                <Menu.Item active={this.props.location.pathname === "/about/features" ? true : false} onClick={() => this.props.history.push('/about/features')}>Features</Menu.Item>
+                <Menu.Item active={this.props.location.pathname === "/about/changelog" ? true : false} onClick={() => this.props.history.push('/about/changelog')}>Changelog</Menu.Item>
+                <Menu.Item active={this.props.location.pathname === "/about/licence" ? true : false} onClick={() => this.props.history.push('/about/licence')}>Licences</Menu.Item>
               </Menu>
             </Grid.Column>
-            <Grid.Column stretched width={12}>
+            <Grid.Column className="aboutContent" width={12}>
               {this.props.location.pathname === "/about" ?
-              <Segment className="sementicSegment">
+              <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.6.2</h3>
+                <h3>Dakik 1.6.6</h3>
                 <div> Copyright © May 2017 <a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
                     Abdullah ÖĞÜK
-                    <Label.Detail>UI/UX Developer</Label.Detail>
                     <Label.Detail as="a" href="http://abdullahoguk.ga/" target="_blank"><span className="fa fa-globe"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://github.com/abdullahoguk" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://twitter.com/abdullahoguk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
                   <Label as='div' color='red' image>
                     Ahmet KAŞİF
-                    <Label.Detail>Core Developer </Label.Detail>
                     <Label.Detail as="a" href="http://ahmetk.cf/" target="_blank"><span className = "fa fa-globe"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://github.com/ahmetkasif" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://twitter.com/ksfahmet" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
                   <Label as='div' color='green' image>
                     Hilmi ARAZ
-                    <Label.Detail>Integration Developer</Label.Detail>
                     <Label.Detail as="a" href="https://github.com/hilmi3x" target="_blank"><span className = "fa fa-github"> </span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://twitter.com/RZhealme" target="_blank"><span className = "fa fa-twitter"> </span><br /></Label.Detail>
                   </Label><Label as='div' color='purple' image>
                     Uğur KAFALI
-                    <Label.Detail>Integration Developer</Label.Detail>
                     <Label.Detail as="a" href="https://github.com/raguer100" target="_blank"><span className = "fa fa-github"> </span><br /></Label.Detail>
                   </Label>
                   <Label as='div' color='yellow' image>
                     İbrahim KONUK
-                    <Label.Detail>Artist</Label.Detail>
                     <Label.Detail as="a" href="https://github.com/iknk" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
                     <Label.Detail as="a" href="https://twitter.com/ibrahimk0nuk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
@@ -79,19 +74,17 @@ export default class About extends Component {
               : ""}
               {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.6.0</h3>
-                <p>
+                <h3 className="about_header">1.6.6</h3>
+                <p><br/>
                   What's New:<br/>
-                  - animate.css support is added.<br/>
-                  - Total Pomo and Task count statistics are added.<br/>
-                  - Task text is now indicating currently processed task.<br/><br/>
-                  Adjustments:<br/>
-                  - Patch notes updated.<br/>
-                  - Timing and cross-platform functionalities got a rehaul. From now on, only the dueTime will be kept and all calculations will be done according to that.<br/>
-                  - When logged in on a secondary client as a user, your other logged in pages will be logged out.<br/>
-                  - Profile page adjusted to use semantic-ui.<br/>
-                  - NPM Package versions has been reverted back.<br/>
+                  - TaskFrame and TaskView components updated.<br/>
+                  Old material-ui design swithced with semantic-ui and pop-up's now have their own route, page and component files.<br/><br/>
+                  Adjustments & Fixes:<br/>
+                  - Link usage for routing is left. Instead, we are using onClick functions and history package to handle redirect requests.<br/>
+                  - Navbar is no longer fixed to top.<br/>
+                  - Various css fixes applied for mobile platforms.<br/>
                   - Several optimizations has been applied to our code base.<br/>
+                  - Patch notes updated.
                 </p>
               </Segment>
               : ""}

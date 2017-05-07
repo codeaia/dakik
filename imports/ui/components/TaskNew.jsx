@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react';
 import { Link } from 'react-router-dom';
 
 import Loading from './Loading.jsx';
+import Nav from './Nav.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
@@ -70,9 +71,10 @@ export default class TaskNew extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Flexbox className="taskNewContainer">
-          <Card className="taskNewCard">
-			<h3 className = "taskNewHeader">Add a new task...</h3>
+        <div>
+          <Nav history={this.props.history} location={this.props.location}/>
+          <Card className="taskNewContainer">
+			      <h3 className = "taskNewHeader">Add a new task...</h3>
             <CardText className="taskNewCardText">
               <Flexbox flexDirection="column">
                 <TextField
@@ -80,15 +82,15 @@ export default class TaskNew extends Component {
                   type="text"
                   onChange={this.updateTaskName}
                   floatingLabelText="Task Name"
-				  className = "taskName each"
-				  id="add-task-name"
+				          className = "taskName each"
+				          id="add-task-name"
                 />
                 <SelectField
                   floatingLabelText="Priority"
                   value={this.state.taskPriority}
                   onChange={this.updatePriority}
-				  className="each"
-				>
+				          className="each"
+				        >
                   <MenuItem value={0} primaryText="0 (No Priority)" />
                   <MenuItem value={1} primaryText="1 (Urgent)" />
                   <MenuItem value={2} primaryText="2 (Today)" />
@@ -100,8 +102,8 @@ export default class TaskNew extends Component {
                   floatingLabelText="Task Goal"
                   value={this.state.taskGoal}
                   onChange={this.updateTaskGoal}
-				  className="each"
- 				>
+				          className="each"
+ 				        >
                   <MenuItem value={1} primaryText="1" />
                   <MenuItem value={2} primaryText="2" />
                   <MenuItem value={3} primaryText="3" />
@@ -114,11 +116,11 @@ export default class TaskNew extends Component {
                   <MenuItem value={10} primaryText="10" />
                 </SelectField>
                 <DatePicker
-                    hintText="Due Date"
-                    value={this.state.dueDate}
-                    onChange={this.updateDueDate}
-					className="each"
-				/>
+                  hintText="Due Date"
+                  value={this.state.dueDate}
+                  onChange={this.updateDueDate}
+					        className="each"
+				        />
               </Flexbox>
             </CardText>
             <CardActions className="taskNewActions">
@@ -130,7 +132,7 @@ export default class TaskNew extends Component {
               </Link>
             </CardActions>
           </Card>
-        </Flexbox>
+        </div>
       </MuiThemeProvider>
     );
   }

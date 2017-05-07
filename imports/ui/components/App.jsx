@@ -8,6 +8,8 @@ import StatisticsContainer from './Statistics.jsx';
 import Settings from './Settings.jsx';
 import About from './About.jsx';
 import TaskNew from './TaskNew.jsx';
+import TaskDetails from './TaskDetails.jsx';
+import TaskEdit from './TaskEdit.jsx';
 import Profile from './Profile.jsx';
 import Auth from './Auth.jsx';
 import NotFound from './NotFound';
@@ -48,22 +50,22 @@ export default class App extends Component {
     return (
       <Router history={ createHistory() }>
         <div className="fullHeight">
-          <div className="container fullHeight">
-            <Switch>
-              <PrivateRoute path="/" exact component={TimerContainer}/>
-              <PrivateRoute path="/profile" component={Profile} />
-              <PrivateRoute path="/settings/account" component={Settings} />
-              <PrivateRoute path="/settings/trello" component={Settings} />
-              <PrivateRoute path="/settings/wunderlist" component={Settings} />
-              <PrivateRoute path="/about" component={About} />
-              <PrivateRoute path="/about/features" component={About} />
-              <PrivateRoute path="/about/changelog" component={About} />
-              <PrivateRoute path="/about/licence" component={About} />
-              <PrivateRoute path="/taskNew" component={TaskNew} />
-              <AuthRoute path="/auth" component={Auth} />
-              <PrivateRoute component={NotFound} />
-            </Switch>
-          </div>
+          <Switch>
+            <PrivateRoute path="/" exact component={TimerContainer}/>
+            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/settings/account" component={Settings} />
+            <PrivateRoute path="/settings/trello" component={Settings} />
+            <PrivateRoute path="/settings/wunderlist" component={Settings} />
+            <PrivateRoute path="/about" component={About} />
+            <PrivateRoute path="/about/features" component={About} />
+            <PrivateRoute path="/about/changelog" component={About} />
+            <PrivateRoute path="/about/licence" component={About} />
+            <PrivateRoute path="/taskNew" component={TaskNew} />
+            <PrivateRoute path="/taskEdit" component={TaskEdit} />
+            <PrivateRoute path="/taskDetails" component={TaskDetails} />
+            <AuthRoute path="/auth" component={Auth} />
+            <PrivateRoute component={NotFound} />
+          </Switch>
         </div>
       </Router>
     );

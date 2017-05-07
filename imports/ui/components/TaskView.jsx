@@ -1,21 +1,12 @@
 import React, { Component, constructor } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
-import { Link } from 'react-router-dom';
+import { Button, Icon, Card } from 'semantic-ui-react'
 
 import { Tasks } from '../../api/tasks.js';
 
 import Loading from './Loading.jsx';
 import TaskFrame from './TaskFrame.jsx';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import IconButton from 'material-ui/IconButton';
-import Toggle from 'material-ui/Toggle';
-import Subheader from 'material-ui/Subheader';
-import {Card, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton';
 
 class TaskView extends Component {
   constructor(props) {
@@ -55,7 +46,7 @@ class TaskView extends Component {
     }
 
     return filteredTasks.map((task) => (
-      <TaskFrame key={task._id} task={task} length={this.props.length}/>
+      <TaskFrame key={task._id} task={task} history={this.props.history} location={this.props.location} length={this.props.length}/>
     ));
   }
 
@@ -70,47 +61,24 @@ class TaskView extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Flexbox>
-          <Card className="taskListCard">
-            <CardText>
-              <Subheader className="subheader">
-                <Toggle label="Hide completed" labelPosition="right" toggled={this.state.hideCompleted} onToggle={this.toggleHide} className="toggleChecked"/>
-              </Subheader>
-              <Flexbox alignItems="center">
-                <IconButton
-                  iconClassName="fa fa-angle-left"
-                  disabled={Session.get('skip') === 0 ? true : false}
-                  tooltip="Previous List"
-                  onClick={this.prevButton}
-                />
-                <List className="taskList">
-                  <ReactCSSTransition
-                    transitionName = "taskFrameLoad"
-                    transitionEnterTimeout = {600}
-                    transitionLeaveTimeout = {400}
-                  >
-                    <div className="newTaskButton">
-                      <Link to="/taskNew">
-                        <div>
-                          <IconButton iconClassName="fa fa-plus" tooltip="New Task"/>
-                        </div>
-                      </Link>
-                    </div>
-                    {this.renderTasks()}
-                  </ReactCSSTransition>
-                </List>
-                <IconButton
-                  iconClassName="fa fa-angle-right"
-                  tooltip="Next List"
-                  disabled={this.props.length !== 6 ? true : false}
-                  onClick={this.nextButton}
-                />
-              </Flexbox>
-            </CardText>
-          </Card>
-        </Flexbox>
-      </MuiThemeProvider>
+      <Card className="taskListCard taskList">
+        <ReactCSSTransition
+          transitionName = "taskFrameLoad"
+          transitionEnterTimeout = {600}
+          transitionLeaveTimeout = {400}>
+          <Card.Content className="newTaskButton">
+            <Button
+              icon={<Icon as='span' className='fa fa-plus' />}
+              onClick={() => this.props.history.push('/taskNew')}
+            />
+          </Card.Content>
+          <Card.Content>
+            <div className='taskList'>
+              {this.renderTasks()}
+            </div>
+          </Card.Content>
+        </ReactCSSTransition>
+      </Card>
     );
   }
 }

@@ -153,7 +153,7 @@ class Timer extends Component {
             className="stop animated fadeIn"
             onClick={this.handleStop}
           />
-          <TaskViewContainer />
+          <TaskViewContainer history={this.props.history} location={this.props.location}/>
         </Flexbox>
       );
     } else {
