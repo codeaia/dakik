@@ -3,9 +3,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import parse from 'url-parse';
 import { Button, Icon } from 'semantic-ui-react';
 import Loading from './Loading.jsx';
-
-import WunderlistApi from './WunderlistApi.jsx';
 import { Tasks } from '../../api/tasks.js';
+Moment = require('moment');
 
 class TrelloApi extends Component {
   constructor(props) {
@@ -21,7 +20,11 @@ class TrelloApi extends Component {
           "profile.accessToken": result[0],
           "profile.accessTokenSecret": result[1]
         }});
-        this.props.history.push('/settings/trello');
+        Meteor.call("postBoard", (error, result) => {
+          //We need this useless callback for changing history
+          this.props.history.push('/settings/trello');
+        });
+
       });
     }
   }
@@ -37,11 +40,26 @@ class TrelloApi extends Component {
   }
 
   getInfo() {
-    Meteor.call("getBoardsId", function(error, result) {
-      for(i=0; i<result.length; i++) {
-        Meteor.call("getInfo", result[i], function(error, result) {
-          for(i=0; i<result.length; i++) {
-            Meteor.call('addTask', result[i].name, 0, 1, 'trello', new Date());
+    var found = false;
+    var allTasks = this.props.tasks;
+    Meteor.call("getBoardsId", function(error, resultBoardsId) {
+
+      for(i=0; i<resultBoardsId.length; i++) {
+
+        Meteor.call("getInfo", resultBoardsId[i], function(error, result) {
+          for(y=0; y<result.length; y++) {
+
+            for(z=0;z<allTasks.length;z++) {
+              if(result[y].name == allTasks[z].taskName && Moment(result[y].due).isSame(allTasks[z].dueDate, "day")) {
+                found = true;
+              }
+            }
+
+            if(!found) {
+              Meteor.call('addTask', result[y].name, 0, 1, 'trello', result[y].due);
+            }
+
+            found = false;
           }
         });
       }
@@ -49,7 +67,7 @@ class TrelloApi extends Component {
   }
 
   render() {
-    if (this.props.currentUser) {
+    if (this.props.currentUser && this.props.tasks) {
       return (
         <div ref="myRef">
           <Button
@@ -81,7 +99,10 @@ class TrelloApi extends Component {
 }
 
 export default TrelloApiContainer = createContainer(() => {
+  Meteor.subscribe('allTasks');
+  var tasks = Tasks.find({}).fetch();
   return {
     currentUser: Meteor.user(),
+    tasks,
   };
 }, TrelloApi);

@@ -19,22 +19,24 @@ export default class TaskDetails extends Component {
   render() {
     return (
       <div className = "taskDetails">
-        <p className="taskName">{this.props.location.state.task.taskName}</p>
-        <div className="priority each">
-          <p className="target">Priority:</p>
-          <p className="value">{this.props.location.state.task.taskPriority}</p>
-        </div>
-        <div className="pomoTime each">
-          <p className="target">Pomotime:</p>
-          <p className="value">{this.props.location.state.task.pomoCount}</p>
-        </div>
-        <div className="estPomos each">
-          <p className="target">Estimated Pomos:</p>
-          <p className="value">{this.props.location.state.task.pomoGoal}</p>
-        </div>
-        <div className="due each">
-          <p className="target">Due Date:</p>
-          <p className="value">{moment(this.props.location.state.task.dueDate).format("MMM Do YY")}</p>
+        <div className = "taskDetailsContent">
+          <p className="taskName">{this.props.location.state.task.taskName}</p>
+          <div className="priority each">
+            <p className="target">Priority:</p>
+            <p className="value">{this.props.location.state.task.taskPriority}</p>
+          </div>
+          <div className="pomoTime each">
+            <p className="target">Pomotime:</p>
+            <p className="value">{this.props.location.state.task.pomoCount}</p>
+          </div>
+          <div className="estPomos each">
+            <p className="target">Estimated Pomos:</p>
+            <p className="value">{this.props.location.state.task.pomoGoal}</p>
+          </div>
+          <div className="due each">
+            <p className="target">Due Date:</p>
+            <p className="value">{moment(this.props.location.state.task.dueDate).format("MMM Do YY")}</p>
+          </div>
         </div>
       </div>
     );

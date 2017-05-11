@@ -73,6 +73,8 @@ class TaskView extends Component {
             />
           </Card.Content>
           <Card.Content>
+            <Button disabled={Session.get('skip') <= 0 ? true : false} onClick={this.prevButton}>Previous</Button>
+            <Button disabled={this.props.length < 6 ? true : false} onClick={this.nextButton}>Next</Button>
             <div className='taskList'>
               {this.renderTasks()}
             </div>

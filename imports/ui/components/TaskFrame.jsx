@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
 
-import { Button, Icon, Dropdown } from 'semantic-ui-react';
+import { Button, Icon, Dropdown, Menu } from 'semantic-ui-react';
 
 export default class TaskFrame extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ export default class TaskFrame extends Component {
                   labelPosition='left'
                   disabled={Meteor.user().profile.playing || Meteor.user().profile.timerDue !== null ? true : false}
                   onClick={this.deleteTask}
-                />
+                  />
               </Dropdown.Item>
               <Dropdown.Item>
                 <Button
@@ -74,7 +74,7 @@ export default class TaskFrame extends Component {
                   content="Edit"
                   labelPosition='left'
                   onClick={() => this.props.history.push('taskEdit', {task: this.props.task})}
-                />
+                  />
               </Dropdown.Item>
               <Dropdown.Item>
                 <Button
@@ -84,7 +84,7 @@ export default class TaskFrame extends Component {
                   labelPosition='left'
                   onClick={this.startPomo}
                   disabled={Meteor.user().profile.playing || this.props.task.checked || Meteor.user().profile.timerDue !== null ? true : false}
-                />
+                  />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

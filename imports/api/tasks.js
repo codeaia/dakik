@@ -51,4 +51,8 @@ if (Meteor.isServer) {
   Meteor.publish('tasks', function(skip) {
     return Tasks.find({ownerId: this.userId}, {skip: skip, limit: 6, sort: { createdAt: -1 }});
   });
+
+  Meteor.publish('allTasks', function() {
+    return Tasks.find({ownerId: this.userId});
+  });
 }

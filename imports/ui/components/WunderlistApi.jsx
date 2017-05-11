@@ -1,11 +1,11 @@
-import React, { Component, constructor } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import parse from 'url-parse';
 import { Button, Icon } from 'semantic-ui-react';
-
-import { Tasks } from '../../api/tasks.js';
-
 import Loading from './Loading.jsx';
+import { Tasks } from '../../api/tasks.js';
+Moment = require('moment');
+//ikinci denemede Exception in delivering result of invoking 'fetchFromService3': TypeError: Moment(...).isSame(...).format is not a function
 
 class WunderlistApi extends Component {
   constructor(props) {
@@ -29,6 +29,8 @@ class WunderlistApi extends Component {
 
   insertLists() {
     var taskCount = 0;
+    var found = false;
+    var allTasks = this.props.tasks;
     if (Meteor.user().profile.taskCount) {
       taskCount = Meteor.user().profile.taskCount;
     }
@@ -39,17 +41,23 @@ class WunderlistApi extends Component {
     }
 
     Meteor.call('fetchFromService2', function(err, respJson) {
+
       for(i=0; i<respJson.length; i++) {
         Meteor.call('fetchFromService3', respJson[i].id, function(err, respJsonTask) {
+
           for(x=0;x<respJsonTask.length;x++) {
-            Meteor.call(
-              'addTask',
-              respJsonTask[x].title,
-              0,
-              1,
-              "wunderlist",
-              new Date(),
-            );
+
+            for(z=0;z<allTasks.length;z++) {
+              if(respJsonTask[x].title == allTasks[z].taskName && Moment(respJsonTask[x].due_date).isSame(allTasks[z].dueDate, "day")) {
+                found = true;
+              }
+            }
+
+            if(!found) {
+              Meteor.call('addTask', respJsonTask[x].title, 0, 1, "wunderlist", respJsonTask[x].due_date);
+            }
+
+            found = false;
           }
         });
       }
@@ -61,7 +69,7 @@ class WunderlistApi extends Component {
   }
 
   render() {
-    if (this.props.currentUser) {
+    if (this.props.currentUser && this.props.tasks) {
       return (
         <div ref="myRef">
           <Button
@@ -93,7 +101,10 @@ class WunderlistApi extends Component {
 }
 
 export default WunderlistApiContainer = createContainer(() => {
+  Meteor.subscribe('allTasks');
+  var tasks = Tasks.find({}).fetch();
   return {
     currentUser: Meteor.user(),
+    tasks,
   };
 }, WunderlistApi);

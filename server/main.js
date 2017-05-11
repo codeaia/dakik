@@ -4,6 +4,7 @@ import { Tasks } from '../imports/api/tasks.js';
 import { Pomos } from '../imports/api/pomos.js';
 import { Stats } from '../imports/api/stats.js';
 import { Accounts } from 'meteor/accounts-base';
+Moment = require('moment');
 
 Fiber = Npm.require('fibers');
 Future = Npm.require('fibers/future');
@@ -85,6 +86,68 @@ oauth = new OAuth(
       });
       return myFuture.wait();
     },
+    postInfo: function(name, due_date) {
+      var found = false;
+      var temp = Meteor.user().profile;
+      var url = "https://api.trello.com/1/cards";
+
+      Meteor.call("getInfo", temp.boardId, function(error, result) {
+        for(y=0; y<result.length; y++) {
+          if(result[y].name == name && Moment(result[y].due).isSame(due_date, "day")) {
+            found = true;
+          }
+        }
+
+        if(!found) {
+          var result = Meteor.http.call('post', url, {params:{key: "22c8405407690bf15b6457a1c3bbcc33", idList: temp.listId,
+          token: temp.accessToken, name: name, due: Moment(due_date).format("YYYY-MM-DD")},
+          header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+        }
+      });
+    },
+    postBoard: function() {
+      var found = false;
+      var temp = Meteor.user().profile;
+      var url = "https://api.trello.com/1/boards";
+      var boardsIdUrl = "https://api.trello.com/1/members/me";
+      var listIdUrl = "https://api.trello.com/1/lists";
+
+      var boardsId = Meteor.http.call('get', boardsIdUrl, {params:{key: "22c8405407690bf15b6457a1c3bbcc33",
+      token: temp.accessToken},
+      header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000}); //boardsId.data.idBoards
+
+      for(i=0; i<boardsId.data.idBoards.length; i++) {
+        var searchBoards = Meteor.http.call('get', url + "/" + boardsId.data.idBoards[i], {params:{key: "22c8405407690bf15b6457a1c3bbcc33",
+        token: temp.accessToken},
+        header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+
+        if(searchBoards.data.name == "Imported From Dakik") {
+          found = true;
+          var resultListId = Meteor.http.call('get', url + "/" + searchBoards.data.id + "/lists", {params:{key: "22c8405407690bf15b6457a1c3bbcc33",
+          token: temp.accessToken},
+          header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+          Meteor.users.update(Meteor.userId(),{$set: {
+            "profile.boardId": searchBoards.data.id,
+            "profile.listId": resultListId.data[0].id
+          }});
+        }
+      }
+
+      if(!found) {
+        var result = Meteor.http.call('post', url, {params:{key: "22c8405407690bf15b6457a1c3bbcc33",
+        token: temp.accessToken, name: "Imported From Dakik", defaultLists: false},
+        header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+
+        var resultListId = Meteor.http.call('post', listIdUrl, {params:{key: "22c8405407690bf15b6457a1c3bbcc33",
+        token: temp.accessToken, name: "Imported From Dakik", idBoard: result.data.id},
+        header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+
+        Meteor.users.update(Meteor.userId(),{$set: {
+          "profile.boardId": result.data.id,
+          "profile.listId": resultListId.data.id
+        }});
+      }
+    },
     getBoardsId: function() {
       var temp = Meteor.user().profile;
       var myFuture = new Future();
@@ -122,5 +185,28 @@ oauth = new OAuth(
         var errorJson = JSON.parse(result.content);
         throw new Meteor.Error(result.statusCode, errorJson.error);
       }
+    },
+
+    postSomething: function(title, due_date) {
+      var found = false;
+      var url = "https://a.wunderlist.com/api/v1/tasks";
+
+      Meteor.call('fetchFromService2', function(err, respJson) {
+        Meteor.call('fetchFromService3', respJson[0].id, function(err, respJsonTask) {
+          for(x=0;x<respJsonTask.length;x++) {
+            if(respJsonTask[x].title == title && Moment(respJsonTask[x].due_date).isSame(due_date, "day")) {
+              found = true;
+            }
+          }
+
+          if(!found) {
+            var jsonObject = {"list_id": respJson[0].id,
+              "title": title,
+              "due_date": Moment(due_date).format("YYYY-MM-DD")};
+            var result = Meteor.http.call('post', url, {data:jsonObject, params:{access_token: Meteor.user().profile.wunderlistToken,
+              client_id:"bcddc2947c80dd050a3f"}, header:{"Content-Type": "application/json; charset=UTF-8"}, timeout:30000});
+          }
+        });
+      });
     }
   });

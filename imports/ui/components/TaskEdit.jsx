@@ -31,6 +31,16 @@ export default class TaskEdit extends Component {
     this.updatePriority = this.updatePriority.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
+    this.addToTrello = this.addToTrello.bind(this);
+    this.addToWunderlist = this.addToWunderlist.bind(this);
+  }
+
+  addToTrello() {
+    Meteor.call("postInfo", this.state.taskName, this.state.dueDate);
+  }
+
+  addToWunderlist() {
+    Meteor.call("postSomething", this.state.taskName, this.state.dueDate);
   }
 
   save(){
@@ -70,48 +80,50 @@ export default class TaskEdit extends Component {
     return (
       <MuiThemeProvider>
         <div className="taskEdit">
-          <TextField
-            id="edit-task-name"
-            value={this.state.taskName}
-            type="text" onChange={this.updateTaskName}
-            floatingLabelText="Task Name"
-            className = "taskName each"
-          />
-          <SelectField
-            floatingLabelText="Priority"
-            value={this.state.taskPriority}
-            onChange={this.updatePriority}
-            className = "each">
-            <MenuItem value={0} primaryText="0 (No Priority)"/>
-            <MenuItem value={1} primaryText="1 (Urgent)"/>
-            <MenuItem value={2} primaryText="2 (Today)"/>
-            <MenuItem value={3} primaryText="3 (This Week)"/>
-            <MenuItem value={4} primaryText="4 (This Month)"/>
-            <MenuItem value={5} primaryText="5 (Any Time)"/>
-          </SelectField>
-          <SelectField
-            floatingLabelText="Task Goal"
-            value={this.state.taskGoal}
-            onChange={this.updateTaskGoal}
-          className="each"
-          >
-            <MenuItem value={1} primaryText="1"/>
-            <MenuItem value={2} primaryText="2"/>
-            <MenuItem value={3} primaryText="3"/>
-            <MenuItem value={4} primaryText="4"/>
-            <MenuItem value={5} primaryText="5"/>
-            <MenuItem value={6} primaryText="6"/>
-            <MenuItem value={7} primaryText="7"/>
-            <MenuItem value={8} primaryText="8"/>
-            <MenuItem value={9} primaryText="9"/>
-            <MenuItem value={10} primaryText="10"/>
-          </SelectField>
-          <DatePicker
-            floatingLabelText="Due Date"
-            value={this.state.dueDate}
-            onChange={this.updateDueDate}
-            className = "each"
-          />
+          <div className="taskEditContent">
+            <TextField
+              id="edit-task-name"
+              value={this.state.taskName}
+              type="text" onChange={this.updateTaskName}
+              floatingLabelText="Task Name"
+              className = "taskName each"
+              />
+            <SelectField
+              floatingLabelText="Priority"
+              value={this.state.taskPriority}
+              onChange={this.updatePriority}
+              className = "each">
+              <MenuItem value={0} primaryText="0 (No Priority)"/>
+              <MenuItem value={1} primaryText="1 (Urgent)"/>
+              <MenuItem value={2} primaryText="2 (Today)"/>
+              <MenuItem value={3} primaryText="3 (This Week)"/>
+              <MenuItem value={4} primaryText="4 (This Month)"/>
+              <MenuItem value={5} primaryText="5 (Any Time)"/>
+            </SelectField>
+            <SelectField
+              floatingLabelText="Task Goal"
+              value={this.state.taskGoal}
+              onChange={this.updateTaskGoal}
+              className="each"
+              >
+              <MenuItem value={1} primaryText="1"/>
+              <MenuItem value={2} primaryText="2"/>
+              <MenuItem value={3} primaryText="3"/>
+              <MenuItem value={4} primaryText="4"/>
+              <MenuItem value={5} primaryText="5"/>
+              <MenuItem value={6} primaryText="6"/>
+              <MenuItem value={7} primaryText="7"/>
+              <MenuItem value={8} primaryText="8"/>
+              <MenuItem value={9} primaryText="9"/>
+              <MenuItem value={10} primaryText="10"/>
+            </SelectField>
+            <DatePicker
+              floatingLabelText="Due Date"
+              value={this.state.dueDate}
+              onChange={this.updateDueDate}
+              className = "each"
+              />
+          </div>
           <div className ="taskEditActions">
             <Button
               icon={<Icon as='span' className='fa fa-times-circle'/>}
@@ -119,14 +131,24 @@ export default class TaskEdit extends Component {
               content="Cancel"
               labelPosition='left'
               onClick={() => this.cancel()}
-            />,
+              />,
             <Button
               icon={<Icon as='span' className='fa fa-check'/>}
               positive
               content="Save"
               labelPosition='left'
               onClick={() => this.save()}
-            />
+              />,
+            <Button
+              content="Import To Trello"
+              labelPosition='left'
+              onClick={() => this.addToTrello()}
+              />,
+            <Button
+              content="Import To Wunderlist"
+              labelPosition='left'
+              onClick={() => this.addToWunderlist()}
+              />
           </div>
         </div>
       </MuiThemeProvider>
