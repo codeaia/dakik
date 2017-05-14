@@ -20,6 +20,7 @@
     "react-dom": "^15.4.2",
     "react-icons": "^2.2.1",
     "react-inlinesvg": "^0.5.5",
+    "react-markdown": "^2.5.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",

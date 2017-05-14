@@ -24,6 +24,7 @@ export default class TaskNew extends Component {
       checked: false,
       taskGoal: 0,
       dueDate: null,
+      moreInfo: ""
     };
 
     this.updateTaskName = this.updateTaskName.bind(this);
@@ -31,6 +32,7 @@ export default class TaskNew extends Component {
     this.addNewTask = this.addNewTask.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
+    this.updateMoreInfo = this.updateMoreInfo.bind(this);
   }
 
   updateTaskGoal(event, value) {
@@ -45,6 +47,12 @@ export default class TaskNew extends Component {
     });
   }
 
+  updateMoreInfo(e){
+   this.setState({
+     moreInfo: e.target.value
+   });
+ }
+
   updatePriority(event, value){
     this.setState({
       taskPriority: value
@@ -58,7 +66,8 @@ export default class TaskNew extends Component {
       this.state.taskPriority,
       this.state.taskGoal,
       "none",
-      this.state.dueDate
+      this.state.dueDate,
+      this.state.moreInfo
     );
   }
 
@@ -82,8 +91,8 @@ export default class TaskNew extends Component {
                   type="text"
                   onChange={this.updateTaskName}
                   floatingLabelText="Task Name"
-				          className = "taskName each"
-				          id="add-task-name"
+				        className = "taskName each"
+				        id="add-task-name"
                 />
                 <SelectField
                   floatingLabelText="Priority"
@@ -121,6 +130,14 @@ export default class TaskNew extends Component {
                   onChange={this.updateDueDate}
 					        className="each"
 				        />
+                <TextField
+                    className="each"
+                    hintText="More Info..."
+                    multiLine={true}
+                    rows={2}
+                    rowsMax={4}
+                    onChange={this.updateMoreInfo}
+                />
               </Flexbox>
             </CardText>
             <CardActions className="taskNewActions">

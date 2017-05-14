@@ -22,6 +22,7 @@ export default class TaskEdit extends Component {
       taskPriority: this.props.location.state.task.taskPriority,
       taskGoal: this.props.location.state.task.taskGoal,
       dueDate: this.props.location.state.task.dueDate,
+      moreInfo: ""
     };
 
     this.save = this.save.bind(this);
@@ -31,6 +32,8 @@ export default class TaskEdit extends Component {
     this.updatePriority = this.updatePriority.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
     this.updateDueDate = this.updateDueDate.bind(this);
+    this.updateMoreInfo = this.updateMoreInfo.bind(this);
+
     this.addToTrello = this.addToTrello.bind(this);
     this.addToWunderlist = this.addToWunderlist.bind(this);
   }
@@ -44,7 +47,7 @@ export default class TaskEdit extends Component {
   }
 
   save(){
-    Meteor.call('editTask', this.props.location.state.task._id, this.state.taskName, this.state.taskPriority, this.state.pomoGoal, this.state.dueDate);
+    Meteor.call('editTask', this.props.location.state.task._id, this.state.taskName, this.state.taskPriority, this.state.pomoGoal, this.state.dueDate,this.state.moreInfo );
     this.props.history.push('/');
   }
 
@@ -57,6 +60,12 @@ export default class TaskEdit extends Component {
       taskName: value
     });
   }
+
+ updateMoreInfo(event, value){
+    this.setState({
+       moreInfo: event.target.value,
+    });
+}
 
   updatePriority(event, value){
     this.setState({
@@ -123,6 +132,15 @@ export default class TaskEdit extends Component {
               onChange={this.updateDueDate}
               className = "each"
               />
+            <TextField
+                className="each"
+                hintText="More Info..."
+                multiLine={true}
+                rows={2}
+                rowsMax={4}
+                value={this.state.moreInfo}
+                onChange={this.updateMoreInfo}
+            />
           </div>
           <div className ="taskEditActions">
             <Button

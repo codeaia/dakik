@@ -42,6 +42,8 @@ html, body, #react-root, .render-target {
 
 .fullHeight {
 	height: 100%;
+    padding-bottom: 5em;
+
 }
 
 .margin-left{
@@ -69,6 +71,9 @@ html, body, #react-root, .render-target {
 .settingsCont{
   width: 96% !important;
   margin-left: 2% !important;
+}
+
+.taskDetails, .settingsCont, .about{
   -webkit-box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
   -moz-box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
   box-shadow: 0px 0px 60px -6px rgba(0,0,0,0.75)!important;
@@ -227,8 +232,10 @@ html, body, #react-root, .render-target {
 .taskFrame{
   display: flex;
   flex-direction: column;
+  margin: auto;
   margin-top: 0.2em;
   align-items: stretch;
+  width: 95%;
 
   /*Task Progress */
   .taskProgress{
@@ -263,17 +270,25 @@ html, body, #react-root, .render-target {
 
   .taskListItem{
   	background-color: rgba(15, 177, 191, 0.55)!important;
+	  animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1) !important;
   	border-radius: .25em;
+
     padding: 0.25em;
     position: relative;
 
     .taskName{
       position: absolute;
+      top: 25%;
       left: 2em;
+      font-weight: 600;
+    }
+
+    .taskActions{
+      float: right;
     }
 
     &:hover {
-    	background-color: rgba(31, 237, 255, 0.40)!important;
+    	background-color: rgba(31, 237, 255, 0.55)!important;
     }
 
     &.checked {
@@ -282,34 +297,34 @@ html, body, #react-root, .render-target {
     }
   }//taskListItem
 
-}//taskFrame
-
-/********************* TASK DETAILS (Popup)*********************/
-
-.taskDetails{
-  padding:0px !important;
-  background-color: @white-dark !important;
-  animation: pulse .2s cubic-bezier(.165, .84, .44, 1) !important;
-
-  .taskDetailsTitle{
-    color: @red !important;
-  	font-size: 1em !important;
-  	background-color: @white-dark !important;
+  div.menu{
+    transform: translate(-105%,-100%);
+    button.item{width: 100%;}
+    div.start{background-color: green;}
+    div.remove{background-color: red;}
   }
 
+}//taskFrame
+
+/********************* TASK DETAILS*********************/
+
+.taskDetails{
+  background-color: @white !important;
+
+  width: 90%;
+  margin-top: 1em;
+  margin-left: 5% !important;
+  margin-bottom: 1em;
+
   .taskDetailsContent{
-    background-color: @white-dark !important;
     width: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 95% !important;
+    padding-bottom: 1em;
+
 
     p {
       opacity: 1 !important;
       color: @fallback-dark !important;
+      font-size: 1em;
     }
 
     .each{
@@ -320,20 +335,34 @@ html, body, #react-root, .render-target {
       justify-content: space-between;
       margin: auto;
       margin-bottom: .5em;
-      width: 100%!important;
+      width: 95%!important;
     }
 
     .taskName{
-      font-size: 2em;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      position: relative;
       margin: auto;
       margin-bottom: 0.75em;
-      border-radius: .2em;
       text-align: center;
       color:@turk-dark !important;
-      background-color: @white-darker !important;
-      width: 85%;
-      padding-bottom: .15em;
-      padding-top: .15em;
+      background-color: @white-dark !important;
+      //transform: scale(.75);
+      margin-bottom: 3em;
+
+      p{
+        color:@red !important;
+        font-size: 3em;
+        flex-grow: 2;
+        margin: auto;
+      }
+
+      .back{
+        align-self: stretch;
+        width: 3em;
+        font-size: 2em;
+     }
     }
 
     .target{
@@ -345,23 +374,35 @@ html, body, #react-root, .render-target {
 
     p.value {
       color:@turk-dark !important;
-      background-color: @white-darker !important;
+      background-color: @white-dark !important;
       border-radius: .2em;
       padding: .5em;
     }
+
+    .moreInfo{
+      position: relative;
+      margin-bottom: 2em;
+      .value{
+        background-color: @white-dark !important;
+        overflow: auto;
+        width: 50em;
+        height: 10em;
+        font-size: 1em !important;
+        float: right;
+        padding: 1em;
+        ol,ul{padding-left: 2em;}
+        p{font-size: 1em !important;}
+      }
+    }
+
   }//taskDetailsContent
 
   .taskDetailsActions {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center !important ;
-    justify-content: center;
-    background-color: @white-dark ;
-    margin-bottom: 0.5em !important;
+    width: 245px !important;
+    margin: auto;
 
-    button{
-      margin: 0.1em !important;
-      color: @fallback !important;
+    label{
+      margin-right: .8em!important;
       & span{
         color: @fallback !important;
         opacity: .8;
@@ -383,20 +424,31 @@ html, body, #react-root, .render-target {
 .taskEdit{
   background-color: var(--white-dark) !important;
   animation: pulse .2s cubic-bezier(.165, .84, .44, 1) !important;
+  background-color: @white-dark !important;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  position: relative;
+  transform: translate(0%,-50%);
+  top:50%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
 
   .taskEditTitle{
     color: var(--red) !important;
     font-size: 1em !important;
     background-color: var(--white-dark) !important;
   }
-
   .taskEditContent{
-    background-color: var(--white-dark) !important;
+    width: 75%;
+
     display: flex !important;
     flex-direction: column!important;
     align-items: center;
     max-height: none!important;
-    height: 80% !important;
     padding-bottom: 0px!important;
 
     div {
@@ -415,7 +467,7 @@ html, body, #react-root, .render-target {
       color: var(--fallback-light) !important;
       width: 85%;
     }
-  }//taskEditContent
+  }
 
   .taskEditActions {
     display: flex !important;
@@ -503,10 +555,12 @@ html, body, #react-root, .render-target {
 .taskListCard{
 	background-color: var(--turk-light) !important;
 	margin: auto !important;
-	width: 80% !important;
+	width: 95% !important;
+  height: 100%;
 	display: flex !important;
 	flex-direction: column !important;
 	align-items: stretch !important;
+
 
   .newTaskButton{
   	display: flex;

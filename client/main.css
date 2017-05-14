@@ -148,7 +148,7 @@
 
 
 .clockAnimation-enter,.clockAnimation-appear{
-	animation: topSlideIn ease-in .2s;
+	animation: topSlideIn linear .2s;
 	animation-iteration-count: 1;
 	transform-origin: 50% 50%;
 	-webkit-animation: topSlideIn linear .5s;
@@ -187,7 +187,7 @@
 	-ms-transform-origin: 50% 50%;
 }
 
-.timer {
+.timer,.clock {
 	animation: topSlideIn linear .4s;
 	animation-iteration-count: 1;
 	transform-origin: 50% 50%;
