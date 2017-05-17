@@ -1,6 +1,6 @@
 import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { VictoryLine, VictoryTheme, VictoryChart, VictoryAxis, VictoryLabel, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer, VictoryZoomContainer, VictoryScatter } from 'victory';
+import { VictoryLine, VictoryPie, VictoryTheme, VictoryChart, VictoryAxis, VictoryLabel, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer, VictoryZoomContainer, VictoryScatter } from 'victory';
 
 import { Stats } from '../../api/stats.js';
 
@@ -14,26 +14,38 @@ class Statistics extends Component {
 
   render() {
     return(
-      <VictoryChart
-        theme={VictoryTheme.material}
-        domainPadding={1}
-        width={1000}
-        height={350}
-        containerComponent={<VictoryVoronoiContainer/>}
-      >
-        <VictoryLabel x={600} y={40} text={"Finished Pomo Count: " + this.props.cumulativePomos} />
-        <VictoryLabel x={800} y={40} text={"Finished Task Count: " + this.props.cumulativeTasks} />
-        <VictoryAxis />
-        <VictoryAxis dependentAxis={true}/>
-        <VictoryGroup colorScale={["teal", "red"]} data={this.props.pomoGraph}>
-          <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
-          <VictoryScatter labelComponent={<VictoryTooltip/>} />
-        </VictoryGroup>
-        <VictoryGroup colorScale={["brown", "red"]} data={this.props.taskGraph}>
-          <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
-          <VictoryScatter labelComponent={<VictoryTooltip/>} />
-        </VictoryGroup>
-      </VictoryChart>
+      <div className="graph">
+        <VictoryChart
+          theme={VictoryTheme.material}
+          domainPadding={1}
+          width={500}
+          height={350}
+          containerComponent={<VictoryVoronoiContainer/>}>
+          <VictoryLabel x={200} y={40} text={"This week's performance: " + this.props.cumulativePomos + " pomos, " + this.props.cumulativeTasks + " tasks."} />
+          <VictoryAxis />
+          <VictoryAxis dependentAxis={true}/>
+          <VictoryGroup colorScale={["teal", "red"]} data={this.props.pomoGraph}>
+            <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
+            <VictoryScatter labelComponent={<VictoryTooltip/>} />
+          </VictoryGroup>
+          <VictoryGroup colorScale={["brown", "red"]} data={this.props.taskGraph}>
+            <VictoryLine interpolation="monotoneX" labelComponent={<VictoryTooltip/>} />
+            <VictoryScatter labelComponent={<VictoryTooltip/>} />
+          </VictoryGroup>
+        </VictoryChart>
+        <VictoryPie
+          width={200}
+          height={200}
+          theme={VictoryTheme.material}
+          innerRadius={2}
+          data={[
+            {profit: 5},
+            {profit: 2}
+          ]}
+          x={1, 2}
+          y={(data) => data.profit}
+        />
+      </div>
     );
   }
 }
@@ -46,7 +58,7 @@ export default StatisticsContainer = createContainer(() => {
   var cumulativePomos = 0;
   var cumulativeTasks = 0;
 
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 7; i++) {
     var d = new Date();
     d.setDate(d.getDate() - i);
     if (d.getDate() < 10) {

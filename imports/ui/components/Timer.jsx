@@ -68,9 +68,8 @@ class Timer extends Component {
 
   componentDidMount(){
     if (Meteor.user()) {
-      if (Meteor.user().profile.playing) {
+      if (Meteor.user().profile.currentTaskId) {
         this.setState({
-          playing: true,
           rTime: (Meteor.user().profile.timerDue - ((new Date()).valueOf() / 1000)),
           rAngle: (Meteor.user().profile.timerDue - ((new Date()).valueOf() / 1000)) / 15,
         });
@@ -80,7 +79,7 @@ class Timer extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.user !== this.props.user && nextProps.user.profile.playing){
+    if(nextProps.user !== this.props.user && nextProps.user.profile.currentTaskId){
       this.setState({
         playing: true,
         rTime: (Meteor.user().profile.timerDue - ((new Date()).valueOf() / 1000)),
@@ -121,6 +120,13 @@ class Timer extends Component {
     }
   }
 
+  startBreak(){
+    this.handleStop();
+    Meteor.users.update(Meteor.userId(), {$set: {
+      "profile.timerDue": ((new Date()).valueOf() / 1000) + 300,
+    }});
+  }
+
   handleStop() {
     this.setState({
       playing: false,
@@ -132,7 +138,6 @@ class Timer extends Component {
     });
 
     Meteor.users.update(Meteor.userId(), {$set: {
-      "profile.playing": false,
       "profile.timerDue": null,
       "profile.currentTaskId": null,
     }});
@@ -148,8 +153,8 @@ class Timer extends Component {
             icon={<Icon as='span' className='fa fa-stop' />}
             content='Stop'
             labelPosition='left'
-            color='red'
-            disabled={this.props.user.playing ? true : false}
+            color={this.props.user.profile.currentTaskId ? 'red' : 'grey'}
+            disabled={this.props.user.profile.currentTaskId ? false : true}
             className="stop animated fadeIn"
             onClick={this.handleStop}
           />

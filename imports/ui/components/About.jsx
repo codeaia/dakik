@@ -26,8 +26,8 @@ export default class About extends Component {
               {this.props.location.pathname === "/about" ?
               <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.6.6</h3>
-                <div> Copyright © May 2017 <a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
+                <h3>Dakik 1.7.0</h3>
+                <div>Copyright © May 2017<a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
                     Abdullah ÖĞÜK
@@ -74,17 +74,17 @@ export default class About extends Component {
               : ""}
               {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.6.6</h3>
-                <p><br/>
-                  What's New:<br/>
-                  - TaskFrame and TaskView components updated.<br/>
-                  Old material-ui design swithced with semantic-ui and pop-up's now have their own route, page and component files.<br/><br/>
-                  Adjustments & Fixes:<br/>
-                  - Link usage for routing is left. Instead, we are using onClick functions and history package to handle redirect requests.<br/>
-                  - Navbar is no longer fixed to top.<br/>
-                  - Various css fixes applied for mobile platforms.<br/>
-                  - Several optimizations has been applied to our code base.<br/>
-                  - Patch notes updated.
+                <h3 className="about_header">1.7.0</h3>
+                <p>
+                  <b>What's New:</b><br/>
+                  - Users can now finish tasks before reaching specified goals.<br/>
+                  - Users can now add details data to their tasks.<br/><br/>
+                  <b>Adjustments:</b><br/>
+                  - Monthly statistics graph has been adjusted to show week data.<br/>
+                  - Function calls are migrated to arrow functions for better readability.<br/>
+                  - Playing task is now checked via the currentTaskId only. Other garbage data is removed.<br/><br/>
+                  <b>Fixes:</b><br/>
+                  - Several fixes and ui updates on taskView and new pages has been applied.
                 </p>
               </Segment>
               : ""}

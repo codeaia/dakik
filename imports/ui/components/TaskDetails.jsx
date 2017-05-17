@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
-
+import { createContainer } from 'meteor/react-meteor-data';
 import Loading from './Loading.jsx';
 import Nav from './Nav.jsx';
 
@@ -12,7 +12,7 @@ import { ListItem } from 'material-ui/List';
 import { Button, Header, Icon, Modal, List, Menu } from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
 
-export default class TaskDetails extends Component {
+class TaskDetails extends Component {
   constructor(props) {
     super(props);
     this.startPomo = this.startPomo.bind(this);
@@ -48,16 +48,15 @@ export default class TaskDetails extends Component {
    this.props.history.push('/');
  }
 
-  render() {
-    return (
-    <div >
-        <Nav history={this.props.history} location={this.props.location} />
-          <div className = "taskDetails">
-            <div className = "taskDetailsContent">
+  render(){
+    if (this.props.user) {
+      return(
+        <div>
+          <Nav history={this.props.history} location={this.props.location} />
+          <div className="taskDetails">
+            <div className="taskDetailsContent">
               <div className="taskName">
-
                 <p>{this.props.location.state.task.taskName}</p>
-
               </div>
               <div className="priority each">
                 <p className="target">Priority:</p>
@@ -77,35 +76,48 @@ export default class TaskDetails extends Component {
               </div>
               <div className="moreInfo each">
                 <p className="target">More...</p>
-                <ReactMarkdown containerTagName="div" className="value" source = {this.props.location.state.task.moreInfo}></ReactMarkdown>
+                <ReactMarkdown containerTagName="div" className="value" source={this.props.location.state.task.details ? this.props.location.state.task.details : 'No details provided.'}></ReactMarkdown>
               </div>
-
-        <div className = "taskDetailsActions">
-            <Button
-                as = "Label"
-                icon={<Icon as='span' className='fa fa-trash'/>}
-                negative
-                disabled={Meteor.user().profile.playing || Meteor.user().profile.timerDue !== null ? true : false}
-                onClick={this.deleteTask}
-            />
-            <Button
-                as = "Label"
-                icon={<Icon as='span' className='fa fa-pencil-square-o'/>}
-                onClick={() => this.props.history.push('taskEdit', {task: this.props.location.state.task})}
-            />
-            <Button
-                as = "Label"
-                icon={<Icon as='span' className='fa fa-play' />}
-                positive
-                onClick={this.startPomo}
-                disabled={Meteor.user().profile.playing || this.props.location.state.task.checked || Meteor.user().profile.timerDue !== null ? true : false}
-            />
-        </div>
-
+              <div className="taskDetailsActions">
+                <Button
+                  icon={<Icon as='span' className='fa fa-trash'/>}
+                  className={this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? 'hide' : 'remove'}
+                  disabled={this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? true : false}
+                  onClick={() => this.deleteTask()}
+                />
+                <Button
+                  icon={<Icon as='span' className='fa fa-check'/>}
+                  className={this.props.location.state.task._id === this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? 'hide' : 'finish'}
+                  disabled={this.props.location.state.task._id === this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? true : false}
+                  onClick={() => this.finishTask()}
+                />
+                <Button
+                  icon={<Icon as='span' className='fa fa-pencil-square-o'/>}
+                  className={this.props.location.state.task._id === this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? 'hide' : 'edit'}
+                  disabled={this.props.location.state.task._id === this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? true : false}
+                  onClick={() => this.props.history.push('taskEdit', {task: this.props.location.state.task})}
+                />
+                <Button
+                  icon={<Icon as='span' className='fa fa-play' />}
+                  className={this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? 'hide' : 'start'}
+                  disabled={this.props.user.profile.currentTaskId || this.props.location.state.task.checked ? true : false}
+                  onClick={() => this.startPomo()}
+                />
+              </div>
             </div>
           </div>
-    </div>
-
-    );
+        </div>
+      );
+    } else {
+      return(
+        <Loading/>
+      );
+    }
   }
 }
+
+export default TaskDetailsContainer = createContainer(() => {
+  return {
+    user: Meteor.user(),
+  };
+}, TaskDetails);

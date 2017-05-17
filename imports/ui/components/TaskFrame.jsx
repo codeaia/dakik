@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
 
-import { Button, Icon, Dropdown, Menu } from 'semantic-ui-react';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 
 export default class TaskFrame extends Component {
   constructor(props) {
@@ -21,15 +21,18 @@ export default class TaskFrame extends Component {
   }
 
   startPomo(){
-    if (!Meteor.user().profile.playing) {
+    if (!Meteor.user().profile.currentTaskId) {
       if (!this.props.task.checked) {
         Meteor.users.update(Meteor.userId(),{$set: {
-          "profile.playing": true,
           "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
           "profile.currentTaskId": this.props.task._id,
         }});
       }
     }
+  }
+
+  finishTask(){
+    Meteor.call('killTask', this.props.task._id);
   }
 
   deleteTask(){
@@ -52,40 +55,39 @@ export default class TaskFrame extends Component {
   render() {
     return(
       <div className="taskFrame">
-        <div className="taskListItem" onClick={() => this.props.history.push('/taskDetails', {task: this.props.task})}>
-          <div className="taskName">
-            {this.props.task.taskName}
-          </div>
-          <Dropdown icon={<Icon as='span' className='fa fa-ellipsis-v'/>} floating button className='icon'>
+        <progress className = {((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101 ? "taskProgress checked" : "taskProgress" } max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
+        <div className={this.props.task.checked ? "checked taskListItem" : "taskListItem"} onClick={() => this.props.history.push('/taskDetails', {task: this.props.task})}>
+          <div className="taskName">{this.props.task.taskName}</div>
+          <Dropdown icon={<Icon as='span' className='fa fa-ellipsis-v'/>} button className='taskActions icon'>
             <Dropdown.Menu>
-              <Dropdown.Item>
-                <Button
-                  icon={<Icon as='span' className='fa fa-trash'/>}
-                  negative
-                  content="Delete"
-                  labelPosition='left'
-                  disabled={Meteor.user().profile.playing || Meteor.user().profile.timerDue !== null ? true : false}
-                  onClick={this.deleteTask}
-                  />
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Button
-                  icon={<Icon as='span' className='fa fa-pencil-square-o'/>}
-                  content="Edit"
-                  labelPosition='left'
-                  onClick={() => this.props.history.push('taskEdit', {task: this.props.task})}
-                  />
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Button
-                  icon={<Icon as='span' className='fa fa-play' />}
-                  positive
-                  content="Start"
-                  labelPosition='left'
-                  onClick={this.startPomo}
-                  disabled={Meteor.user().profile.playing || this.props.task.checked || Meteor.user().profile.timerDue !== null ? true : false}
-                  />
-              </Dropdown.Item>
+              <Dropdown.Item
+                icon={<Icon as='span' className='fa fa-trash'/>}
+                content="Delete"
+                className={this.props.user.profile.currentTaskId || this.props.task.checked ? 'hide' : 'remove'}
+                disabled={this.props.user.profile.currentTaskId || this.props.task.checked ? true : false}
+                onClick={() => this.deleteTask()}
+              />
+              <Dropdown.Item
+                icon={<Icon as='span' className='fa fa-check'/>}
+                content="Complete"
+                className={this.props.task._id === this.props.user.profile.currentTaskId || this.props.task.checked ? 'hide' : 'finish'}
+                disabled={this.props.task._id === this.props.user.profile.currentTaskId || this.props.task.checked ? true : false}
+                onClick={() => this.finishTask()}
+              />
+              <Dropdown.Item
+                icon={<Icon as='span' className='fa fa-pencil-square-o'/>}
+                content="Edit"
+                className={this.props.task._id === this.props.user.profile.currentTaskId || this.props.task.checked ? 'hide' : 'edit'}
+                disabled={this.props.task._id === this.props.user.profile.currentTaskId || this.props.task.checked ? true : false}
+                onClick={() => this.props.history.push('taskEdit', {task: this.props.task})}
+              />
+              <Dropdown.Item
+                icon={<Icon as='span' className='fa fa-play' />}
+                className={this.props.user.profile.currentTaskId || this.props.task.checked ? 'hide' : 'start'}
+                content="Start"
+                disabled={this.props.user.profile.currentTaskId || this.props.task.checked ? true : false}
+                onClick={() => this.startPomo()}
+              />
             </Dropdown.Menu>
           </Dropdown>
         </div>

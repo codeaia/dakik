@@ -46,7 +46,7 @@ class TaskView extends Component {
     }
 
     return filteredTasks.map((task) => (
-      <TaskFrame key={task._id} task={task} history={this.props.history} location={this.props.location} length={this.props.length}/>
+      <TaskFrame key={task._id} user={this.props.user} task={task} history={this.props.history} location={this.props.location} length={this.props.length}/>
     ));
   }
 
@@ -61,23 +61,30 @@ class TaskView extends Component {
 
   render() {
     return (
-      <Card className="taskListCard taskList">
+      <Card className="taskList">
         <ReactCSSTransition
           transitionName = "taskFrameLoad"
           transitionEnterTimeout = {600}
           transitionLeaveTimeout = {400}>
-          <Card.Content className="newTaskButton">
+          <Card.Content className="taskListActions">
             <Button
-              icon={<Icon as='span' className='fa fa-plus' />}
+              content='New Task'
+              color='google plus'
               onClick={() => this.props.history.push('/taskNew')}
             />
-          </Card.Content>
-          <Card.Content>
-            <Button disabled={Session.get('skip') <= 0 ? true : false} onClick={this.prevButton}>Previous</Button>
-            <Button disabled={this.props.length < 6 ? true : false} onClick={this.nextButton}>Next</Button>
-            <div className='taskList'>
-              {this.renderTasks()}
+            <div>
+              <Button
+                icon={<Icon as='span' className='fa fa-angle-left' />}
+                disabled={Session.get('skip') <= 0 ? true : false}
+                onClick={() => this.prevButton()}/>
+              <Button
+                icon={<Icon as='span' className='fa fa-angle-right' />}
+                disabled={this.props.length < 6 ? true : false}
+                onClick={() => this.nextButton()}/>
             </div>
+          </Card.Content>
+          <Card.Content className='taskListContent'>
+            {this.renderTasks()}
           </Card.Content>
         </ReactCSSTransition>
       </Card>
@@ -86,14 +93,11 @@ class TaskView extends Component {
 }
 
 export default TaskViewContainer = createContainer(() => {
-  var skip = Session.get('skip');
-
-  Meteor.subscribe('tasks', skip);
-  var length = Tasks.find().count();
-  var tasks = Tasks.find({}, {limit: 5, sort: { createdAt: -1 }}).fetch();
+  Meteor.subscribe('tasks', Session.get('skip'));
 
   return {
-    length,
-    tasks,
+    user: Meteor.user(),
+    length: Tasks.find().count(),
+    tasks: Tasks.find({}, {limit: 5, sort: { createdAt: -1 }}).fetch(),
   };
 }, TaskView);

@@ -5,7 +5,7 @@ export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
   Meteor.methods({
-    addTask: function(name, priority, pomoGoal, integratedWith, dueDate){
+    addTask: function(name, priority, pomoGoal, integratedWith, dueDate, details){
       Tasks.insert({
         ownerId: Meteor.userId(),
         taskName: name,
@@ -16,34 +16,39 @@ if (Meteor.isServer) {
         integratedWith: integratedWith,
         dueDate: dueDate,
         createdAt: new Date(),
-      });
+        details: details
+      }); // Create new task
     },
-    editTask: function(id, name, priority, goal, dueDate){
+    editTask: function(id, name, priority, goal, dueDate, details){
       Tasks.update(id, {
         $set: {
           taskName: name,
           taskPriority: priority,
           pomoGoal: goal,
           dueDate: dueDate,
+          details: details,
         }
-      });
+      }); // Edit task with given params.
     },
-    checkTask: function(id, state){
-      Tasks.update(id, {
-        $set: { checked: state}
-      });
+    checkTask: function(id, flag){
+      Tasks.update(id, {$set: {checked: flag}}); // Sync task's check status with param 'flag'.
     },
     finishTask: function(){
-      Tasks.update(Meteor.user().profile.currentTaskId, {$inc: {pomoCount: 1}});
       var task = Tasks.findOne(Meteor.user().profile.currentTaskId);
-      if (task.pomoCount === task.pomoGoal) {
-        Meteor.call('updateDate', 0, 1);
-        Tasks.update(Meteor.user().profile.currentTaskId, {$set: {checked: true}});
+      if ((task.pomoCount + 1) === task.pomoGoal) {
+        Meteor.call('updateDate', 0, 1); // Save one finished task onto today's stats.
+        Tasks.update(Meteor.user().profile.currentTaskId, {$set: {checked: true, pomoCount: task.pomoCount + 1}}); // Check the task, increase pomo Count
+      } else {
+        Tasks.update(Meteor.user().profile.currentTaskId, {$set: {pomoCount: task.pomoCount + 1}}); // Increase pomo Count
       }
+    },
+    killTask: function(id){
+      Meteor.call('updateDate', 0, 1); // Save one finished task onto today's stats.
+      Tasks.update(id, {$set: {checked: true}}); // Check the task
     },
     deleteTask: function(id){
       if (Meteor.userId() && Meteor.userId() === Tasks.findOne(id).ownerId) {
-        Tasks.remove(id);
+        Tasks.remove(id); // Delete task
       }
     }
   });

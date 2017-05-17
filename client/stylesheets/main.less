@@ -19,11 +19,12 @@
 @kahve-dark:#381F00;
 @kahve-light:#BFA17A;
 
-@green:rgba(0, 200, 0,1);
+@green:rgba(26, 167, 26, 1);
 
 @nice-blue: #5B83AD;
 @light-blue: @nice-blue + #111;
 
+@hide: #767676;
 
 /**************  GLOBALS ************/
 * {
@@ -34,6 +35,12 @@
 html, body, #react-root, .render-target {
 	background-color: var(--turk);
 	height: 100%;
+}
+
+.graph{
+  svg{
+    height: 350px!important;
+  }
 }
 
 .fullWidth {
@@ -136,12 +143,12 @@ html, body, #react-root, .render-target {
 
 /**************** PROFILE ********************/
 .profile{
-	margin-left: 10% !important;
-	width: 80% !important;
+	width: 96% !important;
+  margin-left: 2% !important;
 
   .profileTop{
   	display: flex;
-  	justify-content: space-between;
+    flex-direction: column;
   }
 }
 
@@ -226,16 +233,93 @@ html, body, #react-root, .render-target {
   top: -6em;
 }
 
-
-
 /************************* TASK FRAME *******************************************/
 .taskFrame{
   display: flex;
   flex-direction: column;
-  margin: auto;
   margin-top: 0.2em;
   align-items: stretch;
-  width: 95%;
+
+  div.menu{
+    transform: translate(-105%,-40%);
+
+    button.item{
+      width: 100%;
+    }
+
+    div.start{
+      background-color: rgb(38, 150, 38);
+      color: white!important;
+    }
+
+    div.start:hover{
+      background-color: rgb(50, 158, 50)!important;
+      color: white!important;
+    }
+
+    div.finish{
+      background-color: rgba(5, 83, 91, 1);
+      color: white!important;
+    }
+
+    div.finish:hover{
+      background-color: rgb(11, 91, 99)!important;
+    }
+
+    div.edit{
+      background-color: rgb(236, 177, 45);
+      color: white!important;
+    }
+
+    div.edit:hover{
+      background-color: rgb(237, 185, 66)!important;
+    }
+
+    div.hide{
+      background-color: rgb(79, 74, 74)!important;
+      color: white!important;
+      opacity: 1!important;
+    }
+
+    div.remove{
+      background-color: rgb(247, 23, 53);
+      color: white!important;
+    }
+
+    div.remove:hover{
+      background-color: rgb(242, 41, 68)!important;
+      color: white!important;
+    }
+  }
+
+  .taskListItem{
+  	background-color: rgba(15, 177, 191, 0.55)!important;
+    animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1)!important;
+  	border-radius: 0.25em;
+    padding: 0.25em;
+    position: relative;
+
+    .taskName{
+      position: absolute;
+      top: 25%;
+      left: 2em;
+      font-weight: 600;
+    }
+
+    .taskActions{
+      float: right;
+      top: 25%;
+    }
+
+    &:hover {
+    	background-color: rgba(31, 237, 255, 0.40)!important;
+    }
+
+    &.checked {
+    	background-color: rgba(15, 177, 191, 0.2)!important;
+      color: rgba(10, 10, 10, 0.40)!important;
+    }
+  }//taskListItem
 
   /*Task Progress */
   .taskProgress{
@@ -268,49 +352,12 @@ html, body, #react-root, .render-target {
     }
   }//taskProgress
 
-  .taskListItem{
-  	background-color: rgba(15, 177, 191, 0.55)!important;
-	  animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1) !important;
-  	border-radius: .25em;
-
-    padding: 0.25em;
-    position: relative;
-
-    .taskName{
-      position: absolute;
-      top: 25%;
-      left: 2em;
-      font-weight: 600;
-    }
-
-    .taskActions{
-      float: right;
-    }
-
-    &:hover {
-    	background-color: rgba(31, 237, 255, 0.55)!important;
-    }
-
-    &.checked {
-    	opacity: .2 !important;
-    	background-color: @white;
-    }
-  }//taskListItem
-
-  div.menu{
-    transform: translate(-105%,-100%);
-    button.item{width: 100%;}
-    div.start{background-color: green;}
-    div.remove{background-color: red;}
-  }
-
 }//taskFrame
 
-/********************* TASK DETAILS*********************/
+/********************* TASK DETAILS (Popup)*********************/
 
 .taskDetails{
   background-color: @white !important;
-
   width: 90%;
   margin-top: 1em;
   margin-left: 5% !important;
@@ -398,25 +445,53 @@ html, body, #react-root, .render-target {
   }//taskDetailsContent
 
   .taskDetailsActions {
-    width: 245px !important;
-    margin: auto;
+    display: flex;
+    justify-content: center;
 
-    label{
-      margin-right: .8em!important;
-      & span{
-        color: @fallback !important;
-        opacity: .8;
-        width: 2em!important;
-      }
-      &:hover span{
-        opacity: 1
-      }
-      &:disabled span{
-        color: @fallback-light !important;
-      }
-    }//button
+    button.start{
+      background-color: rgb(38, 150, 38);
+      color: white!important;
+    }
+
+    button.start:hover{
+      background-color: rgb(50, 158, 50)!important;
+      color: white!important;
+    }
+
+    button.finish{
+      background-color: rgba(5, 83, 91, 1);
+      color: white!important;
+    }
+
+    button.finish:hover{
+      background-color: rgb(11, 91, 99)!important;
+    }
+
+    button.edit{
+      background-color: rgb(236, 177, 45);
+      color: white!important;
+    }
+
+    button.edit:hover{
+      background-color: rgb(237, 185, 66)!important;
+    }
+
+    button.hide{
+      background-color: rgb(79, 74, 74)!important;
+      color: white!important;
+      opacity: 1!important;
+    }
+
+    button.remove{
+      background-color: rgb(247, 23, 53);
+      color: white!important;
+    }
+
+    button.remove:hover{
+      background-color: rgb(242, 41, 68)!important;
+      color: white!important;
+    }
   }//taskDetailsActions
-
 }//EO taskDetails
 
 
@@ -467,7 +542,7 @@ html, body, #react-root, .render-target {
       color: var(--fallback-light) !important;
       width: 85%;
     }
-  }
+  }//taskEditContent
 
   .taskEditActions {
     display: flex !important;
@@ -552,20 +627,27 @@ html, body, #react-root, .render-target {
 
 
 /************************  TASK LIST *********************************************/
-.taskListCard{
+.taskList{
+  margin-bottom: 2em!important;
+  width: 100%;
 	background-color: var(--turk-light) !important;
-	margin: auto !important;
-	width: 95% !important;
-  height: 100%;
+	width: 84% !important;
+  margin-left: 8% !important;
 	display: flex !important;
 	flex-direction: column !important;
 	align-items: stretch !important;
 
+  .taskListActions{
+    padding: 0.2em;
 
-  .newTaskButton{
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
+    div{
+      float: right;
+      margin: 0 0 0 0.5em
+    }
+  }
+
+  .taskListContent{
+    padding: 0.2em;
   }
 
   .subheader{
@@ -577,13 +659,6 @@ html, body, #react-root, .render-target {
 
   .toggleChecked  {
   	width: 30% !important;
-  }
-
-  .taskList{
-  	padding-top: 2em;
-  	margin-bottom: 2em;
-  	margin: auto;
-  	width: 100%;
   }
 
   .tagView .totalPomos{
@@ -607,6 +682,7 @@ html, body, #react-root, .render-target {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+  padding-top: 3%;
 
   .authLogo  {
   	display: flex;
