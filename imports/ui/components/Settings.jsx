@@ -94,16 +94,16 @@ export default class Settings extends Component {
     return (
       <div>
         <Nav history={this.props.history} location={this.props.location} />
-        <Segment className = "settingsCont">
-      		<Grid className="about-semantic">
-      		  <Grid.Column width={4}>
+        <Segment className="settingsContainer">
+      		<Grid className="settingsGrid">
+      		  <Grid.Column width={4} className="settingsActions">
         			<Menu pointing secondary vertical>
-                <Menu.Item name='account' active={this.props.location.pathname === "/settings/account" ? true : false} onClick={() => this.props.history.push('/settings/account')}>Account Settings</Menu.Item>
+                <Menu.Item name='account' active={this.props.location.pathname === "/settings/account" ? true : false} onClick={() => this.props.history.push('/settings/account')}>Settings</Menu.Item>
         			  <Menu.Item name='trello' active={this.props.location.pathname === "/settings/trello" ? true : false} onClick={() => this.props.history.push('/settings/trello')}>Trello</Menu.Item>
         			  <Menu.Item name='wunderlist' active={this.props.location.pathname === "/settings/wunderlist" ? true : false} onClick={() => this.props.history.push('/settings/wunderlist')}>Wunderlist</Menu.Item>
         			</Menu>
       		  </Grid.Column>
-      		  <Grid.Column stretched width={12}>
+      		  <Grid.Column stretched width={12} className="settingsContent">
               {this.props.location.pathname === "/settings/account" ?
         			<Segment className="sementicSegment">
                 <Form>

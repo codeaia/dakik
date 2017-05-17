@@ -19,7 +19,7 @@ class Statistics extends Component {
           theme={VictoryTheme.material}
           domainPadding={1}
           width={500}
-          height={350}
+          height={300}
           containerComponent={<VictoryVoronoiContainer/>}>
           <VictoryLabel x={200} y={40} text={"This week's performance: " + this.props.cumulativePomos + " pomos, " + this.props.cumulativeTasks + " tasks."} />
           <VictoryAxis />
@@ -34,8 +34,8 @@ class Statistics extends Component {
           </VictoryGroup>
         </VictoryChart>
         <VictoryPie
-          width={200}
-          height={200}
+          width={150}
+          height={150}
           theme={VictoryTheme.material}
           innerRadius={2}
           data={[

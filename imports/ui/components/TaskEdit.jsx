@@ -149,19 +149,19 @@ export default class TaskEdit extends Component {
               content="Cancel"
               labelPosition='left'
               onClick={() => this.cancel()}
-              />,
+              />
             <Button
               icon={<Icon as='span' className='fa fa-check'/>}
               positive
               content="Save"
               labelPosition='left'
               onClick={() => this.save()}
-              />,
+              />
             <Button
               content="Import To Trello"
               labelPosition='left'
               onClick={() => this.addToTrello()}
-              />,
+              />
             <Button
               content="Import To Wunderlist"
               labelPosition='left'
