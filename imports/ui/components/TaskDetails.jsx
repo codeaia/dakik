@@ -17,11 +17,14 @@ class TaskDetails extends Component {
     super(props);
     this.startPomo = this.startPomo.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
+
+    this.addToTrello = this.addToTrello.bind(this);
+    this.addToWunderlist = this.addToWunderlist.bind(this);
   }
 
 
  startPomo(){
-   if (!Meteor.user().profile.playing) {
+   if (!Meteor.user().profile.currentTaskId) {
      if (!this.props.location.state.task.checked) {
        Meteor.users.update(Meteor.userId(),{$set: {
          "profile.playing": true,
@@ -34,6 +37,9 @@ class TaskDetails extends Component {
  }
 
  deleteTask(){
+    if(Session.get('skip') > 0 && this.props.length === 1) {
+      Session.set('skip', Session.get('skip') - 10);
+    }
    var task = Tasks.findOne(this.props.location.state.task._id);
    Meteor.subscribe('pomos', this.props.location.state.task._id);
    var pomos = Pomos.find(this.props.location.state.task._id).fetch();
@@ -48,6 +54,14 @@ class TaskDetails extends Component {
    this.props.history.push('/');
  }
 
+ addToTrello() {
+   Meteor.call("postInfo", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+ }
+
+ addToWunderlist() {
+   Meteor.call("postSomething", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+ }
+
   render(){
     if (this.props.user) {
       return(
@@ -58,16 +72,32 @@ class TaskDetails extends Component {
               <div className="taskName">
                 <p>{this.props.location.state.task.taskName}</p>
               </div>
+              <div className = "integrations">
+                    <Button
+                      size = "mini"
+                      icon={<Icon as='span' className='fa fa-plus'/>}
+                      content="Trello"
+                      labelPosition='left'
+                      onClick={() => this.addToTrello()}
+                      />
+                    <Button
+                      size = "mini"
+                      icon={<Icon as='span' className='fa fa-plus'/>}
+                      content="Wunderlist"
+                      labelPosition='left'
+                      onClick={() => this.addToWunderlist()}
+                      />
+              </div>
               <div className="priority each">
                 <p className="target">Priority:</p>
                 <p className="value">{this.props.location.state.task.taskPriority}</p>
               </div>
               <div className="pomoTime each">
-                <p className="target">Pomotime:</p>
+                <p className="target">Total Pomos:</p>
                 <p className="value">{this.props.location.state.task.pomoCount}</p>
               </div>
               <div className="estPomos each">
-                <p className="target">Estimated Pomos:</p>
+                <p className="target">Pomo Goal:</p>
                 <p className="value">{this.props.location.state.task.pomoGoal}</p>
               </div>
               <div className="due each">

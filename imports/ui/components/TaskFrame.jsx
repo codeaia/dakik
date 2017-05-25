@@ -37,7 +37,7 @@ export default class TaskFrame extends Component {
 
   deleteTask(){
     if(Session.get('skip') > 0 && this.props.length === 1) {
-      Session.set('skip', Session.get('skip') - 5);
+      Session.set('skip', Session.get('skip') - 10);
     }
     var task = Tasks.findOne(this.props.task._id);
     Meteor.subscribe('pomos', task._id);

@@ -1,19 +1,17 @@
 # Dakik
 
-Simple, cross-platform and reactive time-management app created by Codeaia in 2016-2017.
+Simple, cross-platform and reactive time and task management app created by @Codeaia in 2016-2017.
 
 Register and check this app at **https://dakik.herokuapp.com**
 
 ### How To Install
-* You should have meteor installed on your system.
-
-* Clone the project.
-
+* You should have meteor installed on your system. `curl https://install.meteor.com/ | sh`
+* Clone the project. `git clone https://github.com/codeaia/pomodoro-app.git`
 * Run following commands in root directory of the project in order.
 
-  * meteor npm install
+  * `meteor npm install`
 
-  * meteor run
+  * `meteor run`
 
 ### Team
 1) UI Designer: [Abdullah Öğük](http://github.com/abdullahoguk)

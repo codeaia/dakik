@@ -249,7 +249,7 @@ html, body, #react-root, .render-target {
 .taskFrame{
   display: flex;
   flex-direction: column;
-  margin-top: 0.2em;
+  margin-top: 0.5em;
   align-items: stretch;
 
   div.menu{
@@ -305,9 +305,9 @@ html, body, #react-root, .render-target {
   }
 
   .taskListItem{
-  	background-color: rgba(15, 177, 191, 0.55)!important;
+  	background-color: @turk + #285!important;
     animation: slideIn 0.6s cubic-bezier(.165, .84, .44, 1)!important;
-  	border-radius: 0.25em;
+  	border-radius: 0.05em;
     padding: 0.25em;
     position: relative;
 
@@ -324,7 +324,7 @@ html, body, #react-root, .render-target {
     }
 
     &:hover {
-    	background-color: rgba(31, 237, 255, 0.40)!important;
+    	background-color: @turk + #58F!important;
     }
 
     &.checked {
@@ -339,7 +339,8 @@ html, body, #react-root, .render-target {
   	height: 5px;
   	border: 0 none;
   	background: @turk;
-  	border-radius: 10px;
+  	border-radius: 1em;
+    transform: translate(0em,.5px);
 
     &::-moz-progress-bar{
     	background: #FFF;
@@ -350,7 +351,7 @@ html, body, #react-root, .render-target {
     }
     &::-webkit-progress-value {
       height: 2px;
-      background: @red;
+      background: grey;
     }
     &.checked::-webkit-progress-value {
       height: 2px;
@@ -366,13 +367,13 @@ html, body, #react-root, .render-target {
 
 }//taskFrame
 
-/********************* TASK DETAILS (Popup)*********************/
+/********************* TASK DETAILS *********************/
 
 .taskDetails{
   background-color: @white !important;
-  width: 90%;
+  max-width: 500px;
+  margin: auto;
   margin-top: 1em;
-  margin-left: 5% !important;
   margin-bottom: 1em;
 
   .taskDetailsContent{
@@ -403,7 +404,7 @@ html, body, #react-root, .render-target {
       align-items: center;
       position: relative;
       margin: auto;
-      margin-bottom: 0.75em;
+      margin-bottom: 0.25em !important;
       text-align: center;
       color:@turk-dark !important;
       background-color: @white-dark !important;
@@ -422,6 +423,11 @@ html, body, #react-root, .render-target {
         width: 3em;
         font-size: 2em;
      }
+    }
+
+    .integrations{
+      margin: 1em;
+      float: right;
     }
 
     .target{
@@ -507,18 +513,17 @@ html, body, #react-root, .render-target {
 }//EO taskDetails
 
 
-/************************ TASK Edit (Popup) **********************/
+/************************ TASK Edit **********************/
 .taskEdit{
-  background-color: var(--white-dark) !important;
-  animation: pulse .2s cubic-bezier(.165, .84, .44, 1) !important;
-  background-color: @white-dark !important;
-  width: 100%;
-  height: 100%;
+  background-color: var(--turk) !important;
+  max-width: 400px;
+  width: 98%;
   margin: auto;
-  position: relative;
-  transform: translate(0%,-50%);
-  top:50%;
-  padding: 1em;
+  margin-top: 2em;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top:45%;
+  left: 50%;
   display: flex;
   flex-direction: column !important;
   justify-content: center;
@@ -530,17 +535,21 @@ html, body, #react-root, .render-target {
     background-color: var(--white-dark) !important;
   }
   .taskEditContent{
-    width: 75%;
-
+    width: 100%;
+    background-color: var(--white) !important;
+    padding: 1em;
     display: flex !important;
     flex-direction: column!important;
     align-items: center;
     max-height: none!important;
-    padding-bottom: 0px!important;
 
-    div {
+    .dropdownCont {
       color: var(--fallback-dark) !important;
-      width: 85% !important;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      .each {width: inherit;margin-left: 2em;}
+      .dropdown.icon{display: none;}
     }
 
     input{
@@ -550,22 +559,32 @@ html, body, #react-root, .render-target {
       }
     }
 
-    .each label{
+    .each{
       color: var(--fallback-light) !important;
-      width: 85%;
+      width: 100%;
+      margin-top: 1em;
+    }
+
+    .moreInfo{
+      margin: auto;
+      overflow: auto;
+      height: 100px!important;
     }
   }//taskEditContent
 
   .taskEditActions {
+    width: 100%;
     display: flex !important;
     flex-direction: row;
     align-items: center !important ;
     justify-content: center;
-    background-color: var(--white-dark);
+    background-color: var(--white-dark) !important;
+    padding: 1em;
 
     button{
-      margin: 0px 25px 0px 25px !important;
+      margin: 0px 1em 0px 1em !important;
       color: var(--fallback) !important;
+      border-radius: 0;
 
       & span{
         color: var(--fallback) !important;
@@ -640,11 +659,11 @@ html, body, #react-root, .render-target {
 
 /************************  TASK LIST *********************************************/
 .taskList{
+  margin: auto !important;
   margin-bottom: 2em!important;
-  width: 100%;
-	background-color: var(--turk-light) !important;
+	background-color: @turk !important;
+  border-radius: 1px !important;
 	width: 84% !important;
-  margin-left: 8% !important;
 	display: flex !important;
 	flex-direction: column !important;
 	align-items: stretch !important;

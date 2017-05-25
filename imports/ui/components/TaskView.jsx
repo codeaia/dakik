@@ -23,11 +23,11 @@ class TaskView extends Component {
   }
 
   prevButton() {
-    Session.set('skip', Session.get('skip') - 5);
+    Session.set('skip', Session.get('skip') - 10);
   }
 
   nextButton() {
-    Session.set('skip', Session.get('skip') + 5);
+    Session.set('skip', Session.get('skip') + 10);
   }
 
   componentWillReceiveProps(nextProps){
@@ -98,6 +98,6 @@ export default TaskViewContainer = createContainer(() => {
   return {
     user: Meteor.user(),
     length: Tasks.find().count(),
-    tasks: Tasks.find({}, {limit: 5, sort: { createdAt: -1 }}).fetch(),
+    tasks: Tasks.find({}, {limit: 10, sort: { createdAt: -1 }}).fetch(),
   };
 }, TaskView);
