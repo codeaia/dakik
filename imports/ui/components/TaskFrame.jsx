@@ -24,7 +24,7 @@ export default class TaskFrame extends Component {
     if (!Meteor.user().profile.currentTaskId) {
       if (!this.props.task.checked) {
         Meteor.users.update(Meteor.userId(),{$set: {
-          "profile.timerDue": ((new Date()).valueOf() / 1000) + 2,
+          "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
           "profile.currentTaskId": this.props.task._id,
         }});
       }
