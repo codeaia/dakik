@@ -12,12 +12,6 @@ import StatisticsContainer from './Statistics.jsx';
 class Profile extends Component {
   constructor(props) {
     super(props);
-
-  	this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  handleLogout(){
-    Meteor.logout(() => this.props.history.push('/auth'));
   }
 
   render() {
@@ -50,7 +44,7 @@ class Profile extends Component {
                     labelPosition='left'
                     color='red'
                     className="animated fadeIn"
-                    onClick={this.handleLogout}
+                    onClick={() => Meteor.logout(() => this.props.history.push('/auth'))}
                   />
                 </div>
               </div>

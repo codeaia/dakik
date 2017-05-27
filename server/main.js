@@ -1,21 +1,22 @@
 import { Meteor } from 'meteor/meteor';
-
+import { Accounts } from 'meteor/accounts-base';
 import { Tasks } from '../imports/api/tasks.js';
+import { Goals } from '../imports/api/goals.js';
 import { Pomos } from '../imports/api/pomos.js';
 import { Stats } from '../imports/api/stats.js';
-import { Accounts } from 'meteor/accounts-base';
-Moment = require('moment');
 
+Moment = require('moment');
 Fiber = Npm.require('fibers');
 Future = Npm.require('fibers/future');
 OAuth = require('oauth').OAuth;
+
 oauth = new OAuth(
   "https://trello.com/1/OAuthGetRequestToken",
   "https://trello.com/1/OAuthGetAccessToken",
   "22c8405407690bf15b6457a1c3bbcc33",
   "73334b92d5b14b031895c771e406a92278f4fd3b85f86e83948d409784606a13",
   "1.0A",
-  "http://localhost:3000/settings/trello",
+  "http://dakik.herokuapp.com/settings/trello",
   "HMAC-SHA1");
 
   Meteor.methods({

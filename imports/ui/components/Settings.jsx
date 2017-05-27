@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Menu, Segment, Label, Icon, Form, Input, Divider } from 'semantic-ui-react';
+import { Grid, Menu, Segment, Label, Icon, Form, Input } from 'semantic-ui-react';
 
 import Nav from './Nav.jsx';
 import TrelloApiContainer from './TrelloApi.jsx';
@@ -112,12 +112,10 @@ export default class Settings extends Component {
                     <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
                     <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
                   </Form.Group>
-                  <Divider />
                   <Form.Group widths='equal'>
                     <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
                     <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
                   </Form.Group>
-                  <Divider />
                   <Form.Group widths='equal'>
                     <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
                     <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>

@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { Tasks } from '../../api/tasks.js';
-import { Pomos } from '../../api/pomos.js';
 import { createContainer } from 'meteor/react-meteor-data';
+import Noty from 'noty';
+var moment = require('moment');
+import { ListItem } from 'material-ui/List';
+import { Button, Header, Icon, Modal, List, Menu } from 'semantic-ui-react';
+import ReactMarkdown from 'react-markdown';
+
 import Loading from './Loading.jsx';
 import Nav from './Nav.jsx';
 
-var moment = require('moment');
-
-import { ListItem } from 'material-ui/List';
-
-import { Button, Header, Icon, Modal, List, Menu } from 'semantic-ui-react';
-import ReactMarkdown from 'react-markdown';
+import { Tasks } from '../../api/tasks.js';
+import { Pomos } from '../../api/pomos.js';
 
 class TaskDetails extends Component {
   constructor(props) {
     super(props);
+
+    this.finishTask = this.finishTask.bind(this);
     this.startPomo = this.startPomo.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
 
@@ -22,45 +24,86 @@ class TaskDetails extends Component {
     this.addToWunderlist = this.addToWunderlist.bind(this);
   }
 
+  startPomo(){
+    if (!Meteor.user().profile.currentTaskId) {
+      if (!this.props.location.state.task.checked) {
+        Meteor.users.update(Meteor.userId(),{$set: {
+          "profile.timerDue": ((new Date()).valueOf() / 1000) + 2,
+          "profile.currentTaskId": this.props.location.state.task._id,
+        }});
+      }
+    }
+    new Noty({
+      type: 'information',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Timer has started',
+      timeout: 4000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
+    this.props.history.push('/');
+  }
 
- startPomo(){
-   if (!Meteor.user().profile.currentTaskId) {
-     if (!this.props.location.state.task.checked) {
-       Meteor.users.update(Meteor.userId(),{$set: {
-         "profile.playing": true,
-         "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
-         "profile.currentTaskId": this.props.location.state.task._id,
-       }});
-        this.props.history.push('/');
-     }
-   }
- }
+  finishTask(){
+    Meteor.call('killTask', this.props.location.state.task._id);
+    new Noty({
+      type: 'information',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Task forcefully finished',
+      timeout: 1000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
+    this.props.history.push('/');
+  }
 
- deleteTask(){
+  deleteTask(){
     if(Session.get('skip') > 0 && this.props.length === 1) {
       Session.set('skip', Session.get('skip') - 10);
     }
-   var task = Tasks.findOne(this.props.location.state.task._id);
-   Meteor.subscribe('pomos', this.props.location.state.task._id);
-   var pomos = Pomos.find(this.props.location.state.task._id).fetch();
-   pomos.map((pomo) => {
-     if (task.checked) {
-       Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, -1);
-     } else {
-       Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, 0);
-     }
-   });
-   Meteor.call('deleteTask', this.props.location.state.task._id);
-   this.props.history.push('/');
- }
+    Meteor.subscribe('pomos', this.props.location.state.task._id);
+    var pomos = Pomos.find(this.props.location.state.task._id).fetch();
+    pomos.map((pomo) => {
+      if (task.checked) {
+        Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, -1);
+      } else {
+        Meteor.call('updateDate', pomo.finishDate,  0 - task.pomoCount, 0);
+      }
+    });
+    Meteor.call('deleteTask', this.props.location.state.task._id);
+    new Noty({
+      type: 'error',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Task Deleted',
+      timeout: 1000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
+    this.props.history.push('/');
+  }
 
- addToTrello() {
-   Meteor.call("postInfo", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
- }
+  addToTrello() {
+    Meteor.call("postInfo", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+  }
 
- addToWunderlist() {
-   Meteor.call("postSomething", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
- }
+  addToWunderlist() {
+    Meteor.call("postSomething", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+  }
 
   render(){
     if (this.props.user) {
@@ -73,20 +116,20 @@ class TaskDetails extends Component {
                 <p>{this.props.location.state.task.taskName}</p>
               </div>
               <div className = "integrations">
-                    <Button
-                      size = "mini"
-                      icon={<Icon as='span' className='fa fa-plus'/>}
-                      content="Trello"
-                      labelPosition='left'
-                      onClick={() => this.addToTrello()}
-                      />
-                    <Button
-                      size = "mini"
-                      icon={<Icon as='span' className='fa fa-plus'/>}
-                      content="Wunderlist"
-                      labelPosition='left'
-                      onClick={() => this.addToWunderlist()}
-                      />
+                <Button
+                  size = "mini"
+                  icon={<Icon as='span' className='fa fa-plus'/>}
+                  content="Trello"
+                  labelPosition='left'
+                  onClick={() => this.addToTrello()}
+                />
+                <Button
+                  size = "mini"
+                  icon={<Icon as='span' className='fa fa-plus'/>}
+                  content="Wunderlist"
+                  labelPosition='left'
+                  onClick={() => this.addToWunderlist()}
+                />
               </div>
               <div className="priority each">
                 <p className="target">Priority:</p>

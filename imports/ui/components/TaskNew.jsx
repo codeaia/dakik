@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Flexbox from 'flexbox-react';
-import { Link } from 'react-router-dom';
+import Noty from 'noty';
 
 import Loading from './Loading.jsx';
 import Nav from './Nav.jsx';
@@ -59,7 +59,7 @@ export default class TaskNew extends Component {
     });
   }
 
-  addNewTask(event){
+  addNewTask(){
     Meteor.call(
       'addTask',
       this.state.taskName,
@@ -69,6 +69,20 @@ export default class TaskNew extends Component {
       this.state.dueDate,
       this.state.moreInfo
     );
+    new Noty({
+      type: 'success',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Added Task',
+      timeout: 1000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
+    this.props.history.push('/');
   }
 
   updateDueDate(event, date) {
@@ -141,12 +155,8 @@ export default class TaskNew extends Component {
               </Flexbox>
             </CardText>
             <CardActions className="taskNewActions">
-              <Link to="/">
-                <RaisedButton className="cancel" label="Cancel"/>
-              </Link>
-              <Link to="/">
-                <RaisedButton className="ok" label="Add Task" onClick={this.addNewTask}/>
-              </Link>
+              <RaisedButton className="cancel" label="Cancel" onClick={() => this.props.history.push('/')}/>
+              <RaisedButton className="ok" label="Add Task" onClick={() => this.addNewTask()}/>
             </CardActions>
           </Card>
         </div>

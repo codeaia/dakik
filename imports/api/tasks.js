@@ -30,13 +30,11 @@ if (Meteor.isServer) {
         }
       }); // Edit task with given params.
     },
-    checkTask: function(id, flag){
-      Tasks.update(id, {$set: {checked: flag}}); // Sync task's check status with param 'flag'.
-    },
     finishTask: function(){
       var task = Tasks.findOne(Meteor.user().profile.currentTaskId);
       if ((task.pomoCount + 1) === task.pomoGoal) {
         Meteor.call('updateDate', 0, 1); // Save one finished task onto today's stats.
+        Meteor.call('updateGoal', true);
         Tasks.update(Meteor.user().profile.currentTaskId, {$set: {checked: true, pomoCount: task.pomoCount + 1}}); // Check the task, increase pomo Count
       } else {
         Tasks.update(Meteor.user().profile.currentTaskId, {$set: {pomoCount: task.pomoCount + 1}}); // Increase pomo Count
@@ -45,6 +43,7 @@ if (Meteor.isServer) {
     killTask: function(id){
       Meteor.call('updateDate', 0, 1); // Save one finished task onto today's stats.
       Tasks.update(id, {$set: {checked: true}}); // Check the task
+      Meteor.call('updateGoal', false);
     },
     deleteTask: function(id){
       if (Meteor.userId() && Meteor.userId() === Tasks.findOne(id).ownerId) {

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
-
-import { Button } from 'semantic-ui-react';
-import { Icon } from 'semantic-ui-react';
+import Noty from 'noty';
+import { Button, Icon } from 'semantic-ui-react';
 
 import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
@@ -28,6 +27,7 @@ class Timer extends Component {
       b: 255,
     }
 
+    this.forceStop = this.forceStop.bind(this);
     this.handleStop = this.handleStop.bind(this);
     this.setColor = this.setColor.bind(this);
   }
@@ -116,6 +116,18 @@ class Timer extends Component {
         Meteor.call('finishTask');
         Meteor.call('addPomo');
         this.handleStop();
+        new Noty({
+          type: 'success',
+          layout: 'topRight',
+          theme: 'sunset',
+          text: 'Time is up, give a break',
+          progressBar: true,
+          closeWith: ['click', 'button'],
+          animation: {
+            open: 'noty_effects_open',
+            close: 'noty_effects_close'
+          }
+        }).show();
       }
     }
   }
@@ -143,6 +155,23 @@ class Timer extends Component {
     }});
   }
 
+  forceStop(){
+    this.handleStop();
+    new Noty({
+      type: 'error',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Progress halted, timer stopped!',
+      timeout: 1000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
+  }
+
   render() {
     if (this.props.user) {
       return (
@@ -156,7 +185,7 @@ class Timer extends Component {
             color={this.props.user.profile.currentTaskId ? 'red' : 'grey'}
             disabled={this.props.user.profile.currentTaskId ? false : true}
             className="stop animated fadeIn"
-            onClick={this.handleStop}
+            onClick={() => this.forceStop()}
           />
           <TaskViewContainer history={this.props.history} location={this.props.location}/>
         </Flexbox>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import Noty from 'noty';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 
 import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
-
-import { Button, Icon, Dropdown } from 'semantic-ui-react';
 
 export default class TaskFrame extends Component {
   constructor(props) {
@@ -24,15 +24,41 @@ export default class TaskFrame extends Component {
     if (!Meteor.user().profile.currentTaskId) {
       if (!this.props.task.checked) {
         Meteor.users.update(Meteor.userId(),{$set: {
-          "profile.timerDue": ((new Date()).valueOf() / 1000) + 1500,
+          "profile.timerDue": ((new Date()).valueOf() / 1000) + 2,
           "profile.currentTaskId": this.props.task._id,
         }});
       }
     }
+    new Noty({
+      type: 'information',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Timer has started',
+      timeout: 4000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
   }
 
   finishTask(){
     Meteor.call('killTask', this.props.task._id);
+    new Noty({
+      type: 'information',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Finished Task',
+      timeout: 4000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
   }
 
   deleteTask(){
@@ -50,12 +76,25 @@ export default class TaskFrame extends Component {
       }
     });
     Meteor.call('deleteTask', this.props.task._id);
+    new Noty({
+      type: 'error',
+      layout: 'topRight',
+      theme: 'sunset',
+      text: 'Task Deleted',
+      timeout: 4000,
+      progressBar: true,
+      closeWith: ['click', 'button'],
+      animation: {
+        open: 'noty_effects_open',
+        close: 'noty_effects_close'
+      }
+    }).show();
   }
 
   render() {
     return(
       <div className="taskFrame">
-        <progress className = {((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101 ? "taskProgress checked" : "taskProgress" } max = "101" value = {(this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
+        <progress className = {((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101 || this.props.task.checked ? "taskProgress checked" : "taskProgress" } max = "101" value = {this.props.task.checked ? 101 : (this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
         <div className={this.props.task.checked ? "checked taskListItem" : "taskListItem"} onClick={() => this.props.history.push('/taskDetails', {task: this.props.task})}>
           <div className="taskName">{this.props.task.taskName}</div>
           <Dropdown icon={<Icon as='span' className='fa fa-ellipsis-v'/>} button className='taskActions icon'>

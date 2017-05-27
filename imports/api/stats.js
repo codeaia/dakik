@@ -9,13 +9,13 @@ if (Meteor.isServer) {
     newDate: function(){
       Stats.insert({
         ownerId: Meteor.userId(),
-        date: moment().format('DD/MM/YYYY'),
+        date: moment().format('MM/DD/YYYY'),
         finishedPomoCount: 1,
         finishedTaskCount: 0,
       });
     },
     updateDate: function(finishedPomoCount, finishedTaskCount){
-      Stats.update({ownerId: Meteor.userId(), date: moment().format('DD/MM/YYYY')}, {$inc: {finishedPomoCount: finishedPomoCount, finishedTaskCount: finishedTaskCount}});
+      Stats.update({ownerId: Meteor.userId(), date: moment().format('MM/DD/YYYY')}, {$inc: {finishedPomoCount: finishedPomoCount, finishedTaskCount: finishedTaskCount}});
     }
   });
 
@@ -24,6 +24,6 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('dailyStat', function() {
-    return Stats.find({ownerId: this.userId, date: moment().format('DD/MM/YYYY')});
+    return Stats.find({ownerId: this.userId, date: moment().format('MM/DD/YYYY')});
   });
 }

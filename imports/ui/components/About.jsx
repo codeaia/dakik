@@ -26,7 +26,7 @@ export default class About extends Component {
               {this.props.location.pathname === "/about" ?
               <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.7.0</h3>
+                <h3>Dakik 1.7.3</h3>
                 <div>Copyright © May 2017<a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
@@ -74,7 +74,7 @@ export default class About extends Component {
               : ""}
               {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.7.0</h3>
+                <h3 className="about_header">1.7.3</h3>
                 <p>
                   <b>What's New:</b><br/>
                   - Users can now finish tasks before reaching specified goals.<br/>

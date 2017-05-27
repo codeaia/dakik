@@ -69,7 +69,8 @@ class TaskView extends Component {
           <Card.Content className="taskListActions">
             <Button
               content='New Task'
-              color='google plus'
+              basic
+              className='newTaskButton'
               onClick={() => this.props.history.push('/taskNew')}
             />
             <div>
