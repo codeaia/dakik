@@ -13,6 +13,30 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
+import { Button, Header, Icon, Modal, Segment, Input, Dropdown, Label, Form, TextArea } from 'semantic-ui-react';
+
+var priority = [
+  {key:0, text: "None", color: "black"},
+  {key:1, text: "1", color: "red"},
+  {key:2, text: "2", color: "orange"},
+  {key:3, text: "3", color: "yellow"},
+  {key:4, text: "4", color: "teal"},
+  {key:5, text: "5", color: "green"}
+];
+
+var goal = [
+  {key:0, text: "No Goal"},
+  {key:1, text: "1 Pomo"},
+  {key:2, text: "2 Pomo"},
+  {key:3, text: "3 Pomo"},
+  {key:4, text: "4 Pomo"},
+  {key:5, text: "5 Pomo"},
+  {key:6, text: "6 Pomo"},
+  {key:7, text: "7 Pomo"},
+  {key:8, text: "8 Pomo"},
+  {key:9, text: "9 Pomo"},
+  {key:10,text: "10 Pomo"}
+];
 
 export default class TaskNew extends Component {
   constructor(props) {
@@ -22,7 +46,7 @@ export default class TaskNew extends Component {
       taskName: '',
       taskPriority: 0,
       checked: false,
-      taskGoal: 0,
+      pomoGoal: 0,
       dueDate: null,
       moreInfo: ""
     };
@@ -35,27 +59,27 @@ export default class TaskNew extends Component {
     this.updateMoreInfo = this.updateMoreInfo.bind(this);
   }
 
-  updateTaskGoal(event, value) {
+  updateTaskGoal(event, data) {
     this.setState({
-      taskGoal: value
+      pomoGoal: data.value
     });
   }
 
-  updateTaskName(e){
+  updateTaskName(event, data){
     this.setState({
-      taskName: e.target.value
+      taskName: data.value
     });
   }
 
-  updateMoreInfo(e){
+  updateMoreInfo(event, data){
    this.setState({
-     moreInfo: e.target.value
+     moreInfo: data.value
    });
  }
 
-  updatePriority(event, value){
+  updatePriority(event, data){
     this.setState({
-      taskPriority: value
+      taskPriority: data.value
     });
   }
 
@@ -64,7 +88,7 @@ export default class TaskNew extends Component {
       'addTask',
       this.state.taskName,
       this.state.taskPriority,
-      this.state.taskGoal,
+      this.state.pomoGoal,
       "none",
       this.state.dueDate,
       this.state.moreInfo
@@ -85,9 +109,9 @@ export default class TaskNew extends Component {
     this.props.history.push('/');
   }
 
-  updateDueDate(event, date) {
+  updateDueDate(event, data) {
     this.setState({
-      dueDate: date,
+      dueDate: data.value,
     });
   }
 
@@ -96,69 +120,93 @@ export default class TaskNew extends Component {
       <MuiThemeProvider>
         <div>
           <Nav history={this.props.history} location={this.props.location}/>
-          <Card className="taskNewContainer">
-			      <h3 className = "taskNewHeader">Add a new task...</h3>
-            <CardText className="taskNewCardText">
-              <Flexbox flexDirection="column">
-                <TextField
-                  value={this.state.taskName}
-                  type="text"
-                  onChange={this.updateTaskName}
-                  floatingLabelText="Task Name"
-				        className = "taskName each"
-				        id="add-task-name"
-                />
-                <SelectField
-                  floatingLabelText="Priority"
-                  value={this.state.taskPriority}
-                  onChange={this.updatePriority}
-				          className="each"
-				        >
-                  <MenuItem value={0} primaryText="0 (No Priority)" />
-                  <MenuItem value={1} primaryText="1 (Urgent)" />
-                  <MenuItem value={2} primaryText="2 (Today)" />
-                  <MenuItem value={3} primaryText="3 (This Week)" />
-                  <MenuItem value={4} primaryText="4 (This Month)" />
-                  <MenuItem value={5} primaryText="5 (Any Time)" />
-                </SelectField>
-                <SelectField
-                  floatingLabelText="Task Goal"
-                  value={this.state.taskGoal}
-                  onChange={this.updateTaskGoal}
-				          className="each"
- 				        >
-                  <MenuItem value={1} primaryText="1" />
-                  <MenuItem value={2} primaryText="2" />
-                  <MenuItem value={3} primaryText="3" />
-                  <MenuItem value={4} primaryText="4" />
-                  <MenuItem value={5} primaryText="5" />
-                  <MenuItem value={6} primaryText="6" />
-                  <MenuItem value={7} primaryText="7" />
-                  <MenuItem value={8} primaryText="8" />
-                  <MenuItem value={9} primaryText="9" />
-                  <MenuItem value={10} primaryText="10" />
-                </SelectField>
+          <div className="taskNew">
+			<h3 className = "taskNewHeader">Add a new task...</h3>
+            <div className="taskNewContent">
+                 <Input
+                   label='Task Name'
+                   size='small'
+                   id="edit-task-name"
+                   value={this.state.taskName}
+                   type="text"
+                   onChange={this.updateTaskName}
+                   className='taskName each'
+                 />
+            <div className="dropdownCont each">
+              <Dropdown
+                labeled
+                className='priority'
+                trigger={
+                  <Label size = "medium" as='div' color = {priority[this.state.taskPriority].color} image>
+                    Priority:
+                    <Label.Detail as = "span">{priority[this.state.taskPriority].text }</Label.Detail>
+                  </Label>
+                }>
+                <Dropdown.Menu>
+                  {priority.map((item) => (
+                    <Dropdown.Item
+                      key={item.key}
+                      label={{ color: item.color, empty: true, circular: true }}
+                      text = {item.text}
+                      value = {item.key}
+                      onClick={this.updatePriority}/>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown
+                className='pomoGoal'
+                trigger={
+                  <Label size = "medium" as='div' color = "grey" image>
+                    Goal:
+                    <Label.Detail as = "span">{goal[this.state.pomoGoal].text }</Label.Detail>
+                  </Label>
+                }>
+                  <Dropdown.Menu>
+                    {goal.map((item) => (
+                      <Dropdown.Item
+                        key={item.key}
+                        text = {item.text}
+                        value = {item.key}
+                        onClick={this.updateTaskGoal}/>
+                    ))}
+                  </Dropdown.Menu>
+              </Dropdown>
+            </div>
                 <DatePicker
                   hintText="Due Date"
                   value={this.state.dueDate}
                   onChange={this.updateDueDate}
-					        className="each"
-				        />
-                <TextField
-                    className="each"
-                    hintText="More Info..."
-                    multiLine={true}
-                    rows={2}
-                    rowsMax={4}
+				  className="each"
+				 />
+                <Form className = "each">
+                  <TextArea
+                    size='large'
+                    placeholder = "More Info"
+                    value={this.state.moreInfo}
                     onChange={this.updateMoreInfo}
-                />
-              </Flexbox>
-            </CardText>
-            <CardActions className="taskNewActions">
-              <RaisedButton className="cancel" label="Cancel" onClick={() => this.props.history.push('/')}/>
-              <RaisedButton className="ok" label="Add Task" onClick={() => this.addNewTask()}/>
-            </CardActions>
-          </Card>
+                    className = "each moreInfo"
+                  />
+                </Form>
+            </div>
+            <div className="taskNewActions">
+                <Button
+                  size = "medium"
+                  icon={<Icon as='span' className='fa fa-times-circle'/>}
+                  negative
+                  content="Cancel"
+                  labelPosition='left'
+                  onClick={() => this.props.history.push('/')}
+                  />
+                <Button
+                  size = "medium"
+                  icon={<Icon as='span' className='fa fa-check'/>}
+                  positive
+                  content="Add Task"
+                  labelPosition='left'
+                  onClick={() => this.addNewTask()}
+                  />
+            </div>
+          </div>
         </div>
       </MuiThemeProvider>
     );

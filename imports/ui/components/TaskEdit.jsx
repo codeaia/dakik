@@ -112,6 +112,7 @@ export default class TaskEdit extends Component {
         <div>
           <Nav history={this.props.history} location={this.props.location} />
           <div className="taskEdit">
+            <h3 className = "taskEditHeader">Edit this task...</h3>
             <div className="taskEditContent">
               <Input
                 label='Task Name'
@@ -163,7 +164,7 @@ export default class TaskEdit extends Component {
                 </Dropdown>
               </div>
               <DatePicker
-                floatingLabelText="Due Date"
+                hintText="Due Date"
                 value={this.state.dueDate}
                 onChange={this.updateDueDate}
                 className = "each"
