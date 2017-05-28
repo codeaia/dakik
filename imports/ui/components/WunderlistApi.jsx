@@ -41,22 +41,17 @@ class WunderlistApi extends Component {
     }
 
     Meteor.call('fetchFromService2', function(err, respJson) {
-
       for(i=0; i<respJson.length; i++) {
         Meteor.call('fetchFromService3', respJson[i].id, function(err, respJsonTask) {
-
           for(x=0;x<respJsonTask.length;x++) {
-
             for(z=0;z<allTasks.length;z++) {
               if(respJsonTask[x].title == allTasks[z].taskName && Moment(respJsonTask[x].due_date).isSame(allTasks[z].dueDate, "day")) {
                 found = true;
               }
             }
-
             if(!found) {
               Meteor.call('addTask', respJsonTask[x].title, 0, 1, "wunderlist", respJsonTask[x].due_date);
             }
-
             found = false;
           }
         });
@@ -65,7 +60,7 @@ class WunderlistApi extends Component {
   }
 
   goToWunderlist() {
-    window.location.href = "https://www.wunderlist.com/oauth/authorize?client_id=bcddc2947c80dd050a3f&redirect_uri=http://localhost:3000/settings/wunderlist&state=RANDOM";
+    window.location.href = "https://www.wunderlist.com/oauth/authorize?client_id=bcddc2947c80dd050a3f&redirect_uri=https://dakik.herokuapp.com/settings/wunderlist&state=RANDOM";
   }
 
   render() {

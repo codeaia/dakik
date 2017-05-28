@@ -16,7 +16,7 @@ oauth = new OAuth(
   "22c8405407690bf15b6457a1c3bbcc33",
   "73334b92d5b14b031895c771e406a92278f4fd3b85f86e83948d409784606a13",
   "1.0A",
-  "http://dakik.herokuapp.com/settings/trello",
+  "https://dakik.herokuapp.com/settings/trello",
   "HMAC-SHA1");
 
   Meteor.methods({

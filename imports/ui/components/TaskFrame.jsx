@@ -34,7 +34,7 @@ export default class TaskFrame extends Component {
       layout: 'topRight',
       theme: 'sunset',
       text: 'Timer has started',
-      timeout: 4000,
+      timeout: 1000,
       progressBar: true,
       closeWith: ['click', 'button'],
       animation: {
@@ -51,7 +51,7 @@ export default class TaskFrame extends Component {
       layout: 'topRight',
       theme: 'sunset',
       text: 'Finished Task',
-      timeout: 4000,
+      timeout: 1000,
       progressBar: true,
       closeWith: ['click', 'button'],
       animation: {
@@ -81,7 +81,7 @@ export default class TaskFrame extends Component {
       layout: 'topRight',
       theme: 'sunset',
       text: 'Task Deleted',
-      timeout: 4000,
+      timeout: 1000,
       progressBar: true,
       closeWith: ['click', 'button'],
       animation: {

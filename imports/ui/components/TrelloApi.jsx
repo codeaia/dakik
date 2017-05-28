@@ -43,22 +43,17 @@ class TrelloApi extends Component {
     var found = false;
     var allTasks = this.props.tasks;
     Meteor.call("getBoardsId", function(error, resultBoardsId) {
-
       for(i=0; i<resultBoardsId.length; i++) {
-
         Meteor.call("getInfo", resultBoardsId[i], function(error, result) {
           for(y=0; y<result.length; y++) {
-
             for(z=0;z<allTasks.length;z++) {
               if(result[y].name == allTasks[z].taskName && Moment(result[y].due).isSame(allTasks[z].dueDate, "day")) {
                 found = true;
               }
             }
-
             if(!found) {
               Meteor.call('addTask', result[y].name, 0, 1, 'trello', result[y].due);
             }
-
             found = false;
           }
         });
