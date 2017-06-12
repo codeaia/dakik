@@ -11,7 +11,8 @@ import TaskNew from './TaskNew.jsx';
 import TaskDetailsContainer from './TaskDetails.jsx';
 import TaskEdit from './TaskEdit.jsx';
 import Profile from './Profile.jsx';
-import Auth from './Auth.jsx';
+import Login from './Login.jsx';
+import Register from './Register.jsx';
 import NotFound from './NotFound';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -20,7 +21,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       <Component {...props}/>
     ) : (
       <Redirect to={{
-        pathname: '/auth',
+        pathname: '/login',
         state: { from: props.location }
       }}/>
     )
@@ -63,7 +64,8 @@ export default class App extends Component {
             <PrivateRoute path="/taskNew" component={TaskNew} />
             <PrivateRoute path="/taskEdit" component={TaskEdit} />
             <PrivateRoute path="/taskDetails" component={TaskDetailsContainer} />
-            <AuthRoute path="/auth" component={Auth} />
+            <AuthRoute path="/login" component={Login} />
+            <AuthRoute path="/register" component={Register} />
             <PrivateRoute component={NotFound} />
           </Switch>
         </div>

@@ -671,25 +671,35 @@ html, body, #react-root, .render-target {
 
 
 /******************** AUTH *********************/
-.auth{
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-  padding-top: 3%;
+.login{
+	max-width: 40%;
+	margin: auto!important;
+}
 
-  .authLogo  {
-  	display: flex;
-  	flex-direction: column;
-  	-webkit-align-items: center;
-  	align-items: center;
-  	-webkit-justify-content: center;
-  	justify-content: center;
-  	width: 7.5em;
-  	margin: auto;
-  }
-  #svgLogo {
-  }
-  .logo {
-  }
+.loginContainer{
+	padding-top: 10%!important;
+}
 
-}//auth
+.registerContainer{
+	padding-top: 10%!important;
+}
+
+.register{
+	max-width: 40%;
+	margin: auto!important;
+}
+
+.logo  {
+	max-width: 16em;
+	margin: auto!important;
+	margin-bottom: 1em!important;
+}
+
+.authActions{
+	color: rgb(7, 66, 219);
+
+	&:hover{
+		color: rgb(0, 47, 170);
+		cursor: pointer;
+	}
+}

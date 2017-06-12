@@ -44,7 +44,7 @@ export default class Clock extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <div className="clock logo">
+        <div className="clock">
           <div className="circular">
             <CircularProgress
               color={this.props.color ? this.props.color : "#ffffff"}

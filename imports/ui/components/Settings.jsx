@@ -105,33 +105,33 @@ export default class Settings extends Component {
       		  </Grid.Column>
       		  <Grid.Column stretched width={12} className="settingsContent">
               {this.props.location.pathname === "/settings/account" ?
-        			<Segment className="sementicSegment">
-                <Form>
-                  <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
-                    <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
-                    <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
-                    <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
-                    <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
-                  </Form.Group>
-                </Form>
-        			</Segment>
+                <Segment className="sementicSegment">
+                  <Form>
+                    <Form.Group widths='equal'>
+                      <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
+                      <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
+                      <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                      <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
+                      <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                      <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
+                      <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
+                    </Form.Group>
+                  </Form>
+                </Segment>
         			: ""}
         			{this.props.location.pathname === "/settings/trello" ?
-        			<Segment className="sementicSegment">
-        				<TrelloApiContainer history={this.props.history} />
-        			</Segment>
+                <Segment className="sementicSegment">
+                  <TrelloApiContainer history={this.props.history} />
+                </Segment>
         			: ""}
         			{this.props.location.pathname === "/settings/wunderlist" ?
-        			<Segment className="sementicSegment">
-        				<WunderlistApiContainer history={this.props.history} />
-        			</Segment>
+                <Segment className="sementicSegment">
+                  <WunderlistApiContainer history={this.props.history} />
+                </Segment>
         			: ""}
         		</Grid.Column>
       		</Grid>
