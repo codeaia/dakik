@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Menu, Segment, Label, Icon, Form, Input } from 'semantic-ui-react';
+import Noty from 'noty';
 
-import Nav from './Nav.jsx';
 import TrelloApiContainer from './TrelloApi.jsx';
 import WunderlistApiContainer from './WunderlistApi.jsx';
 
@@ -92,51 +92,48 @@ export default class Settings extends Component {
 
   render() {
     return (
-      <div>
-        <Nav history={this.props.history} location={this.props.location} />
-        <Segment className="settingsContainer">
-      		<Grid className="settingsGrid">
-      		  <Grid.Column width={4} className="settingsActions">
-        			<Menu pointing secondary vertical>
-                <Menu.Item name='account' active={this.props.location.pathname === "/settings/account" ? true : false} onClick={() => this.props.history.push('/settings/account')}>Settings</Menu.Item>
-        			  <Menu.Item name='trello' active={this.props.location.pathname === "/settings/trello" ? true : false} onClick={() => this.props.history.push('/settings/trello')}>Trello</Menu.Item>
-        			  <Menu.Item name='wunderlist' active={this.props.location.pathname === "/settings/wunderlist" ? true : false} onClick={() => this.props.history.push('/settings/wunderlist')}>Wunderlist</Menu.Item>
-        			</Menu>
-      		  </Grid.Column>
-      		  <Grid.Column stretched width={12} className="settingsContent">
-              {this.props.location.pathname === "/settings/account" ?
-                <Segment className="sementicSegment">
-                  <Form>
-                    <Form.Group widths='equal'>
-                      <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
-                      <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
-                      <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
-                    </Form.Group>
-                    <Form.Group widths='equal'>
-                      <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
-                      <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
-                    </Form.Group>
-                    <Form.Group widths='equal'>
-                      <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
-                      <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
-                    </Form.Group>
-                  </Form>
-                </Segment>
-        			: ""}
-        			{this.props.location.pathname === "/settings/trello" ?
-                <Segment className="sementicSegment">
-                  <TrelloApiContainer history={this.props.history} />
-                </Segment>
-        			: ""}
-        			{this.props.location.pathname === "/settings/wunderlist" ?
-                <Segment className="sementicSegment">
-                  <WunderlistApiContainer history={this.props.history} />
-                </Segment>
-        			: ""}
-        		</Grid.Column>
-      		</Grid>
-        </Segment>
-      </div>
+      <Segment className="settingsContainer">
+        <Grid className="settingsGrid">
+          <Grid.Column width={4} className="settingsActions">
+            <Menu pointing secondary vertical>
+              <Menu.Item name='account' active={this.props.location.pathname === "/settings/account" ? true : false} onClick={() => this.props.history.push('/settings/account')}>Settings</Menu.Item>
+              <Menu.Item name='trello' active={this.props.location.pathname === "/settings/trello" ? true : false} onClick={() => this.props.history.push('/settings/trello')}>Trello</Menu.Item>
+              <Menu.Item name='wunderlist' active={this.props.location.pathname === "/settings/wunderlist" ? true : false} onClick={() => this.props.history.push('/settings/wunderlist')}>Wunderlist</Menu.Item>
+            </Menu>
+          </Grid.Column>
+          <Grid.Column stretched width={12} className="settingsContent">
+            {this.props.location.pathname === "/settings/account" ?
+              <Segment className="sementicSegment">
+                <Form>
+                  <Form.Group widths='equal'>
+                    <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
+                    <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
+                    <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                    <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
+                    <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                    <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
+                    <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
+                  </Form.Group>
+                </Form>
+              </Segment>
+            : ""}
+            {this.props.location.pathname === "/settings/trello" ?
+              <Segment className="sementicSegment">
+                <TrelloApiContainer history={this.props.history} />
+              </Segment>
+            : ""}
+            {this.props.location.pathname === "/settings/wunderlist" ?
+              <Segment className="sementicSegment">
+                <WunderlistApiContainer history={this.props.history} />
+              </Segment>
+            : ""}
+          </Grid.Column>
+        </Grid>
+      </Segment>
     );
   }
 }

@@ -7,8 +7,6 @@ import { Button, Header, Icon, Modal, Segment, Input, Dropdown, Label, Form, Tex
 
 import { Tasks } from '../../api/tasks.js';
 
-import Nav from './Nav.jsx';
-
 var priority = [
   {key:0, text: "None", color: "black"},
   {key:1, text: "1", color: "red"},
@@ -108,98 +106,95 @@ export default class TaskEdit extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div>
-          <Nav history={this.props.history} location={this.props.location} />
-          <div className="taskEdit">
-            <h3 className = "taskEditHeader">Edit this task...</h3>
-            <div className="taskEditContent">
-              <Input
-                label='Task Name'
-                size='small'
-                id="edit-task-name"
-                value={this.state.taskName}
-                type="text"
-                onChange={this.updateTaskName}
-                className='taskName each'
-              />
-              <div className="dropdownCont each">
-                <Dropdown
-                  labeled
-                  className='priority'
-                  trigger={
-                    <Label size = "medium" as='div' color = {priority[this.state.taskPriority].color} image>
-                      Priority:
-                      <Label.Detail as = "span">{priority[this.state.taskPriority].text }</Label.Detail>
-                    </Label>
-                  }>
-                  <Dropdown.Menu>
-                    {priority.map((item) => (
-                      <Dropdown.Item
-                        key={item.key}
-                        label={{ color: item.color, empty: true, circular: true }}
-                        text = {item.text}
-                        value = {item.key}
-                        onClick={this.updatePriority}/>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown
-                  className='pomoGoal'
-                  trigger={
-                    <Label size = "medium" as='div' color = "grey" image>
-                      Goal:
-                      <Label.Detail as = "span">{goal[this.state.pomoGoal].text }</Label.Detail>
-                    </Label>
-                  }>
-                    <Dropdown.Menu>
-                      {goal.map((item) => (
-                        <Dropdown.Item
-                          key={item.key}
-                          text = {item.text}
-                          value = {item.key}
-                          onClick={this.updateTaskGoal}/>
-                      ))}
-                    </Dropdown.Menu>
-                </Dropdown>
-              </div>
-              <DatePicker
-                hintText="Due Date"
-                value={this.state.dueDate}
-                onChange={this.updateDueDate}
-                className = "each"
-              />
-              <Form className = "each">
-                <TextArea
-                  size='large'
-                  placeholder = "More Info"
-                  value={this.state.moreInfo}
-                  onChange={this.updateMoreInfo}
-                  className = "each moreInfo"
-                />
-              </Form>
-            </div>
-            <div className ="taskEditActions">
-              <Button
-                size = "medium"
-                icon={<Icon as='span' className='fa fa-times-circle'/>}
-                negative
-                content="Cancel"
-                labelPosition='left'
-                onClick={() => this.cancel()}
-                />
-              <Button
-                size = "medium"
-                icon={<Icon as='span' className='fa fa-check'/>}
-                positive
-                content="Save"
-                labelPosition='left'
-                onClick={() => this.save()}
-                />
-            </div>
+      <div className="taskEdit">
+        <h3 className = "taskEditHeader">Edit this task...</h3>
+        <div className="taskEditContent">
+          <Input
+            label='Task Name'
+            size='small'
+            id="edit-task-name"
+            value={this.state.taskName}
+            type="text"
+            onChange={this.updateTaskName}
+            className='taskName each'
+          />
+          <div className="dropdownCont each">
+            <Dropdown
+              labeled
+              className='priority'
+              trigger={
+                <Label size = "medium" as='div' color = {priority[this.state.taskPriority].color} image>
+                  Priority:
+                  <Label.Detail as = "span">{priority[this.state.taskPriority].text }</Label.Detail>
+                </Label>
+              }>
+              <Dropdown.Menu>
+                {priority.map((item) => (
+                  <Dropdown.Item
+                    key={item.key}
+                    label={{ color: item.color, empty: true, circular: true }}
+                    text = {item.text}
+                    value = {item.key}
+                    onClick={this.updatePriority}/>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown
+              className='pomoGoal'
+              trigger={
+                <Label size = "medium" as='div' color = "grey" image>
+                  Goal:
+                  <Label.Detail as = "span">{goal[this.state.pomoGoal].text }</Label.Detail>
+                </Label>
+              }>
+              <Dropdown.Menu>
+                {goal.map((item) => (
+                  <Dropdown.Item
+                    key={item.key}
+                    text = {item.text}
+                    value = {item.key}
+                    onClick={this.updateTaskGoal}/>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
+          <MuiThemeProvider>
+            <DatePicker
+              hintText="Due Date"
+              value={this.state.dueDate}
+              onChange={this.updateDueDate}
+              className = "each"
+            />
+          </MuiThemeProvider>
+          <Form className = "each">
+            <TextArea
+              size='large'
+              placeholder = "More Info"
+              value={this.state.moreInfo}
+              onChange={this.updateMoreInfo}
+              className = "each moreInfo"
+            />
+          </Form>
         </div>
-      </MuiThemeProvider>
+        <div className ="taskEditActions">
+          <Button
+            size = "medium"
+            icon={<Icon as='span' className='fa fa-times-circle'/>}
+            negative
+            content="Cancel"
+            labelPosition='left'
+            onClick={() => this.cancel()}
+          />
+          <Button
+            size = "medium"
+            icon={<Icon as='span' className='fa fa-check'/>}
+            positive
+            content="Save"
+            labelPosition='left'
+            onClick={() => this.save()}
+          />
+        </div>
+      </div>
     );
   }
 }

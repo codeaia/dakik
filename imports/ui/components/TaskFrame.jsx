@@ -94,7 +94,8 @@ export default class TaskFrame extends Component {
   render() {
     return(
       <div className="taskFrame">
-        <progress className = {((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101 || this.props.task.checked ? "taskProgress checked" : "taskProgress" } max = "101" value = {this.props.task.checked ? 101 : (this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
+        <progress className={((this.props.task.pomoCount / this.props.task.pomoGoal)*100+1)>=101 || this.props.task.checked ? "taskProgress checked" : "taskProgress"}
+          max="101" value={this.props.task.checked ? 101 : (this.props.task.pomoCount / this.props.task.pomoGoal)*100+1}></progress>
         <div className={this.props.task.checked ? "checked taskListItem" : "taskListItem"} onClick={() => this.props.history.push('/taskDetails', {task: this.props.task})}>
           <div className="taskName">{this.props.task.taskName}</div>
           <Dropdown icon={<Icon as='span' className='fa fa-ellipsis-v'/>} button className='taskActions icon'>

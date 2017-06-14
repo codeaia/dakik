@@ -6,7 +6,6 @@ import { Image, Header, Segment, Label, Icon, Card, Input, Button, Menu } from '
 import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
-import Nav from './Nav.jsx';
 import StatisticsContainer from './Statistics.jsx';
 
 class Profile extends Component {
@@ -17,48 +16,45 @@ class Profile extends Component {
   render() {
     if (this.props.user) {
       return (
-        <div>
-          <Nav history={this.props.history} location={this.props.location} />
-          <Card className="profile">
-            <Card.Content header={
-              <div className="profileTop">
-                <Header as='h4' image>
-                  <Image src='/jsa-128.jpg' shape='circular' size='big' />
-                  <Header.Content>
-                    {this.props.user.username}
-                    <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>
-                  </Header.Content>
-                </Header>
-                <div>
-                  <Button
-                    icon={<Icon link as="span" className='fa fa-cog'/>}
-                    content='Settings'
-                    labelPosition='left'
-                    color='teal'
-                    className="animated fadeIn"
-                    onClick={() => this.props.history.push('/settings/account')}
-                  />
-                  <Button
-                    icon={<Icon link as="span" className='fa fa-sign-out'/>}
-                    content='Logout'
-                    labelPosition='left'
-                    color='red'
-                    className="animated fadeIn"
-                    onClick={() => Meteor.logout(() => this.props.history.push('/auth'))}
-                  />
-                </div>
-              </div>
-            } />
-            <Card.Content description={
+        <Card className="profile">
+          <Card.Content header={
+            <div className="profileTop">
+              <Header as='h4' image>
+                <Image src='/jsa-128.jpg' shape='circular' size='big' />
+                <Header.Content>
+                  {this.props.user.username}
+                  <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>
+                </Header.Content>
+              </Header>
               <div>
-                <h4>Today's Stats</h4>
-                Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
-                Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
-                <StatisticsContainer />
+                <Button
+                  icon={<Icon link as="span" className='fa fa-cog'/>}
+                  content='Settings'
+                  labelPosition='left'
+                  color='teal'
+                  className="animated fadeIn"
+                  onClick={() => this.props.history.push('/settings/account')}
+                />
+                <Button
+                  icon={<Icon link as="span" className='fa fa-sign-out'/>}
+                  content='Logout'
+                  labelPosition='left'
+                  color='red'
+                  className="animated fadeIn"
+                  onClick={() => Meteor.logout(() => this.props.history.push('/auth'))}
+                />
               </div>
-            }/>
-          </Card>
-        </div>
+            </div>
+          } />
+          <Card.Content description={
+            <div>
+              <h4>Today's Stats</h4>
+              Finished Tasks: {this.props.dailyStat ? this.props.dailyStat.finishedTaskCount: 0}<br/>
+              Finished Pomos: {this.props.dailyStat ? this.props.dailyStat.finishedPomoCount: 0}<br/>
+              <StatisticsContainer />
+            </div>
+          }/>
+        </Card>
       );
     } else {
       return (

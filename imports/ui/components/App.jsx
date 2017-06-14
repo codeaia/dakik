@@ -14,11 +14,14 @@ import Profile from './Profile.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
 import NotFound from './NotFound';
+import Nav from './Nav';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
     Meteor.userId() ? (
-      <Component {...props}/>
+      <DefaultLayout {...rest} component={matchProps => (
+        <Component {...matchProps} />
+      )} />
     ) : (
       <Redirect to={{
         pathname: '/login',
@@ -27,6 +30,17 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     )
   )}/>
 );
+
+const DefaultLayout = ({component: Component, ...rest}) => {
+  return (
+    <Route {...rest} render={matchProps => (
+      <div className="DefaultLayout">
+        <Nav {...matchProps} />
+        <Component {...matchProps} />
+      </div>
+    )} />
+  )
+};
 
 const AuthRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (

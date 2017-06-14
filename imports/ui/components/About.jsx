@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
 
-import Nav from './Nav.jsx';
+import Loading from './Loading.jsx';
 
 export default class About extends Component {
   constructor(props) {
@@ -9,24 +9,23 @@ export default class About extends Component {
   }
 
   render() {
+    if (Meteor.userId()) {
     return (
-      <div>
-        <Nav history={this.props.history} location={this.props.location} />
-        <Segment className="about">
-          <Grid className="aboutGrid">
-            <Grid.Column className="aboutTab" width={4}>
-              <Menu pointing secondary vertical>
-                <Menu.Item active={this.props.location.pathname === "/about" ? true : false} onClick={() => this.props.history.push('/about')}>About</Menu.Item>
-                <Menu.Item active={this.props.location.pathname === "/about/features" ? true : false} onClick={() => this.props.history.push('/about/features')}>Features</Menu.Item>
-                <Menu.Item active={this.props.location.pathname === "/about/changelog" ? true : false} onClick={() => this.props.history.push('/about/changelog')}>Changelog</Menu.Item>
-                <Menu.Item active={this.props.location.pathname === "/about/licence" ? true : false} onClick={() => this.props.history.push('/about/licence')}>Licences</Menu.Item>
-              </Menu>
-            </Grid.Column>
-            <Grid.Column className="aboutContent" width={12}>
-              {this.props.location.pathname === "/about" ?
+      <Segment className="about">
+        <Grid className="aboutGrid">
+          <Grid.Column className="aboutTab" width={4}>
+            <Menu pointing secondary vertical>
+              <Menu.Item active={this.props.location.pathname === "/about" ? true : false} onClick={() => this.props.history.push('/about')}>About</Menu.Item>
+              <Menu.Item active={this.props.location.pathname === "/about/features" ? true : false} onClick={() => this.props.history.push('/about/features')}>Features</Menu.Item>
+              <Menu.Item active={this.props.location.pathname === "/about/changelog" ? true : false} onClick={() => this.props.history.push('/about/changelog')}>Changelog</Menu.Item>
+              <Menu.Item active={this.props.location.pathname === "/about/licence" ? true : false} onClick={() => this.props.history.push('/about/licence')}>Licences</Menu.Item>
+            </Menu>
+          </Grid.Column>
+          <Grid.Column className="aboutContent" width={12}>
+            {this.props.location.pathname === "/about" ?
               <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.7.4</h3>
+                <h3>Dakik 1.7.6</h3>
                 <div>Copyright © May 2017<a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
@@ -56,8 +55,8 @@ export default class About extends Component {
                   </Label>
                 </div>
               </Segment>
-              : ""}
-              {this.props.location.pathname === "/about/features" ?
+            : ""}
+            {this.props.location.pathname === "/about/features" ?
               <Segment>
                 <h3 className="about_header">FEATURES</h3>
                 <p>
@@ -65,30 +64,27 @@ export default class About extends Component {
                   <b>Features</b>:<br/>
                   1) Providing in-app todo-list in which users can create, update, delete their tasks in one application.<br/>
                   2) In-app timer to let users manage their tasks within the same application.<br/>
-                  3) Independent of platform; meaning that users can access our application from web, mobile, and desktop.<br/>
+                  3) Independent of platform; meaning that users can access our application from web, mobile, and desktop (coming soon).<br/>
                   4) Integration of similar task management applications such as <b>trello</b> and <b>wunderlist</b>.<br/>
                   5) Providing visual statistics of our users actions like the percentage of completed tasks etc.<br/><br/>
                   Implementation and technology wise, we preferred to use <b>javascript</b> and corresponding technologies such as <b>MeteorJs</b> as our core framework to build on, <b>React</b> for our front-end and <b>Victory</b> for our graph visualizations along with <b>semantic-ui</b> css toolkit to speed up our development process.
                 </p>
               </Segment>
-              : ""}
-              {this.props.location.pathname === "/about/changelog" ?
+            : ""}
+            {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.7.0</h3>
+                <h3 className="about_header">1.7.6</h3>
                 <p>
                   <b>What's New:</b><br/>
-                  - Users can now finish tasks before reaching specified goals.<br/>
-                  - Users can now add details data to their tasks.<br/><br/>
+                  - Break Time!<br/>
+                  - New notifications.<br/><br/>
+                  - Authentication pages have been rehauled using semantic-ui.
                   <b>Adjustments:</b><br/>
-                  - Monthly statistics graph has been adjusted to show week data.<br/>
-                  - Function calls are migrated to arrow functions for better readability.<br/>
-                  - Playing task is now checked via the currentTaskId only. Other garbage data is removed.<br/><br/>
-                  <b>Fixes:</b><br/>
-                  - Several fixes and ui updates on taskView and new pages has been applied.
+                  - Monthly statistics graph now correctly align itself on the page.<br/>
                 </p>
               </Segment>
-              : ""}
-              {this.props.location.pathname === "/about/licence" ?
+            : ""}
+            {this.props.location.pathname === "/about/licence" ?
               <Segment>
                 <h3>MIT License</h3><br/>
 
@@ -112,11 +108,15 @@ export default class About extends Component {
                 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
                 SOFTWARE.
               </Segment>
-              : ""}
-            </Grid.Column>
-          </Grid>
-        </Segment>
-      </div>
+            : ""}
+          </Grid.Column>
+        </Grid>
+      </Segment>
     )
+  } else {
+    return (
+      <Loading/>
+    );
+  }
   }
 }
