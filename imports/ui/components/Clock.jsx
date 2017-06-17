@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import ReactCSSTransition from 'react-addons-css-transition-group';
-import Rsvg from 'react-inlinesvg';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import CircularProgress from 'material-ui/CircularProgress';
-
+import ProgressBar from 'progressbar.js';
+var bar;
 export default class Clock extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +9,32 @@ export default class Clock extends Component {
     this.getSeconds = this.getSeconds.bind(this);
     this.drawMinutes = this.drawMinutes.bind(this);
     this.drawSeconds = this.drawSeconds.bind(this);
+  }
+
+  componentDidMount(){
+    bar = new ProgressBar.Circle(clockRef, {
+      color: '#075341',
+      trailColor: '#ffffff',
+      trailWidth: 1,
+      duration: 1500,
+      easing: 'bounce',
+      text:{
+        value: this.drawMinutes() + ':' + this.drawSeconds()
+      },
+      strokeWidth: 2,
+      from: {color: '#FFEA82', a:0},
+      to: {color: '#d46356', a:1},
+      // Set default step function for all animate calls
+      step: function(state, circle) {
+        circle.path.setAttribute('stroke', state.color);
+      }
+    });
+    bar.animate(this.props.remainingAngle / 100);
+  }
+
+  componentWillReceiveProps(nextProps){
+    bar.set(this.props.remainingAngle / 100);
+    bar.setText(this.drawMinutes() + ':' + this.drawSeconds());
   }
 
   getMinutes(){
@@ -43,25 +65,14 @@ export default class Clock extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div className="clock">
-          <div className="circular">
-            <CircularProgress
-              color={this.props.color ? this.props.color : "#ffffff"}
-              mode="determinate"
-              value={this.props.remainingAngle}
-              size={288}
-              thickness={6}
-            />
-          </div>
-          <div className="clockLogo">
-            <img src="dakik_logo.svg" alt=""/>
-          </div>
-          <div className="clockText" style={{"color": this.props.color}}>
-            {this.drawMinutes()}:{this.drawSeconds()}
-          </div>
+      <div className="clock">
+        <div className="circular">
+          <div id='clockRef'></div>
         </div>
-      </MuiThemeProvider>
+        <div className="clockLogo">
+          <img src="dakik_logo.svg" alt=""/>
+        </div>
+      </div>
     );
   }
 }

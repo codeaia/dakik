@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Menu, Segment, Label, Icon } from 'semantic-ui-react';
+import { Grid, Menu, Segment, Label } from 'semantic-ui-react';
 
 import Loading from './Loading.jsx';
 

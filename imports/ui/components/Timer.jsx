@@ -20,49 +20,11 @@ class Timer extends Component {
     this.state = {
       playing: false,
       rTime: 1500,
-      rAngle: 100,
-      r: 255,
-      g: 0,
-      b: 55,
+      rAngle: 100
     }
 
     this.forceStop = this.forceStop.bind(this);
     this.handleStop = this.handleStop.bind(this);
-    this.setColor = this.setColor.bind(this);
-  }
-
-  setColor(){
-    if (this.state.r === 255 && this.state.g === 0 && this.state.b < 255) {
-      // red  to purple, increase blue
-      this.setState({
-        b: this.state.b+1,
-      });
-    } else if (this.state.r > 0 && this.state.g === 0 && this.state.b === 255) {
-      // purple  to blue, reduce red
-      this.setState({
-        r: this.state.r-1,
-      });
-    } else if (this.state.r === 0 && this.state.g < 255 && this.state.b === 255) {
-      // blue to cyan, increase green
-      this.setState({
-        g: this.state.g+1,
-      });
-    } else if (this.state.r === 0 && this.state.g === 255 && this.state.b > 0) {
-      // cyan to green, reduce blue
-      this.setState({
-        b: this.state.b-1,
-      });
-    } else if (this.state.r < 255 && this.state.g === 255 && this.state.b === 0) {
-      // green to yellow, increase red
-      this.setState({
-        r: this.state.r+1,
-      });
-    } else if (this.state.r === 255 && this.state.g > 0 && this.state.b === 0) {
-      // yellow to red, reduce green
-      this.setState({
-        g: this.state.g-1,
-      });
-    }
   }
 
   componentDidMount(){
@@ -102,7 +64,6 @@ class Timer extends Component {
     if (this.state.playing) {
       // Check if any time remains, if yes, continue to count, if not, finish the task
       if (this.state.rTime > 0) {
-        this.setColor();
         this.setState({
           rTime: this.state.rTime - (1 / 10),
           rAngle: (this.state.rTime - (1 / 10)) / 15,
@@ -164,10 +125,7 @@ class Timer extends Component {
     this.setState({
       playing: true,
       rTime: 1500,
-      rAngle: 100,
-      r: 255,
-      g: 0,
-      b: 55,
+      rAngle: 100
     });
     Meteor.users.update(Meteor.userId(), {$set: {
       "profile.timerDue": ((new Date()).valueOf() / 1000) + 300,
@@ -179,10 +137,7 @@ class Timer extends Component {
     this.setState({
       playing: false,
       rTime: 1500,
-      rAngle: 100,
-      r: 255,
-      g: 0,
-      b: 55,
+      rAngle: 100
     });
 
     Meteor.users.update(Meteor.userId(), {$set: {
@@ -212,7 +167,7 @@ class Timer extends Component {
     if (this.props.user) {
       return (
         <Flexbox flexDirection="column">
-          <Clock color={"rgb(" + this.state.r + ", " + this.state.g + ", " + this.state.b + ")"} remainingTime={this.state.rTime} remainingAngle={this.state.rAngle} />
+          <Clock remainingTime={this.state.rTime} remainingAngle={this.state.rAngle} />
           <Button
             icon={<Icon as='span' className='fa fa-stop' />}
             content='Stop'

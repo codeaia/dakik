@@ -54,13 +54,49 @@ export default class Settings extends Component {
     if(this.state.oldPassword.toString().length !== 0 && this.state.newPassword.toString().length !== 0) {
       Accounts.changePassword(this.state.oldPassword, this.state.newPassword, function(error) {
         if(error !== undefined && error.reason === "Incorrect password") {
-          console.log("Incorrect Password!");
+          new Noty({
+            type: 'warning',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: 'Password is wrong.',
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
         } else {
-          console.log("Password is changed!");
+          new Noty({
+            type: 'success',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: 'You have successfully changed your password.',
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
         }
       });
     } else {
-      console.log("EMPTY");
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter both old and new passwords.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
     }
   }
 
@@ -69,11 +105,35 @@ export default class Settings extends Component {
     if(this.state.email.toString().length !== 0) {
       Meteor.call("addEmail", Meteor.user()._id, this.state.email, function(error) {
         if(error !== undefined && error.reason === "Email already exists.") {
-          console.log("This email is already exists.");
+          new Noty({
+            type: 'warning',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: 'This email already exists.',
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
         }
       });
     } else {
-      console.log("EMPTY");
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter an email.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
     }
   }
 
@@ -82,11 +142,35 @@ export default class Settings extends Component {
     if(this.state.username.toString().length !== 0) {
       Meteor.call("changeUsername", Meteor.user()._id, this.state.username, function(error) {
         if(error !== undefined && error.reason === "Username already exists.") {
-          console.log("Username is already exists.");
+          new Noty({
+            type: 'warning',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: 'This username already exists.',
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
         }
       });
     } else {
-      console.log("EMPTY");
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter a new username.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
     }
   }
 
@@ -106,16 +190,16 @@ export default class Settings extends Component {
               <Segment className="sementicSegment">
                 <Form>
                   <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.oldPassword} placeholder='Old Password' />
-                    <Form.Field control={Input} onChange={this.newPassword} placeholder='New Password' />
+                    <Form.Field control={Input} type='password' onChange={this.oldPassword} placeholder='Enter you old password' />
+                    <Form.Field control={Input} type='password' onChange={this.newPassword} placeholder='Enter a new password' />
                     <Form.Button onClick={this.changePassword}>Change The Password</Form.Button>
                   </Form.Group>
                   <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.username} placeholder='New Username' />
+                    <Form.Field control={Input} onChange={this.username} placeholder='Enter new username' />
                     <Form.Button onClick={this.changeUsername}>Change The Username</Form.Button>
                   </Form.Group>
                   <Form.Group widths='equal'>
-                    <Form.Field control={Input} onChange={this.email} placeholder='New Email' />
+                    <Form.Field control={Input} onChange={this.email} placeholder='Enter new email' />
                     <Form.Button onClick={this.addEmail}>Add New Email</Form.Button>
                   </Form.Group>
                 </Form>

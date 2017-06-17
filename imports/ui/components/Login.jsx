@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Input, Card } from 'semantic-ui-react';
+import Noty from 'noty';
 
 export default class Login extends Component {
   constructor(props) {
@@ -29,14 +30,37 @@ export default class Login extends Component {
 
   login(){
     if (this.state.username.toString().length === 0) {
-      console.log('enter your username pls.');
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'Please enter a username',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
       return false;
     } else if (this.state.password.toString().length === 0) {
-      console.log('enter a password pls.');
+      new Noty({
+        type: 'information',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'Please enter a password',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
       return false;
     } else {
       Meteor.loginWithPassword(this.state.username, this.state.password, (error, data) => {
-        Meteor.logoutOtherClients();
         this.props.history.push('/');
       });
     }

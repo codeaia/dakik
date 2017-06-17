@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Input, Card } from 'semantic-ui-react';
+import Noty from 'noty';
 
 export default class Register extends Component {
   constructor(props) {
@@ -53,13 +54,49 @@ export default class Register extends Component {
 
   register(){
     if (this.state.username.toString().length === 0) {
-      console.log('enter smth pls.');
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter your username.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
       return false;
     } else if(this.state.email.toString().length === 0) {
-      console.log('enter smth pls.');
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter an email.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
       return false;
-    } else if (this.state.password.toString().length === 0) {
-      console.log('enter smth pls.');
+    } else if (this.state.password.toString().length === 0 && this.state.password2.toString().length === 0) {
+      new Noty({
+        type: 'information',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'You must enter your password.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
       return false;
     } else {
       if (this.state.password == this.state.password2 ) {
@@ -78,10 +115,34 @@ export default class Register extends Component {
             this.props.history.push('/');
           });
         } else {
-          console.log('Accept the terms and conditions please.');
+          new Noty({
+            type: 'information',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: 'You must accept the terms and conditions.',
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
         }
       } else {
-        console.log('Passwords do not match');
+        new Noty({
+          type: 'information',
+          layout: 'topRight',
+          theme: 'sunset',
+          text: 'Passwords do not match!',
+          timeout: 1000,
+          progressBar: true,
+          closeWith: ['click', 'button'],
+          animation: {
+            open: 'noty_effects_open',
+            close: 'noty_effects_close'
+          }
+        }).show();
       }
     }
   };
