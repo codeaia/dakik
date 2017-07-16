@@ -372,9 +372,7 @@ html, body, #react-root, .render-target {
 .taskDetails{
   background-color: @white !important;
   max-width: 500px;
-  margin: auto;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em auto 1em auto !important;
 
   .taskDetailsContent{
     width: 100%;
@@ -622,7 +620,7 @@ html, body, #react-root, .render-target {
   .taskListActions{
     padding: 0.2em;
 
-    div{
+    .moveButtons{
       float: right;
       margin: 0 0 0 0.5em
     }
@@ -678,6 +676,7 @@ html, body, #react-root, .render-target {
 
 .loginContainer{
 	padding-top: 10%!important;
+	height: 100% !important;
 }
 
 .registerContainer{
@@ -702,4 +701,26 @@ html, body, #react-root, .render-target {
 		color: rgb(0, 47, 170);
 		cursor: pointer;
 	}
+}
+
+.authData{
+	margin: 0 !important;
+	position: absolute;
+  bottom: 10px;
+  right: 10px;
+	cursor: pointer;
+	animation: tada ease-in .2;
+	transform-origin: 50% 50%;
+	-webkit-animation: tada linear .5s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-transform-origin: 50% 50%;
+	-moz-animation: tada linear .5s;
+	-moz-animation-iteration-count: 1;
+	-moz-transform-origin: 50% 50%;
+	-o-animation: tada linear .5s;
+	-o-animation-iteration-count: 1;
+	-o-transform-origin: 50% 50%;
+	-ms-animation: tada linear .5s;
+	-ms-animation-iteration-count: 1;
+	-ms-transform-origin: 50% 50%;
 }

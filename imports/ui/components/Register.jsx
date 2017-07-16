@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Input, Card } from 'semantic-ui-react';
+import { Button, Checkbox, Input, Card, Statistic, Modal, Header, Message } from 'semantic-ui-react';
 import Noty from 'noty';
 
 export default class Register extends Component {
@@ -166,6 +166,35 @@ export default class Register extends Component {
             Already have an account ? <p className='authActions' onClick={() => this.props.history.push('/login')}>Login</p>
           </Card.Content>
         </Card>
+        <Modal trigger={<Statistic className='authData' size='mini' value='v1.7.8'/>}>
+          <Modal.Header>Latest News and Basic Info</Modal.Header>
+          <Modal.Content image>
+            <Modal.Description>
+              <Message
+                floating
+                info
+                header='Features'
+                list={[
+                  'Providing in-app todo-list in which users can create, update, delete their tasks in one application.',
+                  'In-app timer to let users manage their tasks.',
+                  'Independent of platform; meaning that users can access our application from web, mobile, and desktop (coming soon).',
+                  'Integration of similar task management applications such as <b>trello</b> and <b>wunderlist',
+                  'Providing visual statistics of our users actions like the percentage of completed tasks.'
+                ]}
+              />
+              <Message
+                floating
+                success
+                header='Patch Notes'
+                list={[
+                  'Latest news informer is added to auth pages in order to supply quick information',
+                  'Toggling completed tasks is re-added.',
+                  'Some packages get updated.',
+                ]}
+              />
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
       </div>
     );
   }

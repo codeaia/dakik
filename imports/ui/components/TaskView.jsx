@@ -1,7 +1,7 @@
 import React, { Component, constructor } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Button, Icon, Card } from 'semantic-ui-react'
+import { Button, Icon, Card, Checkbox } from 'semantic-ui-react'
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -73,7 +73,8 @@ class TaskView extends Component {
               className='newTaskButton'
               onClick={() => this.props.history.push('/taskNew')}
             />
-            <div>
+            <Checkbox toggle onClick={() => this.toggleHide()} label={this.state.hideCompleted ? 'Hide' : 'Show'}/>
+            <div className='moveButtons'>
               <Button
                 icon={<Icon as='span' className='fa fa-angle-left' />}
                 disabled={Session.get('skip') <= 0 ? true : false}

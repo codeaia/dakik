@@ -1,4 +1,4 @@
-import React, {Component } from 'react';
+import React, {Component} from 'react';
 import { Router, Route, Switch, Redirect, withRouter } from 'react-router';
 import createHistory from 'history/createBrowserHistory';
 import 'semantic-ui-css/semantic.min.css';

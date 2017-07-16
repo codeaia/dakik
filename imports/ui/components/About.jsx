@@ -25,7 +25,7 @@ export default class About extends Component {
             {this.props.location.pathname === "/about" ?
               <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.7.6</h3>
+                <h3>Dakik 1.7.8</h3>
                 <div>Copyright © May 2017<a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
@@ -60,27 +60,25 @@ export default class About extends Component {
               <Segment>
                 <h3 className="about_header">FEATURES</h3>
                 <p>
-                  Our aim is to ease time-management of our users.<br/><br/>
+                  Main goal is to ease time & task management of teams and individuals.<br/><br/>
                   <b>Features</b>:<br/>
                   1) Providing in-app todo-list in which users can create, update, delete their tasks in one application.<br/>
-                  2) In-app timer to let users manage their tasks within the same application.<br/>
+                  2) In-app timer to let users manage their tasks.<br/>
                   3) Independent of platform; meaning that users can access our application from web, mobile, and desktop (coming soon).<br/>
                   4) Integration of similar task management applications such as <b>trello</b> and <b>wunderlist</b>.<br/>
-                  5) Providing visual statistics of our users actions like the percentage of completed tasks etc.<br/><br/>
+                  5) Providing visual statistics of our users actions like the percentage of completed tasks.<br/><br/>
                   Implementation and technology wise, we preferred to use <b>javascript</b> and corresponding technologies such as <b>MeteorJs</b> as our core framework to build on, <b>React</b> for our front-end and <b>Victory</b> for our graph visualizations along with <b>semantic-ui</b> css toolkit to speed up our development process.
                 </p>
               </Segment>
             : ""}
             {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.7.6</h3>
+                <h3 className="about_header">1.7.8</h3>
                 <p>
                   <b>What's New:</b><br/>
-                  - Break Time!<br/>
-                  - New notifications.<br/><br/>
-                  - Authentication pages have been rehauled using semantic-ui.
-                  <b>Adjustments:</b><br/>
-                  - Monthly statistics graph now correctly align itself on the page.<br/>
+                  - Latest news informer is added to auth pages in order to supply quick information.<br />
+                  - Toggling completed tasks is re-added.<br />
+                  - Some packages get updated.<br />
                 </p>
               </Segment>
             : ""}
