@@ -53,73 +53,24 @@ export default class Register extends Component {
   }
 
   register(){
-    if (this.state.username.toString().length === 0) {
-      new Noty({
-        type: 'warning',
-        layout: 'topRight',
-        theme: 'sunset',
-        text: 'You must enter your username.',
-        timeout: 1000,
-        progressBar: true,
-        closeWith: ['click', 'button'],
-        animation: {
-          open: 'noty_effects_open',
-          close: 'noty_effects_close'
+    if (this.state.username.toString().length !== 0 && this.state.email.toString().length !== 0 && this.state.password.toString().length !== 0 && this.state.password === this.state.password2 && this.state.checked) {
+      Accounts.createUser({
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
+        profile: {
+          hideCompleted: false,
+          playing: false,
+          timerDue: null,
+          currentTaskId: null,
         }
-      }).show();
-      return false;
-    } else if(this.state.email.toString().length === 0) {
-      new Noty({
-        type: 'warning',
-        layout: 'topRight',
-        theme: 'sunset',
-        text: 'You must enter an email.',
-        timeout: 1000,
-        progressBar: true,
-        closeWith: ['click', 'button'],
-        animation: {
-          open: 'noty_effects_open',
-          close: 'noty_effects_close'
-        }
-      }).show();
-      return false;
-    } else if (this.state.password.toString().length === 0 && this.state.password2.toString().length === 0) {
-      new Noty({
-        type: 'information',
-        layout: 'topRight',
-        theme: 'sunset',
-        text: 'You must enter your password.',
-        timeout: 1000,
-        progressBar: true,
-        closeWith: ['click', 'button'],
-        animation: {
-          open: 'noty_effects_open',
-          close: 'noty_effects_close'
-        }
-      }).show();
-      return false;
-    } else {
-      if (this.state.password == this.state.password2 ) {
-        if (this.state.checked) {
-          Accounts.createUser({
-            username: this.state.username,
-            email: this.state.email,
-            password: this.state.password,
-            profile: {
-              hideCompleted: false,
-              playing: false,
-              timerDue: null,
-              currentTaskId: null,
-            }
-          }, (error, data) => {
-            this.props.history.push('/');
-          });
-        } else {
+      }, function(err) {
+        if (err) {
           new Noty({
-            type: 'information',
+            type: 'warning',
             layout: 'topRight',
             theme: 'sunset',
-            text: 'You must accept the terms and conditions.',
+            text: err.message.slice(0,-5),
             timeout: 1000,
             progressBar: true,
             closeWith: ['click', 'button'],
@@ -128,24 +79,26 @@ export default class Register extends Component {
               close: 'noty_effects_close'
             }
           }).show();
+        } else {
+          this.props.history.push('/');
         }
-      } else {
-        new Noty({
-          type: 'information',
-          layout: 'topRight',
-          theme: 'sunset',
-          text: 'Passwords do not match!',
-          timeout: 1000,
-          progressBar: true,
-          closeWith: ['click', 'button'],
-          animation: {
-            open: 'noty_effects_open',
-            close: 'noty_effects_close'
-          }
-        }).show();
-      }
+      });
+    } else {
+      new Noty({
+        type: 'warning',
+        layout: 'topRight',
+        theme: 'sunset',
+        text: 'Please fill all fields, check the terms and make sure passwords are same.',
+        timeout: 1000,
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        }
+      }).show();
     }
-  };
+  }
 
   render() {
     return (

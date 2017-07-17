@@ -29,12 +29,32 @@ export default class Login extends Component {
   }
 
   login(){
-    if (this.state.username.toString().length === 0) {
+    if (this.state.username.toString().length !== 0 & this.state.password.toString().length !== 0) {
+      Meteor.loginWithPassword(this.state.username, this.state.password, function(err) {
+        if (err) {
+          new Noty({
+            type: 'information',
+            layout: 'topRight',
+            theme: 'sunset',
+            text: err.message.slice(0,-5),
+            timeout: 1000,
+            progressBar: true,
+            closeWith: ['click', 'button'],
+            animation: {
+              open: 'noty_effects_open',
+              close: 'noty_effects_close'
+            }
+          }).show();
+        } else {
+          this.props.history.push('/');
+        }
+      });
+    } else {
       new Noty({
         type: 'warning',
         layout: 'topRight',
         theme: 'sunset',
-        text: 'Please enter a username',
+        text: 'Please enter your credentials..',
         timeout: 1000,
         progressBar: true,
         closeWith: ['click', 'button'],
@@ -43,26 +63,6 @@ export default class Login extends Component {
           close: 'noty_effects_close'
         }
       }).show();
-      return false;
-    } else if (this.state.password.toString().length === 0) {
-      new Noty({
-        type: 'information',
-        layout: 'topRight',
-        theme: 'sunset',
-        text: 'Please enter a password',
-        timeout: 1000,
-        progressBar: true,
-        closeWith: ['click', 'button'],
-        animation: {
-          open: 'noty_effects_open',
-          close: 'noty_effects_close'
-        }
-      }).show();
-      return false;
-    } else {
-      Meteor.loginWithPassword(this.state.username, this.state.password, (error, data) => {
-        this.props.history.push('/');
-      });
     }
   }
 
