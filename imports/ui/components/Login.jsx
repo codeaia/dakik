@@ -30,13 +30,13 @@ export default class Login extends Component {
 
   login(){
     if (this.state.username.toString().length !== 0 & this.state.password.toString().length !== 0) {
-      Meteor.loginWithPassword(this.state.username, this.state.password, function(err) {
-        if (err) {
+      Meteor.loginWithPassword(this.state.username, this.state.password, (error) => {
+        if (error) {
           new Noty({
             type: 'information',
             layout: 'topRight',
             theme: 'sunset',
-            text: err.message.slice(0,-5),
+            text: error.message.slice(0,-5),
             timeout: 1000,
             progressBar: true,
             closeWith: ['click', 'button'],

@@ -64,13 +64,13 @@ export default class Register extends Component {
           timerDue: null,
           currentTaskId: null,
         }
-      }, function(err) {
-        if (err) {
+      }, (error) => {
+        if (error) {
           new Noty({
             type: 'warning',
             layout: 'topRight',
             theme: 'sunset',
-            text: err.message.slice(0,-5),
+            text: error.message.slice(0,-5),
             timeout: 1000,
             progressBar: true,
             closeWith: ['click', 'button'],
