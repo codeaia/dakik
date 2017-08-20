@@ -51,7 +51,7 @@ export default class About extends Component {
                   <Label as='div' color='yellow' image>
                     İbrahim KONUK
                     <Label.Detail as="a" href="https://github.com/iknk" target="_blank"><span className="fa fa-github"></span><br /></Label.Detail>
-                    <Label.Detail as="a" href="https://twitter.com/ibrahimk0nuk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
+                    <Label.Detail as="a" href="https://twitter.com/1brahimkonuk" target="_blank"><span className="fa fa-twitter"></span><br /></Label.Detail>
                   </Label>
                 </div>
               </Segment>
