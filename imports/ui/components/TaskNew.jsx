@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import Flexbox from 'flexbox-react';
 import Noty from 'noty';
-
-import Loading from './Loading.jsx';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import DatePicker from 'material-ui/DatePicker';
-import { Button, Header, Icon, Modal, Segment, Input, Dropdown, Label, Form, TextArea } from 'semantic-ui-react';
+import { Button, Header, Icon, Input, Dropdown, Label, Form, TextArea } from 'semantic-ui-react';
 
 var priority = [
   {key:0, text: "None", color: "black"},
@@ -46,7 +35,6 @@ export default class TaskNew extends Component {
       taskPriority: 0,
       checked: false,
       pomoGoal: 0,
-      dueDate: null,
       moreInfo: ""
     };
 
@@ -54,7 +42,6 @@ export default class TaskNew extends Component {
     this.updatePriority = this.updatePriority.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
-    this.updateDueDate = this.updateDueDate.bind(this);
     this.updateMoreInfo = this.updateMoreInfo.bind(this);
   }
 
@@ -89,7 +76,6 @@ export default class TaskNew extends Component {
       this.state.taskPriority,
       this.state.pomoGoal,
       "none",
-      this.state.dueDate,
       this.state.moreInfo
     );
     new Noty({
@@ -106,12 +92,6 @@ export default class TaskNew extends Component {
       }
     }).show();
     this.props.history.push('/');
-  }
-
-  updateDueDate(event, data) {
-    this.setState({
-      dueDate: data.value,
-    });
   }
 
   render() {
@@ -168,21 +148,13 @@ export default class TaskNew extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <MuiThemeProvider>
-            <DatePicker
-              hintText="Due Date"
-              value={this.state.dueDate}
-              onChange={this.updateDueDate}
-              className="each"
-            />
-          </MuiThemeProvider>
-          <Form className = "each">
+          <Form className="each">
             <TextArea
               size='large'
-              placeholder = "More Info"
+              placeholder="More Info"
               value={this.state.moreInfo}
               onChange={this.updateMoreInfo}
-              className = "each moreInfo"
+              className="each moreInfo"
             />
           </Form>
         </div>

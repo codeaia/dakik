@@ -5,7 +5,6 @@ import { Button, Icon, Card, Checkbox } from 'semantic-ui-react'
 
 import { Tasks } from '../../api/tasks.js';
 
-import Loading from './Loading.jsx';
 import TaskFrame from './TaskFrame.jsx';
 
 class TaskView extends Component {

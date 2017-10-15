@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Menu, Segment, Label, Icon, Form, Input } from 'semantic-ui-react';
+import { Grid, Menu, Segment, Icon, Form, Input } from 'semantic-ui-react';
 import Noty from 'noty';
 
 import TrelloApiContainer from './TrelloApi.jsx';

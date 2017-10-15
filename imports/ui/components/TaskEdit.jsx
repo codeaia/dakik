@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import Loading from './Loading.jsx';
 import Noty from 'noty';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import DatePicker from 'material-ui/DatePicker';
-import { Button, Header, Icon, Modal, Segment, Input, Dropdown, Label, Form, TextArea } from 'semantic-ui-react';
-
-import { Tasks } from '../../api/tasks.js';
+import { Button, Header, Icon, Input, Dropdown, Label, Form, TextArea } from 'semantic-ui-react';
 
 var priority = [
   {key:0, text: "None", color: "black"},
@@ -38,7 +33,6 @@ export default class TaskEdit extends Component {
       taskName: this.props.location.state.task.taskName,
       taskPriority: this.props.location.state.task.taskPriority,
       pomoGoal: this.props.location.state.task.pomoGoal,
-      dueDate: this.props.location.state.task.dueDate,
       moreInfo: this.props.location.state.task.details
     };
 
@@ -48,12 +42,18 @@ export default class TaskEdit extends Component {
     this.updateTaskName = this.updateTaskName.bind(this);
     this.updatePriority = this.updatePriority.bind(this);
     this.updateTaskGoal = this.updateTaskGoal.bind(this);
-    this.updateDueDate = this.updateDueDate.bind(this);
     this.updateMoreInfo = this.updateMoreInfo.bind(this);
   };
 
   save(){
-    Meteor.call('editTask', this.props.location.state.task._id, this.state.taskName, this.state.taskPriority, this.state.pomoGoal, this.state.dueDate,this.state.moreInfo );
+    Meteor.call('editTask',
+      this.props.location.state.task._id,
+      this.state.taskName,
+      this.state.taskPriority,
+      this.state.pomoGoal,
+      this.state.moreInfo
+    );
+
     this.props.history.push('/');
     new Noty({
       type: 'information',
@@ -95,12 +95,6 @@ export default class TaskEdit extends Component {
   updateTaskGoal(event, data) {
     this.setState({
       pomoGoal: data.value
-    });
-  }
-
-  updateDueDate(event, date) {
-    this.setState({
-      dueDate: date,
     });
   }
 
@@ -158,14 +152,6 @@ export default class TaskEdit extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <MuiThemeProvider>
-            <DatePicker
-              hintText="Due Date"
-              value={this.state.dueDate}
-              onChange={this.updateDueDate}
-              className = "each"
-            />
-          </MuiThemeProvider>
           <Form className = "each">
             <TextArea
               size='large'

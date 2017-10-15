@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Menu, Segment, Label } from 'semantic-ui-react';
+import { Grid, Menu, Segment, Label, Header } from 'semantic-ui-react';
 
 import Loading from './Loading.jsx';
 
@@ -25,7 +25,7 @@ export default class About extends Component {
             {this.props.location.pathname === "/about" ?
               <Segment className="aboutSegment">
                 <div className="aboutLogo"><img src="icong.svg" alt=""/></div>
-                <h3>Dakik 1.7.8</h3>
+                <h3>Dakik 1.7.9.3</h3>
                 <div>Copyright © May 2017<a style={{"display": "inline-block"}} href="http://codeaia.ga/" target="_blank"> Codeaia Team</a></div><br />
                 <div className="teamContainer">
                   <Label as='div' color='teal' image>
@@ -65,15 +65,21 @@ export default class About extends Component {
                   1) Providing in-app todo-list in which users can create, update, delete their tasks in one application.<br/>
                   2) In-app timer to let users manage their tasks.<br/>
                   3) Independent of platform; meaning that users can access our application from web, mobile, and desktop (coming soon).<br/>
-                  4) Integration of similar task management applications such as <b>trello</b> and <b>wunderlist</b>.<br/>
+                  4) Two-way integration of similar task management applications such as <b>trello</b> and <b>wunderlist</b>.<br/>
                   5) Providing visual statistics of our users actions like the percentage of completed tasks.<br/><br/>
-                  Implementation and technology wise, we preferred to use <b>javascript</b> and corresponding technologies such as <b>MeteorJs</b> as our core framework to build on, <b>React</b> for our front-end and <b>Victory</b> for our graph visualizations along with <b>semantic-ui</b> css toolkit to speed up our development process.
+                  Implementation and technology wise, we preferred to use <b>javascript</b> and corresponding technologies such as <b>MeteorJs</b> as our core framework to build on,
+                    <b>React</b> for our front-end and <b>Victory</b> for our graph visualizations along with <b>semantic-ui</b> css toolkit to speed up our development process.
                 </p>
               </Segment>
             : ""}
             {this.props.location.pathname === "/about/changelog" ?
               <Segment>
-                <h3 className="about_header">1.7.8</h3>
+                <Header as='h2'>
+                  1.7.8
+                  <Header.Subheader>
+                    Latest content patch
+                  </Header.Subheader>
+                </Header>
                 <p>
                   <b>What's New:</b><br/>
                   - Latest news informer is added to auth pages in order to supply quick information.<br />
