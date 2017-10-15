@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Noty from 'noty';
 var moment = require('moment');
-import { ListItem } from 'material-ui/List';
-import { Button, Header, Icon, Modal, List, Menu } from 'semantic-ui-react';
+import { Button, Icon, List} from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
 
 import Loading from './Loading.jsx';
 
-import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
 
 class TaskDetails extends Component {
@@ -18,7 +16,6 @@ class TaskDetails extends Component {
     this.finishTask = this.finishTask.bind(this);
     this.startPomo = this.startPomo.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
-
     this.addToTrello = this.addToTrello.bind(this);
     this.addToWunderlist = this.addToWunderlist.bind(this);
   }
@@ -97,11 +94,11 @@ class TaskDetails extends Component {
   }
 
   addToTrello() {
-    Meteor.call("postInfo", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+    Meteor.call("postInfo", this.props.location.state.task.taskName, moment());
   }
 
   addToWunderlist() {
-    Meteor.call("postSomething", this.props.location.state.task.taskName, this.props.location.state.task.dueDate);
+    Meteor.call("postSomething", this.props.location.state.task.taskName, moment());
   }
 
   render(){
@@ -139,10 +136,6 @@ class TaskDetails extends Component {
             <div className="estPomos each">
               <p className="target">Pomo Goal:</p>
               <p className="value">{this.props.location.state.task.pomoGoal}</p>
-            </div>
-            <div className="due each">
-              <p className="target">Due Date:</p>
-              <p className="value">{moment(this.props.location.state.task.dueDate).format("MMM Do YY")}</p>
             </div>
             <div className="moreInfo each">
               <p className="target">More...</p>

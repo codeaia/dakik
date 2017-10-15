@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Flexbox from 'flexbox-react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
 import Noty from 'noty';
 import { Button, Icon } from 'semantic-ui-react';
 
-import { Tasks } from '../../api/tasks.js';
 import { Pomos } from '../../api/pomos.js';
 import { Stats } from '../../api/stats.js';
 
@@ -166,7 +164,7 @@ class Timer extends Component {
   render() {
     if (this.props.user) {
       return (
-        <Flexbox flexDirection="column">
+        <div style={{"display": "flex", "flexDirection": "column"}}>
           <Clock remainingTime={this.state.rTime} remainingAngle={this.state.rAngle} />
           <Button
             icon={<Icon as='span' className='fa fa-stop' />}
@@ -178,7 +176,7 @@ class Timer extends Component {
             onClick={() => this.forceStop()}
           />
           <TaskViewContainer history={this.props.history} location={this.props.location}/>
-        </Flexbox>
+        </div>
       );
     } else {
       return (

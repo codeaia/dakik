@@ -1,12 +1,9 @@
 import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { VictoryLine, VictoryPie, VictoryTheme, VictoryChart, VictoryAxis, VictoryLabel, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer, VictoryZoomContainer, VictoryScatter } from 'victory';
+import { VictoryLine, VictoryTheme, VictoryChart, VictoryAxis, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer, VictoryScatter } from 'victory';
 
 import { Stats } from '../../api/stats.js';
 import { Goals } from '../../api/goals.js';
-
-import Loading from './Loading.jsx';
-import Flexbox from 'flexbox-react';
 
 class Statistics extends Component {
   constructor(props) {

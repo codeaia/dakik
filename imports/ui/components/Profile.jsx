@@ -1,7 +1,7 @@
 import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base';
-import { Image, Header, Segment, Label, Icon, Card, Input, Button, Menu } from 'semantic-ui-react';
+import { Image, Header, Label, Icon, Card, Button } from 'semantic-ui-react';
 
 import { Stats } from '../../api/stats.js';
 
