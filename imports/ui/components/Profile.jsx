@@ -2,7 +2,7 @@ import React, { Component, constructor } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base';
 import { Image, Header, Label, Icon, Card, Button } from 'semantic-ui-react';
-
+import Gravatar from 'react-gravatar';
 import { Stats } from '../../api/stats.js';
 
 import Loading from './Loading.jsx';
@@ -20,7 +20,7 @@ class Profile extends Component {
           <Card.Content header={
             <div className="profileTop">
               <Header as='h4' image>
-                <Image src='/jsa-128.jpg' shape='circular' size='big' />
+                <Gravatar email={this.props.user.emails[0].address} />
                 <Header.Content>
                   {this.props.user.username}
                   <Header.Subheader>{this.props.user.emails[0].address}</Header.Subheader>

@@ -19,6 +19,7 @@
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-countdown-clock": "^1.0.9",
     "react-dom": "^15.6.2",
+    "react-gravatar": "^2.6.3",
     "react-icons": "^2.2.1",
     "react-inlinesvg": "^0.5.5",
     "react-markdown": "^2.5.0",
