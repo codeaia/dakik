@@ -2,6 +2,7 @@ import React, { Component, constructor } from 'react';
 import ReactCSSTransition from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Button, Icon, Card, Checkbox } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 
 import { Tasks } from '../../api/tasks.js';
 
@@ -59,36 +60,40 @@ class TaskView extends Component {
   }
 
   render() {
+    countryOptions = [ { key: 'test', value: 'test', text: 'Placeholder' }]
     return (
-      <Card className="taskList">
-        <ReactCSSTransition
-          transitionName = "taskFrameLoad"
-          transitionEnterTimeout = {600}
-          transitionLeaveTimeout = {400}>
-          <Card.Content className="taskListActions">
-            <Button
-              content='New Task'
-              basic
-              className='newTaskButton'
-              onClick={() => this.props.history.push('/taskNew')}
-            />
-            <Checkbox toggle onClick={() => this.toggleHide()} label={this.state.hideCompleted ? 'Hide' : 'Show'}/>
-            <div className='moveButtons'>
+      <div>
+        <Dropdown className='projectButton' placeholder='Select Project' search selection options={countryOptions} />
+        <Card className="taskList">
+          <ReactCSSTransition
+            transitionName = "taskFrameLoad"
+            transitionEnterTimeout = {600}
+            transitionLeaveTimeout = {400}>
+            <Card.Content className="taskListActions">
               <Button
-                icon={<Icon as='span' className='fa fa-angle-left' />}
-                disabled={Session.get('skip') <= 0 ? true : false}
-                onClick={() => this.prevButton()}/>
-              <Button
-                icon={<Icon as='span' className='fa fa-angle-right' />}
-                disabled={this.props.length < 6 ? true : false}
-                onClick={() => this.nextButton()}/>
-            </div>
-          </Card.Content>
-          <Card.Content className='taskListContent'>
-            {this.renderTasks()}
-          </Card.Content>
-        </ReactCSSTransition>
-      </Card>
+                content='New Task'
+                basic
+                className='newTaskButton'
+                onClick={() => this.props.history.push('/taskNew')}
+              />
+              <Checkbox toggle onClick={() => this.toggleHide()} label={this.state.hideCompleted ? 'Hide' : 'Show'}/>
+              <div className='moveButtons'>
+                <Button
+                  icon={<Icon as='span' className='fa fa-angle-left' />}
+                  disabled={Session.get('skip') <= 0 ? true : false}
+                  onClick={() => this.prevButton()}/>
+                <Button
+                  icon={<Icon as='span' className='fa fa-angle-right' />}
+                  disabled={this.props.length < 6 ? true : false}
+                  onClick={() => this.nextButton()}/>
+              </div>
+            </Card.Content>
+            <Card.Content className='taskListContent'>
+              {this.renderTasks()}
+            </Card.Content>
+          </ReactCSSTransition>
+        </Card>
+      </div>
     );
   }
 }

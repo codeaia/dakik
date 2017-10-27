@@ -75,7 +75,6 @@ export default class TaskNew extends Component {
       this.state.taskName,
       this.state.taskPriority,
       this.state.pomoGoal,
-      "none",
       this.state.moreInfo
     );
     new Noty({

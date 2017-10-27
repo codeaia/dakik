@@ -5,7 +5,7 @@ export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
   Meteor.methods({
-    addTask: function(name, priority, pomoGoal, integratedWith, dueDate, details){
+    addTask: function(name, priority, pomoGoal, integratedWith, details){
       Tasks.insert({
         ownerId: Meteor.userId(),
         taskName: name,
@@ -14,18 +14,16 @@ if (Meteor.isServer) {
         pomoGoal: pomoGoal,
         checked: false,
         integratedWith: integratedWith,
-        dueDate: dueDate,
         createdAt: new Date(),
         details: details
       }); // Create new task
     },
-    editTask: function(id, name, priority, goal, dueDate, details){
+    editTask: function(id, name, priority, goal, details){
       Tasks.update(id, {
         $set: {
           taskName: name,
           taskPriority: priority,
           pomoGoal: goal,
-          dueDate: dueDate,
           details: details,
         }
       }); // Edit task with given params.
