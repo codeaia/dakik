@@ -7,7 +7,7 @@ export default class Register extends Component {
     super(props);
 
     this.state = {
-      username: '',
+      username: this.props.location.state.username,
       email: '',
       checked: false,
       password: '',
@@ -116,7 +116,7 @@ export default class Register extends Component {
             <Button fluid onClick={() => this.register()} color='teal' floated='right' type='submit'>Register</Button>
           </Card.Content>
           <Card.Content>
-            Already have an account ? <p className='authActions' onClick={() => this.props.history.push('/login')}>Login</p>
+            Already have an account ? <p className='authActions' onClick={() => this.props.history.push('/login', {username: this.state.username})}>Login</p>
           </Card.Content>
         </Card>
         <Modal trigger={<Statistic className='authData' size='mini' value='v1.7.8'/>}>
