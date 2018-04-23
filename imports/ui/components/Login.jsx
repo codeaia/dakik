@@ -108,6 +108,14 @@ export default class Login extends Component {
                   'Some packages get updated.',
                 ]}
               />
+              <Message
+                floating
+                danger
+                header='Warning'
+                list={[
+                  'Database is reset. Sorry for any inconvenience.'
+                ]}
+              />
             </Modal.Description>
           </Modal.Content>
         </Modal>
